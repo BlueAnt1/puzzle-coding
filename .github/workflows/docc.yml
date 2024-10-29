@@ -43,9 +43,9 @@ jobs:
         run: |
             rm -rf docs
             
-            swift package \
+            swift package plugin \
                 --allow-writing-to-directory docs \
-                plugin generate-documentation \
+                generate-documentation \
                 --product "$PRODUCT_NAME" \
                 --disable-indexing \
                 --output-path docs \
