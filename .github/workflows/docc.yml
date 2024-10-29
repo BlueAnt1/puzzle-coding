@@ -52,7 +52,7 @@ jobs:
                 --source-service github \
                 --source-service-base-url "$SOURCE_URL"
           
-            echo "<script>window.location.href += \"/documentation/$CLEAN_PACKAGE_NAME\"</script>" > docs/index.html
+            echo "<script>window.location.href += \"documentation/$CLEAN_PACKAGE_NAME\"</script>" > docs/index.html
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
