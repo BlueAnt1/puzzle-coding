@@ -36,25 +36,25 @@ jobs:
           
       - name: Build Documentation
         env:
-            packageName: puzzle-coding
-            productName: PuzzleCoding
-            cleanPackageName: puzzlecoding
-            doccOutput: ${{github.workspace}}/doccOutput
-            sourceBaseUrl: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
+            PRODUCT_NAME: PuzzleCoding
+            CLEAN_PACKAGE_NAME: puzzlecoding
+            DOCC_OUTPUT: ${{github.workspace}}/doccOutput/
+            SOURCE_URL: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
 
         run: |
-            mkdir $doccOutput
+            rm -rf $DOCC_OUTPUT
+            mkdir $DOCC_OUTPUT
             
             swift package plugin generate-documentation \
-                --product "$productName" \
+                --product "$PRODUCT_NAME" \
                 --disable-indexing \
-                --output-dir "$doccOutput" \
+                --output-dir "$DOCC_OUTPUT" \
                 --checkout-path "${{github.workspace}}" \
                 --transform-for-static-hosting \
                 --source-service github \
-                --source-service-base-url "$sourceBaseUrl" \
+                --source-service-base-url "$SOURCE_URL" \
           
-            echo "<script>window.location.href += \"/documentation/$cleanPackageName\"</script>" > docs/index.html
+            echo "<script>window.location.href += \"/documentation/$CLEAN_PACKAGE_NAME\"</script>" > docs/index.html
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
