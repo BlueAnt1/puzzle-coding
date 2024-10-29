@@ -35,7 +35,7 @@ jobs:
         run: |
           swift package resolve;
 
-          xcodebuild docbuild -scheme PuzzleCoding -derivedDataPath /tmp/docbuild -destination 'generic/platform=macOS';
+          xcodebuild docbuild -scheme puzzle-coding -derivedDataPath /tmp/docbuild -destination 'generic/platform=macOS';
           
           $(xcrun --find docc) process-archive \
             transform-for-static-hosting /tmp/docbuild/Build/Products/Debug/PuzzleCoding.doccarchive \
