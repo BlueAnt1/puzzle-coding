@@ -38,16 +38,17 @@ jobs:
         env:
             PRODUCT_NAME: PuzzleCoding
             CLEAN_PACKAGE_NAME: puzzlecoding
-            DOCC_OUTPUT: /tmp/doccOutput/
             SOURCE_URL: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
 
         run: |
-            rm -rf $DOCC_OUTPUT
+            rm -rf docs
             
-            swift package plugin generate-documentation \
+            swift package \
+                --allow-writing-to-directory docs \
+                plugin generate-documentation \
                 --product "$PRODUCT_NAME" \
                 --disable-indexing \
-                --output-path "$DOCC_OUTPUT" \
+                --output-path docs \
                 --checkout-path "${{github.workspace}}" \
                 --transform-for-static-hosting \
                 --source-service github \
