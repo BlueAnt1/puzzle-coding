@@ -41,8 +41,6 @@ jobs:
             SOURCE_URL: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
 
         run: |
-            rm -rf docs
-            
             swift package plugin \
                 --allow-writing-to-directory docs \
                 generate-documentation \
@@ -52,7 +50,7 @@ jobs:
                 --checkout-path "${{github.workspace}}" \
                 --transform-for-static-hosting \
                 --source-service github \
-                --source-service-base-url "$SOURCE_URL" \
+                --source-service-base-url "$SOURCE_URL"
           
             echo "<script>window.location.href += \"/documentation/$CLEAN_PACKAGE_NAME\"</script>" > docs/index.html
       
