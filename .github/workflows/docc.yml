@@ -46,9 +46,7 @@ jobs:
           xcrun docc process-archive transform-for-static-hosting \
             /tmp/docbuild/Build/Products/Debug/PuzzleCoding.doccarchive \
             --output-path docs \
-            --hosting-base-path puzzle-coding \
-            --source-service github \
-            --source-service-base-url 'https://github.com/BlueAnt1/puzzle-coding/blob/main'
+            --hosting-base-path puzzle-coding
           
           echo "<script>window.location.href += \"/documentation/puzzle-coding\"</script>" > docs/index.html
       
