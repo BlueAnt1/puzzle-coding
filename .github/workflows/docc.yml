@@ -43,12 +43,11 @@ jobs:
 
         run: |
             rm -rf $DOCC_OUTPUT
-            mkdir $DOCC_OUTPUT
             
             swift package plugin generate-documentation \
                 --product "$PRODUCT_NAME" \
                 --disable-indexing \
-                --output-dir "$DOCC_OUTPUT" \
+                --output-path "$DOCC_OUTPUT" \
                 --checkout-path "${{github.workspace}}" \
                 --transform-for-static-hosting \
                 --source-service github \
