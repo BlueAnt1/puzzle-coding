@@ -1,4 +1,4 @@
-# ``SudokuCoder/Version/basicGrid``
+# ``Sudoku/Version/clue``
 
 An encoded value looks like: 
 

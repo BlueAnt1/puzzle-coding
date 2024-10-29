@@ -1,4 +1,4 @@
-# ``SudokuCoder/Version/offsetGrid``
+# ``Sudoku/Version/offset``
 
 An encoded value looks like: 
 

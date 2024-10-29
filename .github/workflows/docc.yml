@@ -35,20 +35,26 @@ jobs:
           xcode-version: latest
           
       - name: Build Documentation
-        run: |
-          swift package resolve
+        env:
+            packageName: puzzle-coding
+            productName: PuzzleCoding
+            cleanPackageName: puzzlecoding
+            doccOutput: ${{github.workspace}}/doccOutput
+            sourceBaseUrl: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
 
-          xcrun xcodebuild docbuild \
-              -scheme puzzle-coding \
-              -destination 'platform=macOS,arch=arm64' \
-              -derivedDataPath /tmp/docbuild 
+        run: |
+            mkdir $doccOutput
+            
+            swift package plugin generate-documentation \
+                --product "$productName" \
+                --disable-indexing \
+                --output-path "$doccOutput" \
+                --checkout-path "${{github.workspace}}" \
+                --transform-for-static-hosting \
+                --source-service github \
+                --source-service-base-url "$sourceBaseUrl" \
           
-          xcrun docc process-archive transform-for-static-hosting \
-            /tmp/docbuild/Build/Products/Debug/PuzzleCoding.doccarchive \
-            --output-path docs \
-            --hosting-base-path puzzle-coding
-          
-          echo "<script>window.location.href += \"/documentation/puzzle-coding\"</script>" > docs/index.html
+            echo "<script>window.location.href += \"/documentation/$cleanPackageName\"</script>" > docs/index.html
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
