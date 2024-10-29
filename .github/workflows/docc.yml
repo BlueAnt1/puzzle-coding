@@ -48,7 +48,7 @@ jobs:
             swift package plugin generate-documentation \
                 --product "$productName" \
                 --disable-indexing \
-                --output-path "$doccOutput" \
+                --output-dir "$doccOutput" \
                 --checkout-path "${{github.workspace}}" \
                 --transform-for-static-hosting \
                 --source-service github \
