@@ -42,7 +42,7 @@ jobs:
             --output-path docs \
             --hosting-base-path 'puzzle-coding';
           
-          echo "<script>window.location.href += \"/documentation/apikit\"</script>" > docs/index.html;
+          echo "<script>window.location.href += \"/documentation/puzzle-coding\"</script>" > docs/index.html;
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
