@@ -38,7 +38,7 @@ jobs:
         env:
             PRODUCT_NAME: PuzzleCoding
             CLEAN_PACKAGE_NAME: puzzlecoding
-            DOCC_OUTPUT: ${{github.workspace}}/doccOutput/
+            DOCC_OUTPUT: /tmp/doccOutput/
             SOURCE_URL: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
 
         run: |
