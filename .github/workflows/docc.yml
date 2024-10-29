@@ -45,7 +45,7 @@ jobs:
             --output-path docs \
             --hosting-base-path '$SCHEME';
           
-          echo "<script>window.location.href += \"documentation/puzzle-coding\"</script>" > docs/index.html;
+          # echo "<script>window.location.href += \"documentation/puzzle-coding\"</script>" > docs/index.html;
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
