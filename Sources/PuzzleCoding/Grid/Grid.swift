@@ -10,20 +10,8 @@
 /// A Grid is a collection of ``CellContent``. Access the content of the grid using subscripts.
 public struct Grid: Equatable {
     /// The size of the grid.
-    private var content: [CellContent?]
     public let size: Size
-
-    /// Creates an instance if the size and cell content are compatible.
-    /// - Parameters:
-    ///     - size: the size of the grid.
-    ///     - content: the items stored in the grid. An empty cell is represented as `nil`.
-    public init?(size: Size, content: [CellContent?]) {
-        guard size.gridCellCount == content.count,
-              content.allSatisfy({ $0.map { $0.isValid(in: size.valueRange) } ?? true })
-        else { return nil }
-        self.init(size: size)
-        indices.forEach { self[$0] = content[$0] }  // clean up candidates
-    }
+    private var content: [CellContent?]
 
     /// Creates an empty grid.
     /// - Parameter size: the size of the grid.

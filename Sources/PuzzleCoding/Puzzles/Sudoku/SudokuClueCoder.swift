@@ -5,10 +5,13 @@
 //  Created by Quintin May on 10/22/24.
 //
 
+import Foundation
+
 extension Sudoku {
     struct Clue: Coder {
         static func encode(_ puzzle: Sudoku) -> String {
-            puzzle.grid.reduce(into: "") { grid, content in
+            precondition(puzzle.grid.size == .grid9x9)
+            return puzzle.grid.reduce(into: "") { grid, content in
                 switch content {
                 case nil, .candidates:
                     grid.append(".")
@@ -19,24 +22,31 @@ extension Sudoku {
         }
 
         static func decode(from input: String) -> Sudoku? {
-            var content = [CellContent?]()
+            var grid = Grid(size: .grid9x9)
             var emptyCharacter: Character? = nil
+            var input = input[...]
+            var index = grid.startIndex
 
-            for character in input where !character.isWhitespace {
+            while let character = input.first {
+                input.removeFirst()
+                guard !character.isWhitespace else { continue }
+
                 switch character {
                     case "1"..."9":
-                    content.append(.clue(character.wholeNumberValue!))
+                    grid[index] = .clue(character.wholeNumberValue!)
                 case _ where emptyCharacter == nil:
                     emptyCharacter = character
-                    fallthrough
+                    break
                 case emptyCharacter:
-                    content.append(nil)
+                    break
                 default:
                     return nil
                 }
+                index = grid.index(after: index)
+                guard index != grid.endIndex else { break }
             }
 
-            guard let grid = Grid(size: .grid9x9, content: content) else { return nil }
+            guard input.trimmingCharacters(in: .whitespaces).isEmpty && index == grid.endIndex else { return nil }
             return Sudoku(grid: grid)
         }
     }

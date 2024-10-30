@@ -35,7 +35,10 @@ struct KillerCoderTests {
         let clues = "000000200000000000080000000000000000000000000060000000000000000000000000000000000"
             .map(\.wholeNumberValue!)
             .map { $0 == 0 ? nil : CellContent.clue($0) }
-        let grid = try #require(Grid(size: .grid9x9, content: clues))
+
+        var grid = Grid(size: .grid9x9)
+        grid.indices.forEach { grid[$0] = clues[$0] }
+
         let puzzle = Killer(cageClues: cageClues, cageShapes: cageShapes, grid: grid)
         let rawPuzzle = puzzle.encode(to: version)
 

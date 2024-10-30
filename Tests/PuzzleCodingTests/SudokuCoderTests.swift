@@ -23,7 +23,10 @@ struct SudokuCoderTests {
     }
 
     private var sampleGrid: Grid {
-        Grid(size: .grid9x9, content: sampleContent)!
+        var grid = Grid(size: .grid9x9)
+        let content = sampleContent
+        grid.indices.forEach { grid[$0] = content[$0] }
+        return grid
     }
 
     @Test
@@ -107,7 +110,10 @@ struct SudokuCoderTests {
             .clue(6), .candidates(Set([1, 2, 8])), .candidates(Set([2, 4, 8])), .candidates(Set([2, 4, 8])), .clue(7), .candidates(Set([1, 2, 4])), .solution(5), .clue(9), .clue(3),
             .candidates(Set([1, 2, 9])), .candidates(Set([1, 2, 8, 9])), .clue(5), .solution(3), .candidates(Set([1, 8, 9])), .candidates(Set([1, 2, 9])), .clue(6), .clue(7), .solution(4)
         ]
-        let expectedGrid = try #require(Grid(size: .grid9x9, content: content))
+
+        var expectedGrid = Grid(size: .grid9x9)
+        expectedGrid.indices.forEach { expectedGrid[$0] = content[$0] }
+
         let decoded = try #require(Sudoku.decode(from: rawEncoded))
         #expect(decoded.puzzle.grid == expectedGrid)
 
