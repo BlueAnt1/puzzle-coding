@@ -9,21 +9,21 @@ import RegexBuilder
 
 extension Jigsaw {
     struct Offset: Coder {
-        static var version: Character { "J" }
+        static var puzzleType: PuzzleType { .jigsaw }
+        static var version: Character { "B" }
 
         static func encode(_ puzzle: Jigsaw) -> String {
         """
-        \(HeaderCoder(version: Self.version, boxShape: puzzle.grid.boxShape).rawValue)\
+        \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
         \(FieldCoding(range: puzzle.grid.size.valueRange, radix: PuzzleCoding.radix).encode(puzzle.boxes))\
         \(OffsetCoder(grid: puzzle.grid).rawValue)
         """
         }
 
         static func decode(from input: String) -> Jigsaw? {
-            guard let header = try? HeaderPattern(version: Self.version).regex.prefixMatch(in: input)
+            guard let header = try? HeaderPattern(puzzleType: Self.puzzleType, version: Self.version).regex.prefixMatch(in: input)
             else { return nil }
-            let boxShape = header.output.1
-            let size = boxShape.size
+            let size = header.output.1
 
             let boxes = Reference<(Substring, [Int])>()
             let grid = Reference<OffsetPattern.RegexOutput>()
@@ -32,7 +32,7 @@ extension Jigsaw {
                     FieldCoding(range: size.valueRange, radix: PuzzleCoding.radix).arrayPattern(count: size.gridCellCount)
                 }
                 Capture(as: grid) {
-                    OffsetPattern(boxShape: boxShape)
+                    OffsetPattern(size: size)
                 }
             }
 

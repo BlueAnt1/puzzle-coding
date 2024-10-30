@@ -8,11 +8,16 @@
 import RegexBuilder
 
 struct HeaderCoder {
+    let puzzleType: PuzzleType
+    let size: Size
     let version: Character
-    let boxShape: BoxShape
 
     var rawValue: String {
-        "\(version)\(boxShape.rows)\(boxShape.columns)"
+        """
+        \(puzzleType.rawValue)\
+        \(String(size.houseCellCount, radix: PuzzleCoding.radix))\
+        \(version)
+        """.uppercased()
     }
 }
 

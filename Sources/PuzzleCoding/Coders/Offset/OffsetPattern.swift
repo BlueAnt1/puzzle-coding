@@ -8,13 +8,12 @@
 struct OffsetPattern: CustomConsumingRegexComponent {
     typealias RegexOutput = (Substring, Grid)
 
-    let boxShape: BoxShape
+    let size: Size
 
     func consuming(_ input: String,
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
-        let size = boxShape.size
         let offsetCoding = OffsetCoding(size: size)
         let fieldCoding = FieldCoding(range: offsetCoding.range, radix: PuzzleCoding.radix)
 
@@ -23,7 +22,7 @@ struct OffsetPattern: CustomConsumingRegexComponent {
         else { return  nil }
 
         let numbers = match.output.1
-        var grid = Grid(boxShape: boxShape)
+        var grid = Grid(size: size)
 
         do {
             for (index, number) in zip(numbers.indices, numbers) {

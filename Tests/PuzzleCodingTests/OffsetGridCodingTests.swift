@@ -11,7 +11,7 @@ import Testing
 struct OffsetGridCodingTests {
     @Test
     func encode() {
-        let size = BoxShape.grid9x9.size
+        let size = Size.grid9x9
         let offsetCoding = OffsetCoding(size: size)
         #expect(offsetCoding.encode(.clue(1)) == 1)
         #expect(offsetCoding.encode(.clue(9)) == 9)
@@ -23,7 +23,7 @@ struct OffsetGridCodingTests {
 
     @Test
     func decode() throws {
-        let size = BoxShape.grid9x9.size
+        let size = Size.grid9x9
         let offsetCoding = OffsetCoding(size: size)
         #expect(try offsetCoding.decode(1) == .clue(1))
         #expect(try offsetCoding.decode(9) == .clue(9))

@@ -23,7 +23,7 @@ struct SudokuCoderTests {
     }
 
     private var sampleGrid: Grid {
-        Grid(boxShape: .grid9x9, content: sampleContent)!
+        Grid(size: .grid9x9, content: sampleContent)!
     }
 
     @Test
@@ -46,7 +46,7 @@ struct SudokuCoderTests {
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
-            Sudoku \(version) \(BoxShape.grid9x9.size)
+            Sudoku \(version) \(Size.grid9x9)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)
@@ -67,7 +67,7 @@ struct SudokuCoderTests {
         }
         let puzzleCount = Double(rawPuzzle.count)
         print("""
-            Sudoku \(version) \(BoxShape.grid9x9.size)
+            Sudoku \(version) \(Size.grid9x9)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)
@@ -76,8 +76,7 @@ struct SudokuCoderTests {
     @Test(arguments: modernVersions)
     func coderRoundtrips(version: Version) async throws {
         let grid = sampleGrid
-        let boxShape = grid.boxShape
-        let size = boxShape.size
+        let size = grid.size
         let puzzle = Sudoku(grid: grid)
 
         let rawPuzzle = puzzle.encode(to: version)
@@ -108,7 +107,7 @@ struct SudokuCoderTests {
             .clue(6), .candidates(Set([1, 2, 8])), .candidates(Set([2, 4, 8])), .candidates(Set([2, 4, 8])), .clue(7), .candidates(Set([1, 2, 4])), .solution(5), .clue(9), .clue(3),
             .candidates(Set([1, 2, 9])), .candidates(Set([1, 2, 8, 9])), .clue(5), .solution(3), .candidates(Set([1, 8, 9])), .candidates(Set([1, 2, 9])), .clue(6), .clue(7), .solution(4)
         ]
-        let expectedGrid = try #require(Grid(boxShape: .grid9x9, content: content))
+        let expectedGrid = try #require(Grid(size: .grid9x9, content: content))
         let decoded = try #require(Sudoku.decode(from: rawEncoded))
         #expect(decoded.puzzle.grid == expectedGrid)
 

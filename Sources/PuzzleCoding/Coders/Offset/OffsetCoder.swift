@@ -10,8 +10,8 @@ struct OffsetCoder {
 }
 
 extension OffsetCoder {
-    init?(boxShape: BoxShape, rawValue: String) {
-        let pattern = OffsetPattern(boxShape: boxShape)
+    init?(size: Size, rawValue: String) {
+        let pattern = OffsetPattern(size: size)
         guard let match = try? pattern.regex.wholeMatch(in: rawValue) else { return nil }
         self.init(grid: match.output.1)
     }

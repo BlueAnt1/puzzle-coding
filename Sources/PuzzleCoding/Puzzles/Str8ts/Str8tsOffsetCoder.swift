@@ -9,29 +9,30 @@ import RegexBuilder
 
 extension Str8ts {
     struct Offset: Coder {
-        static var version: Character { "8" }
+        static var puzzleType: PuzzleType { .str8ts }
+        static var version: Character { "B" }
 
         static func encode(_ puzzle: Str8ts) -> String {
             """
-            \(HeaderCoder(version: Self.version, boxShape: puzzle.grid.boxShape).rawValue)\
+            \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
             \(FieldCoding(range: 0...1, radix: PuzzleCoding.radix).encode(puzzle.colors))\
             \(OffsetCoder(grid: puzzle.grid).rawValue)
             """
         }
 
         static func decode(from input: String) -> Str8ts? {
-            guard let header = try? HeaderPattern(version: Self.version).regex.prefixMatch(in: input)
+            guard let header = try? HeaderPattern(puzzleType: Self.puzzleType, version: Self.version).regex.prefixMatch(in: input)
             else { return nil }
-            let boxShape = header.output.1
+            let size = header.output.1
 
             let colors = Reference<(Substring, [Int])>()
             let grid = Reference<(Substring, Grid)>()
             let body = Regex {
                 Capture(as: colors) {
-                    FieldCoding(range: 0...1, radix: PuzzleCoding.radix).arrayPattern(count: boxShape.size.gridCellCount)
+                    FieldCoding(range: 0...1, radix: PuzzleCoding.radix).arrayPattern(count: size.gridCellCount)
                 }
                 Capture(as: grid) {
-                    OffsetPattern(boxShape: boxShape)
+                    OffsetPattern(size: size)
                 }
             }
 

@@ -36,7 +36,7 @@ extension Sudoku {
                 }
             }
 
-            guard let grid = Grid(boxShape: .grid9x9, content: content) else { return nil }
+            guard let grid = Grid(size: .grid9x9, content: content) else { return nil }
             return Sudoku(grid: grid)
         }
     }

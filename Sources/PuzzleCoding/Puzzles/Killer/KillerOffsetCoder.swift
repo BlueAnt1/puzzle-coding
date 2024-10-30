@@ -9,7 +9,8 @@ import RegexBuilder
 
 extension Killer {
     struct Offset: Coder {
-        static var version: Character { "K" }
+        static var puzzleType: PuzzleType { .killer }
+        static var version: Character { "B" }
 
         static func encode(_ puzzle: Killer) -> String {
             var cage: [Int] {
@@ -21,17 +22,16 @@ extension Killer {
             let grid = puzzle.grid
 
             return """
-                \(HeaderCoder(version: Self.version, boxShape: grid.boxShape).rawValue)\
+                \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
                 \(Self.cageCoding(for: grid.size.valueRange).encode(cage))\
                 \(OffsetCoder(grid: grid).rawValue)
                 """
         }
 
         static func decode(from input: String) -> Killer? {
-            guard let header = try? HeaderPattern(version: Self.version).regex.prefixMatch(in: input)
+            guard let header = try? HeaderPattern(puzzleType: Self.puzzleType, version: Self.version).regex.prefixMatch(in: input)
             else { return nil }
-            let boxShape = header.output.1
-            let size = boxShape.size
+            let size = header.output.1
 
             let cage = Reference<(Substring, (clues: [Int], shapes: [Int]))>()
             let grid = Reference<(Substring, Grid)>()
@@ -48,7 +48,7 @@ extension Killer {
                     return ($0.0, (clues: cageClues, shapes: cageShapes))
                 }
                 Capture(as: grid) {
-                    OffsetPattern(boxShape: boxShape)
+                    OffsetPattern(size: size)
                 }
             }
 

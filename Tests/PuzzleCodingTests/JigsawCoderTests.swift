@@ -18,7 +18,7 @@ struct JigsawCoderTests {
             ? Bool.random() ? .solution((1...9).randomElement()!) : .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
             : .clue(number)
         }
-        let grid = try #require(Grid(boxShape: .grid9x9, content: content))
+        let grid = try #require(Grid(size: .grid9x9, content: content))
         let boxes = "111112222113345522133444552134444452637777752633777559638878859668888899666699999".map(\.wholeNumberValue!)
         let puzzle = Jigsaw(boxes: boxes, grid: grid)
         let rawPuzzle = puzzle.encode(to: version)

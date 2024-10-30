@@ -33,5 +33,5 @@ extension Collection<Int> {
 
 enum PuzzleCoding {
     /// The numeric radix used for puzzle coding.
-    static var radix: Int { 36 }
+    static var radix: Int { 32 }
 }

@@ -11,29 +11,26 @@
 public struct Grid: Equatable {
     /// The size of the grid.
     private var content: [CellContent?]
-    let boxShape: BoxShape
+    public let size: Size
 
     /// Creates an instance if the size and cell content are compatible.
     /// - Parameters:
-    ///     - boxShape: the shape of the boxes of the grid. The box shape determines the size of the grid.
+    ///     - s: the shape of the boxes of the grid. The box shape determines the size of the grid.
     ///     - content: the items stored in the grid. An empty cell is represented as `nil`.
-    public init?(boxShape: BoxShape, content: [CellContent?]) {
-        let size = boxShape.size
+    public init?(size: Size, content: [CellContent?]) {
         guard size.gridCellCount == content.count,
               content.allSatisfy({ $0.map { $0.isValid(in: size.valueRange) } ?? true })
         else { return nil }
-        self.init(boxShape: boxShape)
+        self.init(size: size)
         indices.forEach { self[$0] = content[$0] }  // clean up candidates
     }
 
     /// Creates an empty grid.
-    /// - Parameter boxShape: the shape of the boxes of the grid. The box shape determines the size of the grid.
-    public init(boxShape: BoxShape = .grid9x9) {
-        self.boxShape = boxShape
-        self.content = Array(repeating: nil, count: boxShape.size.gridCellCount)
+    /// - Parameter size: the size of the grid.
+    public init(size: Size = .grid9x9) {
+        self.size = size
+        self.content = Array(repeating: nil, count: size.gridCellCount)
     }
-
-    var size: Size { boxShape.size }
 }
 
 extension Grid: RandomAccessCollection {

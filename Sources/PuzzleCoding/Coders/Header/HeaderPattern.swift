@@ -6,28 +6,28 @@
 //
 
 import RegexBuilder
+import Foundation
 
 struct HeaderPattern: CustomConsumingRegexComponent {
-    typealias RegexOutput = (Substring, BoxShape)
+    typealias RegexOutput = (Substring, Size)
 
+    let puzzleType: PuzzleType
     let version: Character
 
     func consuming(_ input: String,
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
-        let rows = Reference<Int>()
-        let columns = Reference<Int>()
+        let size = Reference<Size>()
         let regex = Regex {
+            puzzleType.rawValue
+            Capture(as: size) { Size.characters } transform: { Size(houseCellCount: Int($0)!)! }
             version
-            Capture(as: rows) { .digit } transform: { Int($0)! }
-            Capture(as: columns) { .digit } transform: { Int($0)! }
-        }
+        }.ignoresCase()
 
-        guard let header = try? regex.prefixMatch(in: input[index ..< bounds.upperBound]),
-              let boxShape = BoxShape(rows: header[rows], columns: header[columns])
-        else { return nil }
+        guard let header = try? regex.prefixMatch(in: input[index ..< bounds.upperBound]) else { return nil }
 
-        return (header.range.upperBound, (header.output.0, boxShape))
+        return (header.range.upperBound, (header.output.0, header.output.1))
     }
 }
+

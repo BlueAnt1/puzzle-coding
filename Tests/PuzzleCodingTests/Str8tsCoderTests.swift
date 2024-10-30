@@ -18,7 +18,7 @@ struct Str8tsCoderTests {
             ? Bool.random() ? .solution((1...9).randomElement()!) : .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
             : .clue(number)
         }
-        let grid = try #require(Grid(boxShape: .grid9x9, content: content))
+        let grid = try #require(Grid(size: .grid9x9, content: content))
 
         let colors = "100011001100010001011000110000000100100010001001000000011000110100010001100110001".map(\.wholeNumberValue!)
         let puzzle = Str8ts(colors: colors, grid: grid)

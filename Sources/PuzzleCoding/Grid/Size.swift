@@ -14,7 +14,11 @@ public struct Size: Equatable, Hashable, Comparable, CaseIterable, Sendable, Cus
     ///
     /// - Parameter houseCellCount: the number of cells in a row, column or box of a grid.
     public init?(houseCellCount: Int) {
-        guard [9, 8, 6].contains(houseCellCount) else { return nil }
+        guard let index = Self.allCases.firstIndex(where: { houseCellCount == $0.houseCellCount }) else { return nil }
+        self = Self.allCases[index]
+    }
+
+    private init(_ houseCellCount: Int) {
         self.houseCellCount = houseCellCount
     }
 
@@ -24,7 +28,9 @@ public struct Size: Equatable, Hashable, Comparable, CaseIterable, Sendable, Cus
     public var gridCellCount: Int { houseCellCount * houseCellCount }
     public var description: String { "\(houseCellCount)×\(houseCellCount)" }
     /// All supported grid sizes.
-    public static var allCases: [Size] { Set(BoxShape.allCases.map(\.size)).sorted() }
+    public static let allCases = [Size(6), Size(8), Size(9), Size(16), Size(25)]
+    public static var grid9x9: Size { allCases[2] }
+
     /// A size is less than another if it has fewer cells.
     public static func < (left: Size, right: Size) -> Bool {
         left.houseCellCount < right.houseCellCount

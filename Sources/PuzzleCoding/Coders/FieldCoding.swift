@@ -23,25 +23,14 @@ struct FieldCoding {
         self.fieldWidth = fieldWidth
 
         let characters = {
-            guard radix > 10 else {
-                var characters = Set<Character>()
-                for value in range where characters.count < radix {
-                    characters.formUnion(String(value, radix: radix))
-                }
-                return CharacterClass.anyOf(characters)
+            var characters = Set<Character>()
+            for value in range where characters.count < radix {
+                characters.formUnion(String(value, radix: radix))
             }
-            var upper = Set<Character>()
-            for value in range where upper.count < radix {
-                upper.formUnion(String(value, radix: radix, uppercase: true))
-            }
-            var lower = Set<Character>()
-            for value in range where lower.count < radix {
-                lower.formUnion(String(value, radix: radix, uppercase: false))
-            }
-            return CharacterClass.anyOf(upper.union(lower))
+            return CharacterClass.anyOf(characters)
         }()
 
-        valuePattern = Regex { Capture { Repeat(characters, count: fieldWidth) } transform: { Int($0, radix: radix)! }}
+        valuePattern = Regex { Capture { Repeat(characters, count: fieldWidth) } transform: { Int($0, radix: radix)! }}.ignoresCase()
         padding = String(repeating: "0", count: fieldWidth - 1)
     }
 
