@@ -15,7 +15,7 @@ public struct Grid: Equatable {
 
     /// Creates an instance if the size and cell content are compatible.
     /// - Parameters:
-    ///     - s: the shape of the boxes of the grid. The box shape determines the size of the grid.
+    ///     - size: the size of the grid.
     ///     - content: the items stored in the grid. An empty cell is represented as `nil`.
     public init?(size: Size, content: [CellContent?]) {
         guard size.gridCellCount == content.count,

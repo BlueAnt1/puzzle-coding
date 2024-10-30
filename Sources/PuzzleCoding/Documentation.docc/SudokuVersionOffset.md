@@ -2,12 +2,13 @@
 
 An encoded value looks like: 
 
-`S33epe1ep010i05ep8r0q01040g0c0e0c06070ce9080c1m0i02043gas0h06030g072oem010b090k0e0a3x0c7l0g030c010b8v09e9050242ai0e07020c0ab608d80a0206dr0ge59g03050e0iea040b094mbj0f`
+`S9B001f0b0165050f000i01040f0f00000607000008000h0002040c00cq06035007gh4m010b090hca000b00gg0003gh01990g094h050200001607020a0a0b080b0i0206000c00fh0305000a8h043g090efhbh`
 
 ## Format
 
-- term `S`: the encoding version, case is significant.
-- term `33`: the shape of a grid box specified as two base 10 digits indicating the number of rows & columns in a box.
+- term `S`: the puzzle type.
+- term `9`: the size of the puzzle expressed as the number of cells in a row or column.
+- term `B`: the encoding version.
 
 The remainder of the encoding uses the <doc:OffsetGridAlgorithm>.
 

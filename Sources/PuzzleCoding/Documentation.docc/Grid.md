@@ -5,5 +5,4 @@
 ### Components
 
 - ``CellContent``
-- ``BoxShape``
 - ``Size``
