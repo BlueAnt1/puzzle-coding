@@ -13,16 +13,20 @@ using this library can easily decode.
 ## Usage
 
 ```swift
-let input = "S33el0fbd01ep050eel9u…"
+let input = "S9Bel0fbd01ep050eel9u…"
 guard let (puzzle, version) = Sudoku.decode(from: input)
 else { return }
 
 for content in puzzle.grid {
     switch content {
-    case nil:   // empty
+    case nil:
+        processEmptyCell()
     case .clue(let clue):
+        process(clue: clue)
     case .solution(let solution):
-    case .candidates(let candidates): 
+        process(solution: solution)
+    case .candidates(let candidates):
+        process(candidates: candidates)
     }
 }
 
