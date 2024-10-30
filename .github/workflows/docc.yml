@@ -38,8 +38,9 @@ jobs:
         env:
             PRODUCT_NAME: PuzzleCoding
             CLEAN_PACKAGE_NAME: puzzlecoding
+            HOSTING_BASE_PATH: puzzle-coding
             SOURCE_URL: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
-
+            
         run: |
             swift package plugin \
                 --allow-writing-to-directory docs \
@@ -47,8 +48,9 @@ jobs:
                 --product "$PRODUCT_NAME" \
                 --disable-indexing \
                 --output-path docs \
-                --checkout-path "${{github.workspace}}" \
                 --transform-for-static-hosting \
+                --hosting-base-path $HOSTING_BASE_PATH \
+                --checkout-path "${{github.workspace}}" \
                 --source-service github \
                 --source-service-base-url "$SOURCE_URL"
           
