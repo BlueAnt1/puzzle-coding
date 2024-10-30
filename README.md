@@ -1,10 +1,3 @@
-//
-//  README.md
-//  puzzle-coding
-//
-//  Created by Quintin May on 10/30/24.
-//
-
 # Puzzle Coding
 
 The Puzzle Coding package is a library that enables the exchange of Sudoku and related puzzles by providing methods to convert the puzzles to text and back.
