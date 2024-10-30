@@ -68,3 +68,14 @@ struct FieldCoding {
         values.map { encode($0, uppercase: uppercase) }.joined()
     }
 }
+
+private extension ClosedRange<Int> {
+    var characters: CharacterClass {
+        var characters = Set<Character>()
+        for value in self where characters.count < PuzzleCoding.radix {
+            characters.formUnion(String(value, radix: PuzzleCoding.radix))
+        }
+        return CharacterClass.anyOf(characters)
+    }
+}
+

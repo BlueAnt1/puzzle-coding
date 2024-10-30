@@ -31,3 +31,8 @@ struct HeaderPattern: CustomConsumingRegexComponent {
     }
 }
 
+private extension Size {
+    static var characters: CharacterClass {
+        CharacterClass.anyOf(allCases.map(\.houseCellCount).map { String($0, radix: PuzzleCoding.radix).first! })
+    }
+}
