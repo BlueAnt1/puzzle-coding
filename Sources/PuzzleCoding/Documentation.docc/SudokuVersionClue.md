@@ -9,5 +9,5 @@ An encoded value looks like:
 ```
 for every cell in the grid
     if the cell is empty or contains candidates output "."
-    else if the cell is a clue or value output the number
+    else if the cell is a clue or solution output the number
 ```
