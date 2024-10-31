@@ -15,7 +15,7 @@ struct HeaderCoder {
     var rawValue: String {
         """
         \(puzzleType.rawValue)\
-        \(String(size.houseCellCount, radix: PuzzleCoding.radix))\
+        \(String(size.rawValue, radix: PuzzleCoding.radix))\
         \(version)
         """.uppercased()
     }
