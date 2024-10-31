@@ -12,15 +12,15 @@ public enum Size: Int, Equatable, Hashable, CaseIterable, Sendable, CustomString
     case shape3x3 = 9, shape4x4 = 16, shape5x5 = 25
 
     /// The number of rows in a box.
-    var boxRowCount: Int { Self.dimensions[self]!.boxRowCount }
+    public var boxRowCount: Int { Self.dimensions[self]!.boxRowCount }
     /// The number of columns in a box.
-    var boxColumnCount: Int { Self.dimensions[self]!.boxColumnCount }
+    public var boxColumnCount: Int { Self.dimensions[self]!.boxColumnCount }
     /// The number of cells in a house.
-    var houseCellCount: Int { boxRowCount * boxColumnCount }
+    public var houseCellCount: Int { boxRowCount * boxColumnCount }
     /// The number of cells in the grid.
-    var gridCellCount: Int { houseCellCount * houseCellCount }
+    public var gridCellCount: Int { houseCellCount * houseCellCount }
     /// The range of clues, values & candidates that can be stored in the grid.
-    var valueRange: ClosedRange<Int> { 1...houseCellCount }
+    public var valueRange: ClosedRange<Int> { 1...houseCellCount }
     
     private static let dimensions: [Size : (boxRowCount: Int, boxColumnCount: Int)] = [
         .shape2x3: (2, 3),
