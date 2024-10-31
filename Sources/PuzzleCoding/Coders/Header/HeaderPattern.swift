@@ -18,21 +18,20 @@ struct HeaderPattern: CustomConsumingRegexComponent {
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
-        let size = Reference<Size>()
         let regex = Regex {
             puzzleType.rawValue
-            Capture(as: size) { Size.characters } transform: { Size(houseCellCount: Int($0)!)! }
+            Capture { Size.sizes } transform: { Size(rawValue: Int($0)!)! }
             version
         }.ignoresCase()
 
         guard let header = try? regex.prefixMatch(in: input[index ..< bounds.upperBound]) else { return nil }
-
         return (header.range.upperBound, (header.output.0, header.output.1))
     }
 }
 
 private extension Size {
-    static var characters: CharacterClass {
-        CharacterClass.anyOf(allCases.map(\.houseCellCount).map { String($0, radix: PuzzleCoding.radix).first! })
+    static var sizes: Regex<Substring> {
+        try! Regex(allCases.map { String($0.rawValue, radix: PuzzleCoding.radix) }.joined(separator: "|"),
+                   as: Substring.self)
     }
 }

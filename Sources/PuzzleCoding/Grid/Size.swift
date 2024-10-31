@@ -6,34 +6,34 @@
 //
 
 /// The size of a grid.
-public struct Size: Equatable, Hashable, Comparable, CaseIterable, Sendable, CustomStringConvertible {
+public enum Size: Int, Equatable, Hashable, CaseIterable, Sendable, CustomStringConvertible {
+    // raw values are used to encode the size in the encoding header
+    case shape2x3 = 5, shape2x4 = 6, shape3x2 = 7, shape4x2 = 8
+    case shape3x3 = 9, shape4x4 = 16, shape5x5 = 25
+
+    /// The number of rows in a box.
+    var boxRowCount: Int { Self.dimensions[self]!.boxRowCount }
+    /// The number of columns in a box.
+    var boxColumnCount: Int { Self.dimensions[self]!.boxColumnCount }
     /// The number of cells in a house.
-    public let houseCellCount: Int
-
-    /// Creates an instance if the dimension is supported.
-    ///
-    /// - Parameter houseCellCount: the number of cells in a row, column or box of a grid. Valid values are: 6, 8, 9, 16 and 25.
-    public init?(houseCellCount: Int) {
-        guard let index = Self.allCases.firstIndex(where: { houseCellCount == $0.houseCellCount }) else { return nil }
-        self = Self.allCases[index]
-    }
-
-    private init(_ houseCellCount: Int) {
-        self.houseCellCount = houseCellCount
-    }
-
-    /// The range of clues, values & candidates that can be stored in the grid.
-    public var valueRange: ClosedRange<Int> { 1...houseCellCount }
+    var houseCellCount: Int { boxRowCount * boxColumnCount }
     /// The number of cells in the grid.
-    public var gridCellCount: Int { houseCellCount * houseCellCount }
-    public var description: String { "\(houseCellCount)×\(houseCellCount)" }
-    /// All supported grid sizes.
-    public static let allCases = [Size(6), Size(8), Size(9), Size(16), Size(25)]
-    /// A 9×9 grid.
-    public static var grid9x9: Size { allCases[2] }
+    var gridCellCount: Int { houseCellCount * houseCellCount }
+    /// The range of clues, values & candidates that can be stored in the grid.
+    var valueRange: ClosedRange<Int> { 1...houseCellCount }
+    
+    private static let dimensions: [Size : (boxRowCount: Int, boxColumnCount: Int)] = [
+        .shape2x3: (2, 3),
+        .shape2x4: (2, 4),
+        .shape3x2: (3, 2),
+        .shape4x2: (4, 2),
+        .shape3x3: (3, 3),
+        .shape4x4: (4, 4),
+        .shape5x5: (5, 5)
+    ]
 
-    /// A size is less than another if it has fewer cells.
-    public static func < (left: Size, right: Size) -> Bool {
-        left.houseCellCount < right.houseCellCount
-    }
+    /// A 9×9 grid.
+    public static var grid9x9: Size { .shape3x3 }
+    
+    public var description: String { "\(houseCellCount)×\(houseCellCount)" }
 }
