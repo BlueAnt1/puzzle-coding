@@ -39,6 +39,9 @@ extension Sudoku {
         }
     }
 
+    /// Attempt to decode the puzzle from the provided input.
+    /// - Parameter input: The value to parse.
+    /// - Returns: The puzzle & encoding version if the input is recognized, `nil` otherwise.
     public static func decode(from input: String) -> (puzzle: Sudoku, version: Version)? {
         for version in Version.allCases {
             if let puzzle = version.coder.decode(from: input) {

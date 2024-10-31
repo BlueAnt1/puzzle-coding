@@ -23,7 +23,7 @@ extension Killer {
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
-                \(Self.cageCoding(for: grid.size.valueRange).encode(cage))\
+                \(CageCoder(size: puzzle.grid.size, clues: puzzle.cageClues, shapes: puzzle.cageShapes).rawValue)\
                 \(OffsetCoder(grid: grid).rawValue)
                 """
         }
@@ -33,21 +33,13 @@ extension Killer {
             else { return nil }
             let size = header.output.1
 
-            let cage = Reference<(Substring, (clues: [Int], shapes: [Int]))>()
-            let grid = Reference<(Substring, Grid)>()
+            let cageReference = Reference<(Substring, clues: [Int], shapes: [Int])>()
+            let gridReference = Reference<(Substring, Grid)>()
             let body = Regex {
-                Capture(as: cage) {
-                    Self.cageCoding(for: size.valueRange).arrayPattern(count: size.gridCellCount)
-                } transform: {
-                    var cageClues = [Int]()
-                    var cageShapes = [Int]()
-                    for value in $0.1 {
-                        cageShapes.append((value & 0b111) + 1)
-                        cageClues.append(value >> 3)
-                    }
-                    return ($0.0, (clues: cageClues, shapes: cageShapes))
+                Capture(as: cageReference) {
+                    CagePattern(size: size)
                 }
-                Capture(as: grid) {
+                Capture(as: gridReference) {
                     OffsetPattern(size: size)
                 }
             }
@@ -55,15 +47,9 @@ extension Killer {
             guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
 
-            return Killer(cageClues: match[cage].1.clues,
-                          cageShapes: match[cage].1.shapes,
-                          grid: match[grid].1)
-        }
-
-        private static func cageCoding(for range: ClosedRange<Int>) -> FieldCoding {
-            let maxCageClue = range.reduce(0, +) << 3
-            let maxCageValue = maxCageClue + 0b111
-            return FieldCoding(range: 0...maxCageValue, radix: PuzzleCoding.radix)
+            return Killer(cageClues: match[cageReference].clues,
+                          cageShapes: match[cageReference].shapes,
+                          grid: match[gridReference].1)
         }
     }
 }

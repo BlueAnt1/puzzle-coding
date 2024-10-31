@@ -11,7 +11,7 @@ public enum Size: RawRepresentable, Equatable, Hashable, CaseIterable, Sendable,
     case grid6x6
     /// A grid with 8 cells per house & 2×4 boxes.
     case grid8x8
-    /// A grid with 9 cells per house house &  3×3 boxes.
+    /// A grid with 9 cells per house &  3×3 boxes.
     case grid9x9
     /// A grid with 16 cells per house & 4×4 boxes.
     case grid16x16
@@ -39,8 +39,11 @@ public enum Size: RawRepresentable, Equatable, Hashable, CaseIterable, Sendable,
         }
     }
 
+    /// The number of cells in a house (houseCellCount)
     public var rawValue: Int { houseCellCount }
 
+    /// Creates an instance if the rawValue matches a supported `houseCellCount`.
+    /// Supported values are: 6, 8, 9, 16 and 25.
     public init?(rawValue: Int) {
         guard let size = Self.allCases.first(where: { $0.rawValue == rawValue }) else { return nil }
         self = size
