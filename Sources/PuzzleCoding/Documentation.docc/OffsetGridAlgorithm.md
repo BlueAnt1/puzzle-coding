@@ -11,45 +11,41 @@ Iterate over every cell in the grid and encode the cell's content into a field u
 
 ## Set up
 
-Offsets vary based on the size of the grid.
+This is a cheat sheet for the set up. The values vary based on the grid size. The last section in this article explains how these values are derived.
 
-```
-size = number of cells in a grid row or column
-solutionOffset = size
-candidatesOffset = 2 * size
-```
-
-A field consists of a fixed number of characters representing a base 32 value, padded with leading zeroes if needed.
-The field width varies based on the size of the grid and can range from 2 to 6 characters. For sizes 6, 8 and 9 the field width
-is 2, size 16 has a field width of 4, and size 25 has a field width of 6.
-
-```
-maxPackedCandidatesValue = pack(1...size)
-maxPackedCellValue = maxPackedCandidatesValue + candidatesOffset
-maxEncodedCellValue = convert maxPackedCellValue to a base 32 string
-fieldWidth = number of characters in maxEncodedCellValue
-```
-
-Learn how to <doc:PackCandidates>.
+grid size | solutionOffset | candidatesOffset | fieldWidth | maxPackedCellValue
+:-------: | :------------: | :--------------: | :--------: | :----------------:
+**6**     |        6       |        12        |      2     |      75
+**8**     |        8       |        16        |      2     |      271
+**9**     |        9       |        18        |      2     |      529
+**16**    |        16      |        32        |      4     |      65,567
+**25**    |        25      |        50        |      6     |      33,554,481
 
 ## Encode
 
 ```
-for every cell in the grid
+output = ""
+for each cell in the grid
     if cell is empty
-        field = 0
+        value = 0
     else if cell contains clue
-        field = clue
+        value = clue
     else if cell contains solution
-        field = solution + solutionOffset
+        value = solution + solutionOffset
     else 
-        field = pack(candidates) + candidatesOffset
+        value = pack(candidates) + candidatesOffset
+
+    string = convert value to base 32
+    field = pad string to `fieldWidth` with leading zeroes
+    append field to output
 ```
+
+Learn how to <doc:PackCandidates>.
 
 ## Decode
 
 ```
-for every fieldWidth number of characters in the input
+for each fieldWidth group of characters in the input
     value = convert the characters from base 32
 
     if value > maxPackedCellValue
@@ -62,4 +58,19 @@ for every fieldWidth number of characters in the input
         clue = value
     else
         // empty
+```
+
+## Set up details
+
+Offsets & field width vary based on the size of the grid.
+
+```
+size = number of cells in a grid row or column
+solutionOffset = size
+candidatesOffset = 2 * size
+
+maxPackedCandidatesValue = pack(1...size)
+maxPackedCellValue = maxPackedCandidatesValue + candidatesOffset
+maxEncodedCellValue = convert maxPackedCellValue to a base 32 string
+fieldWidth = number of characters in maxEncodedCellValue
 ```
