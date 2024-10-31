@@ -69,7 +69,7 @@ private struct ShiftedGridPattern: CustomConsumingRegexComponent {
             let isClue = value & 0b1 == 1
             value &>>= 1
             if value.nonzeroBitCount == 1 {
-                // clue & value
+                // clue & solution
                 let value = value.trailingZeroBitCount + 1
                 grid[cell] = isClue ? .clue(value) : .solution(value)
             } else {
