@@ -22,15 +22,13 @@ struct FieldCoding {
         let fieldWidth = String(range.upperBound, radix: radix).count
         self.fieldWidth = fieldWidth
 
-        let characters = {
-            var characters = Set<Character>()
-            for value in range where characters.count < radix {
-                characters.formUnion(String(value, radix: radix))
-            }
-            return CharacterClass.anyOf(characters)
-        }()
+        let characters = range.charactersToEncode(radix: radix)
+        valuePattern = Regex {
+            Capture {
+                Repeat(characters, count: fieldWidth)
+            } transform: { Int($0, radix: radix)! }
+        }.ignoresCase()
 
-        valuePattern = Regex { Capture { Repeat(characters, count: fieldWidth) } transform: { Int($0, radix: radix)! }}.ignoresCase()
         padding = String(repeating: "0", count: fieldWidth - 1)
     }
 
@@ -70,10 +68,10 @@ struct FieldCoding {
 }
 
 private extension ClosedRange<Int> {
-    var characters: CharacterClass {
+    func charactersToEncode(radix: Int) -> CharacterClass {
         var characters = Set<Character>()
-        for value in self where characters.count < PuzzleCoding.radix {
-            characters.formUnion(String(value, radix: PuzzleCoding.radix))
+        for value in self where characters.count < radix {
+            characters.formUnion(String(value, radix: radix))
         }
         return CharacterClass.anyOf(characters)
     }
