@@ -7,7 +7,16 @@
 
 /// The size of a grid.
 public enum Size: RawRepresentable, Equatable, Hashable, CaseIterable, Sendable, CustomStringConvertible {
-    case grid6x6, grid8x8, grid9x9, grid16x16, grid25x25
+    /// A grid with 6 cells per house & 2×3 boxes.
+    case grid6x6
+    /// A grid with 8 cells per house & 2×4 boxes.
+    case grid8x8
+    /// A grid with 9 cells per house house &  3×3 boxes.
+    case grid9x9
+    /// A grid with 16 cells per house & 4×4 boxes.
+    case grid16x16
+    /// A grid with 25 cells per house & 5×5 boxes.
+    case grid25x25
 
     /// The number of rows in a box.
     public var boxRowCount: Int { dimensions.boxRowCount }
