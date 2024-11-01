@@ -1,20 +1,23 @@
 //
-//  Killer.swift
+//  KillerSudoku.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/24/24.
 //
 
-public struct Killer {
+/*
+public struct KillerJigsaw {
     public let cageClues: [Int]
     public let cageShapes: [Int]
+    public let boxShapes: [Int]
     public let grid: Grid
 
-    public init(cageClues: [Int], cageShapes: [Int], grid: Grid) {
-        precondition(grid.count == cageClues.count && grid.count == cageShapes.count)
+    public init(cageClues: [Int], cageShapes: [Int], boxShapes: [Int], grid: Grid) {
+        precondition(grid.count == cageClues.count && grid.count == cageShapes.count && grid.count == boxShapes.count)
         let maxCageClue = grid.size.valueRange.reduce(0, +)
         precondition(cageClues.allSatisfy { (0...maxCageClue).contains($0) })
         precondition(cageShapes.allSatisfy { (1...5).contains($0) })
+        precondition(boxShapes.allSatisfy { grid.size.valueRange.contains($0) })
 
         self.cageClues = cageClues
         self.cageShapes = cageShapes
@@ -22,26 +25,30 @@ public struct Killer {
     }
 }
 
-extension Killer {
+extension KillerJigsaw {
     public enum Version: CaseIterable, Sendable {
         case offset
 
         public static var current: Version { .offset }
 
-        fileprivate var coder: any Coder<Killer>.Type {
+        fileprivate var coder: any Coder<KillerSudoku>.Type {
             switch self {
             case .offset: Offset.self
             }
         }
     }
 
-    public static func decode(from input: String) -> (puzzle: Killer, version: Version)? {
+    public static func decode(from input: String) -> (puzzle: KillerSudoku, version: Version)? {
         for version in Version.allCases {
-            if let puzzle = version.coder.decode(from: input) {
+            if let puzzle = decode(from: input, using: version) {
                 return (puzzle, version)
             }
         }
         return nil
+    }
+
+    public static func decode(from input: String, using version: Version) -> KillerSudoku? {
+        version.coder.decode(from: input)
     }
 
     /// Creates a textual representation of the puzzle using the specified coding version.
@@ -50,3 +57,4 @@ extension Killer {
         version.coder.encode(self)
     }
 }
+*/

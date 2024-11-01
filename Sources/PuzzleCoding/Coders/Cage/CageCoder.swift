@@ -5,8 +5,6 @@
 //  Created by Quintin May on 10/31/24.
 //
 
-import RegexBuilder
-
 struct CageCoder {
     let size: Size
     let clues: [Int]
@@ -28,5 +26,3 @@ extension CageCoder {
         return FieldCoding(range: cageCoding.range, radix: PuzzleCoding.radix).encode(cages)
     }
 }
-
-

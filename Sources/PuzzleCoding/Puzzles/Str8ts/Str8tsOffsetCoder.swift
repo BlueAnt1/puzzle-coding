@@ -25,7 +25,7 @@ extension Str8ts {
             else { return nil }
             let size = header.output.1
 
-            let colors = Reference<(Substring, [Int])>()
+            let colors = Reference<(Substring, values: [Int])>()
             let grid = Reference<(Substring, Grid)>()
             let body = Regex {
                 Capture(as: colors) {

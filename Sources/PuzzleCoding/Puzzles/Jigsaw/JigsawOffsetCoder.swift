@@ -25,7 +25,7 @@ extension Jigsaw {
             else { return nil }
             let size = header.output.1
 
-            let boxes = Reference<(Substring, [Int])>()
+            let boxes = Reference<(Substring, values: [Int])>()
             let grid = Reference<OffsetPattern.RegexOutput>()
             let body = Regex {
                 Capture(as: boxes) {

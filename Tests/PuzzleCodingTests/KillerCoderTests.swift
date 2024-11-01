@@ -10,8 +10,8 @@ import Testing
 
 struct KillerCoderTests {
 
-    @Test(arguments: Killer.Version.allCases)
-    func coderRoundtrips(version: Killer.Version) throws {
+    @Test(arguments: KillerSudoku.Version.allCases)
+    func coderRoundtrips(version: KillerSudoku.Version) throws {
         let cageShapes = """
                         112211211
                         112122333
@@ -32,17 +32,17 @@ struct KillerCoderTests {
                           0, 24,  0, 15,  4,  0,  5,  0, 11,
                           0,  0,  0,  0, 12,  0,  0, 25,  0,
                           0,  0, 13,  0,  0,  0,  0,  0,  0]
-        let clues = "000000200000000000080000000000000000000000000060000000000000000000000000000000000"
+        let content = "000000200000000000080000000000000000000000000060000000000000000000000000000000000"
             .map(\.wholeNumberValue!)
-            .map { $0 == 0 ? nil : CellContent.clue($0) }
+            .map { $0 == 0 ? CellContent.candidates(Set(1...9)) : CellContent.clue($0) }
 
         var grid = Grid(size: .grid9x9)
-        grid.indices.forEach { grid[$0] = clues[$0] }
+        grid.indices.forEach { grid[$0] = content[$0] }
 
-        let puzzle = Killer(cageClues: cageClues, cageShapes: cageShapes, grid: grid)
+        let puzzle = KillerSudoku(cageClues: cageClues, cageShapes: cageShapes, grid: grid)
         let rawPuzzle = puzzle.encode(to: version)
 
-        let decoded = try #require(Killer.decode(from: rawPuzzle))
+        let decoded = try #require(KillerSudoku.decode(from: rawPuzzle))
 
         #expect(decoded.version == version)
         #expect(decoded.puzzle.cageClues == cageClues)
@@ -57,7 +57,3 @@ struct KillerCoderTests {
             """)
     }
 }
-
-/*
- 112211211112122333231131231212331221212441321121141341133233142133244132131113332,240006001700021000000000121000230000160800001020180023000716000000000000000000200000100000190607000000001200002400150400050011000000001200002500000013000000000000
- */

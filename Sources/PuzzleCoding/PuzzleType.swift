@@ -7,11 +7,13 @@
 
 enum PuzzleType: Character, CaseIterable {
     case sudoku = "S"
-    case sudokuX = "X"
-    case jigsaw = "J"
-    case str8ts = "T"
-    case windoku = "W"
+//    case sudokuX = "X"
+//    case windoku = "W"
+
     case killer = "L"
+    case jigsaw = "J"
+
+    case str8ts = "T"
     case kenken = "K"
     case kendoku = "D"
 }

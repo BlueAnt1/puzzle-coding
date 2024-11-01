@@ -1,5 +1,5 @@
 //
-//  KillerOffsetGridCoder.swift
+//  KillerSudokuOffsetCoder.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/24/24.
@@ -7,49 +7,44 @@
 
 import RegexBuilder
 
-extension Killer {
+extension KillerSudoku {
     struct Offset: Coder {
         static var puzzleType: PuzzleType { .killer }
         static var version: Character { "B" }
 
-        static func encode(_ puzzle: Killer) -> String {
-            var cage: [Int] {
-                puzzle.cageClues.indices.map {
-                    puzzle.cageClues[$0] << 3 + puzzle.cageShapes[$0] - 1
-                }
-            }
-
+        static func encode(_ puzzle: KillerSudoku) -> String {
             let grid = puzzle.grid
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
-                \(CageCoder(size: puzzle.grid.size, clues: puzzle.cageClues, shapes: puzzle.cageShapes).rawValue)\
+                \(KillerCoder(size: puzzle.grid.size, shapeRanges: KillerSudoku.shapeRanges, clues: puzzle.cageClues, shapes: puzzle.cageShapes).rawValue)\
                 \(OffsetCoder(grid: grid).rawValue)
                 """
         }
 
-        static func decode(from input: String) -> Killer? {
+        static func decode(from input: String) -> KillerSudoku? {
             guard let header = try? HeaderPattern(puzzleType: Self.puzzleType, version: Self.version).regex.prefixMatch(in: input)
             else { return nil }
             let size = header.output.1
 
-            let cageReference = Reference<(Substring, clues: [Int], shapes: [Int])>()
+            let cageReference = Reference<(Substring, clues: [Int], shapes: [[Int]])?>()
             let gridReference = Reference<(Substring, Grid)>()
             let body = Regex {
                 Capture(as: cageReference) {
-                    CagePattern(size: size)
+                    KillerPattern(size: size, shapeRanges: KillerSudoku.shapeRanges)
                 }
                 Capture(as: gridReference) {
                     OffsetPattern(size: size)
                 }
             }
 
-            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
+            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...]),
+                  let output = match[cageReference]
             else { return nil }
 
-            return Killer(cageClues: match[cageReference].clues,
-                          cageShapes: match[cageReference].shapes,
-                          grid: match[gridReference].1)
+            return KillerSudoku(cageClues: output.clues,
+                                cageShapes: output.shapes[0],
+                                grid: match[gridReference].1)
         }
     }
 }

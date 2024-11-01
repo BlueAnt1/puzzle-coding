@@ -36,7 +36,7 @@ for each cell in the grid
         value = pack(candidates) + candidatesOffset
 
     string = convert value to base 32
-    field = pad string to `fieldWidth` with leading zeroes
+    field = pad string to fieldWidth with leading zeroes
     append field to output
 ```
 

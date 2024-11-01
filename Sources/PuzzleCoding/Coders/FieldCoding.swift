@@ -32,11 +32,11 @@ struct FieldCoding {
         padding = String(repeating: "0", count: fieldWidth - 1)
     }
 
-    func arrayPattern(count: Int) -> some RegexComponent<(Substring, [Int])> {
+    func arrayPattern(count: Int) -> some RegexComponent<(Substring, values: [Int])> {
         return ArrayPattern(count: count, valuePattern: valuePattern)
 
         struct ArrayPattern: CustomConsumingRegexComponent {
-            typealias RegexOutput = (Substring, [Int])
+            typealias RegexOutput = (Substring, values: [Int])
             let count: Int
             let valuePattern: any RegexComponent<(Substring, Int)>
 
