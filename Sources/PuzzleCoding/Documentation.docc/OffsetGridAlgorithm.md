@@ -13,7 +13,7 @@ Iterate over every cell in the grid and encode the cell's content into a field u
 
 This is a cheat sheet for the set up. The values vary based on the grid size. The last section in this article explains how these values are derived.
 
-grid size | solutionOffset | candidatesOffset | fieldWidth | maxPackedCellValue
+grid size | solution&#x200B;Offset | candidates&#x200B;Offset | field&#x200B;Width | maxPacked&#x200B;CellValue
 :-------: | :------------: | :--------------: | :--------: | :----------------:
 **6**     |        6       |        12        |      2     |      75
 **8**     |        8       |        16        |      2     |      271
