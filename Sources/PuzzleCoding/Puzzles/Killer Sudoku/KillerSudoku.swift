@@ -11,11 +11,8 @@ public struct KillerSudoku: Equatable {
     public let grid: Grid
 
     public init(cageClues: [Int], cageShapes: [Int], grid: Grid) {
-        precondition(grid.count == cageClues.count && grid.count == cageShapes.count)
-        let maxCageClue = grid.size.valueRange.reduce(0, +)
-        precondition(cageClues.allSatisfy { (0...maxCageClue).contains($0) })
-        let shapeRange = 1...5
-        precondition(cageShapes.allSatisfy { shapeRange.contains($0) })
+        let coding = KillerCoding(size: grid.size, shapeRanges: Self.shapeRanges(for: grid.size))
+        coding.checkPreconditions(clues: cageClues, shapes: [cageShapes])
 
         self.cageClues = cageClues
         self.cageShapes = cageShapes

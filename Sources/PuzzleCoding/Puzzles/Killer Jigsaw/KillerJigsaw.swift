@@ -12,11 +12,8 @@ public struct KillerJigsaw: Equatable {
     public let grid: Grid
 
     public init(cageClues: [Int], cageShapes: [Int], boxShapes: [Int], grid: Grid) {
-        precondition(grid.count == cageClues.count && grid.count == cageShapes.count && grid.count == boxShapes.count)
-        let maxCageClue = grid.size.valueRange.reduce(0, +)
-        precondition(cageClues.allSatisfy { (0...maxCageClue).contains($0) })
-        precondition(cageShapes.allSatisfy { Self.cageRange.contains($0) })
-        precondition(boxShapes.allSatisfy { grid.size.valueRange.contains($0) })
+        let coding = KillerCoding(size: grid.size, shapeRanges: Self.shapeRanges(for: grid.size))
+        coding.checkPreconditions(clues: cageClues, shapes: [cageShapes, boxShapes])
 
         self.cageClues = cageClues
         self.cageShapes = cageShapes

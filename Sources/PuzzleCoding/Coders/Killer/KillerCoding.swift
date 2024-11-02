@@ -19,15 +19,13 @@ struct KillerCoding {
 
     var range: ClosedRange<Int> {
         let offsets = offsets
-        var maxValue = clueRange.upperBound
-        for rangeIndex in shapeRanges.indices {
-            maxValue = (maxValue << offsets[rangeIndex]) + shapeRanges[rangeIndex].upperBound
+        let maxValue = shapeRanges.indices.reduce(clueRange.upperBound) { maxValue, rangeIndex in
+            (maxValue << offsets[rangeIndex]) + shapeRanges[rangeIndex].upperBound
         }
         return 0...maxValue
     }
 
-    func encode(clues: [Int], shapes: [[Int]]) -> [Int] {
-        // TODO: make these asserts or move to public API
+    func checkPreconditions(clues: [Int], shapes: [[Int]]) {
         // sizes
         precondition(size.gridCellCount == clues.count)
         precondition(shapeRanges.count == shapes.count)
@@ -38,7 +36,9 @@ struct KillerCoding {
             precondition(shapeRange.lowerBound == 1)
             precondition(shapes.allSatisfy(shapeRange.contains))
         }
+    }
 
+    func encode(clues: [Int], shapes: [[Int]]) -> [Int] {
         let offsets = offsets
         let values = clues.indices
             .map { clueIndex in
@@ -58,11 +58,11 @@ struct KillerCoding {
         var clues = [Int]()
         var outputShapes = Array(repeating: [Int](), count: shapeRanges.count)
 
-        for index in values.indices {
-            var value = values[index]
+        for var value in values {
             var shapes = [Int]()
             for offset in offsets.reversed() {
-                shapes.append((value & ((1 << offset) - 1)) + 1)  // value & 0b111...
+                let mask = (1 << offset) - 1  // 0b111...
+                shapes.append((value & mask) + 1)
                 value &>>= offset
             }
             clues.append(value)
