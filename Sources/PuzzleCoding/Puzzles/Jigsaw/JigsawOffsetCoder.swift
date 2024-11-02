@@ -9,8 +9,8 @@ import RegexBuilder
 
 extension Jigsaw {
     struct Offset: Coder {
-        static var puzzleType: PuzzleType { .jigsaw }
-        static var version: Character { "B" }
+        private static var puzzleType: PuzzleType { .jigsaw }
+        private static var version: Character { "B" }
 
         static func encode(_ puzzle: Jigsaw) -> String {
         """
@@ -21,9 +21,11 @@ extension Jigsaw {
         }
 
         static func decode(from input: String) -> Jigsaw? {
-            guard let header = try? HeaderPattern(puzzleType: Self.puzzleType, version: Self.version).regex.prefixMatch(in: input)
+            guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
+                  header.output.puzzleType == Self.puzzleType,
+                  header.output.version == Self.version
             else { return nil }
-            let size = header.output.1
+            let size = header.output.size
 
             let boxes = Reference<(Substring, values: [Int])>()
             let grid = Reference<OffsetPattern.RegexOutput>()

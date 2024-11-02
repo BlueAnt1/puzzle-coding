@@ -7,25 +7,25 @@
 
 extension Sudoku {
     struct Offset: Coder {
-        static var puzzleType: PuzzleType { .sudoku }
-        static var version: Character { "B" }
+        private static var version: Character { "B" }
 
         static func encode(_ puzzle: Sudoku) -> String {
             """
-            \(HeaderCoder(puzzleType: .sudoku, size: puzzle.grid.size, version: Self.version).rawValue)\
+            \(HeaderCoder(puzzleType: .sudoku(puzzle.type), size: puzzle.grid.size, version: Self.version).rawValue)\
             \(OffsetCoder(grid: puzzle.grid).rawValue)
             """
         }
 
         static func decode(from input: String) -> Sudoku? {
-            guard let header = try? HeaderPattern(puzzleType: Self.puzzleType, version: Self.version).regex.prefixMatch(in: input)
-            else { return nil }
-            let size = header.output.1
-
-            guard let coder = OffsetCoder(size: size, rawValue: String(input[header.range.upperBound...]))
+            guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
+                  case .sudoku(let sudokuType) = header.output.puzzleType,
+                  header.output.version == Self.version
             else { return nil }
 
-            return Sudoku(grid: coder.grid)
+            guard let coder = OffsetCoder(size: header.output.size, rawValue: String(input[header.range.upperBound...]))
+            else { return nil }
+
+            return Sudoku(grid: coder.grid, type: sudokuType)
         }
     }
 }

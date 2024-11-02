@@ -5,7 +5,7 @@
 //  Created by Quintin May on 10/16/24.
 //
 
-public struct Str8ts {
+public struct Str8ts: Equatable {
     public let colors: [Int]
     public let grid: Grid
 

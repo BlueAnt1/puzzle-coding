@@ -9,8 +9,8 @@ import RegexBuilder
 
 extension KillerJigsaw {
     struct Offset: Coder {
-        static var puzzleType: PuzzleType { .killerJigsaw }
-        static var version: Character { "B" }
+        private static var puzzleType: PuzzleType { .killerJigsaw }
+        private static var version: Character { "B" }
 
         static func encode(_ puzzle: KillerJigsaw) -> String {
             let grid = puzzle.grid
@@ -25,9 +25,11 @@ extension KillerJigsaw {
         }
 
         static func decode(from input: String) -> KillerJigsaw? {
-            guard let header = try? HeaderPattern(puzzleType: Self.puzzleType, version: Self.version).regex.prefixMatch(in: input)
+            guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
+                  header.output.puzzleType == Self.puzzleType,
+                  header.output.version == Self.version
             else { return nil }
-            let size = header.output.1
+            let size = header.output.size
 
             let cageReference = Reference<(Substring, clues: [Int], shapes: [[Int]])?>()
             let gridReference = Reference<(Substring, Grid)>()

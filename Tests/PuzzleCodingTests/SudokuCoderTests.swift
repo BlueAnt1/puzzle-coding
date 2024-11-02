@@ -96,6 +96,28 @@ struct SudokuCoderTests {
             """)
     }
 
+    @Test(arguments: PuzzleType.SudokuType.allCases)
+    func sudokuTypeRoundTrips(_ type: PuzzleType.SudokuType) async throws {
+        let grid = sampleGrid
+        switch type {
+        case .sudoku:
+            let puzzle = Sudoku(grid: grid)
+            let raw = puzzle.encode()
+            let decoded = try #require(Sudoku.decode(from: raw))
+            #expect(decoded.puzzle == puzzle)
+        case .sudokuX:
+            let puzzle = SudokuX(grid: grid)
+            let raw = puzzle.encode()
+            let decoded = try #require(SudokuX.decode(from: raw))
+            #expect(decoded.puzzle == puzzle)
+        case .windoku:
+            let puzzle = Windoku(grid: grid)
+            let raw = puzzle.encode()
+            let decoded = try #require(Windoku.decode(from: raw))
+            #expect(decoded.puzzle == puzzle)
+        }
+    }
+
     @Test
     func knownShiftCodingDecodes() throws {
         let rawEncoded = "0m4e4cog1121k084g41k544403o0ggs409208121g1400409020g10g4o4a4110hg6082240h4hc28g4g2400h2281410g03200980g411g409k04ggg201184840321868k8k410m10g109g6o61108o2g621410g"

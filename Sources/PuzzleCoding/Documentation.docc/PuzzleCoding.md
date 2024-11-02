@@ -44,7 +44,10 @@ assert(output == input)
 
 Coders convert puzzles to text and back. Every puzzle type has its own coder.
 
-- ``Sudoku``
 - ``Jigsaw``
+- ``KillerJigsaw``
+- ``KillerSudoku``
 - ``Str8ts``
-- ``Killer``
+- ``Sudoku``
+- ``SudokuX``
+- ``Windoku``

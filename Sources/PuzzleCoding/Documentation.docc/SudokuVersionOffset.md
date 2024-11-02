@@ -7,7 +7,7 @@ An encoded value looks like:
 ## Format
 
 - term `S`: the puzzle type.
-- term `9`: the size of the puzzle expressed as the number of cells in a row or column.
+- term `9`: the size of the puzzle expressed as the number of cells in a row or column (base 32).
 - term `B`: the encoding version.
 
 The remainder of the encoding uses the <doc:OffsetGridAlgorithm>.

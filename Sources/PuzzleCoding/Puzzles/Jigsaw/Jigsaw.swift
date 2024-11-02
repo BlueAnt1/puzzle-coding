@@ -5,7 +5,7 @@
 //  Created by Quintin May on 10/16/24.
 //
 
-public struct Jigsaw {
+public struct Jigsaw: Equatable {
     public let boxes: [Int]
     public let grid: Grid
 

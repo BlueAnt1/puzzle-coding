@@ -5,7 +5,7 @@
 //  Created by Quintin May on 10/24/24.
 //
 
-public struct KillerJigsaw {
+public struct KillerJigsaw: Equatable {
     public let cageClues: [Int]
     public let cageShapes: [Int]
     public let boxShapes: [Int]
