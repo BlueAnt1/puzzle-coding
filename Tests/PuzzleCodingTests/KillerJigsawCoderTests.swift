@@ -12,27 +12,28 @@ struct KillerJigsawCoderTests {
 
     @Test(arguments: KillerJigsaw.Version.allCases)
     func coderRoundtrips(version: KillerJigsaw.Version) throws {
+        // Tim Tang puzzle from SudokuWiki
         let cageShapes = """
-                        112122211
-                        122133122
-                        333224132
-                        131334133
-                        111311221
-                        221344431
-                        244414234
-                        112111244
-                        112233211
+                        111221121
+                        233213321
+                        224413112
+                        114411332
+                        223332211
+                        211142122
+                        212244122
+                        333212133
+                        333212233
                         """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
         let boxShapes = """
-                        111222233
-                        111222233
-                        114452333
-                        144455633
-                        444555666
-                        774556669
-                        777856699
-                        778888999
-                        778888999
+                        112222233
+                        112444233
+                        112444233
+                        116444833
+                        516678839
+                        556777899
+                        556678899
+                        556777899
+                        556678899
                         """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
         let cageClues = [
             21,  0,  0, 11,  0,  7,  0,  7, 12,
