@@ -9,7 +9,7 @@ struct KillerCoder {
     let size: Size
     let shapeRanges: [ClosedRange<Int>]
     let clues: [Int]
-    let shapes: [Int]
+    let shapes: [[Int]]
 }
 
 extension KillerCoder {
@@ -20,7 +20,7 @@ extension KillerCoder {
         self.size = size
         self.shapeRanges = shapeRanges
         clues = output.clues
-        shapes = output.shapes[0]
+        shapes = output.shapes
     }
 
     var rawValue: String {

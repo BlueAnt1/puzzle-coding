@@ -1,5 +1,5 @@
 //
-//  KillerCoderTests.swift
+//  KillerSudokuCoderTests.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/24/24.
@@ -8,7 +8,7 @@
 import Testing
 @testable import PuzzleCoding
 
-struct KillerCoderTests {
+struct KillerSudokuCoderTests {
 
     @Test(arguments: KillerSudoku.Version.allCases)
     func coderRoundtrips(version: KillerSudoku.Version) throws {
@@ -51,7 +51,7 @@ struct KillerCoderTests {
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
-            Killer \(version) \(grid.size)
+            Killer Sudoku \(version) \(grid.size)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)

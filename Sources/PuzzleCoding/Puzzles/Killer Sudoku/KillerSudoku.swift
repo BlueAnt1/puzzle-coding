@@ -9,13 +9,13 @@ public struct KillerSudoku {
     public let cageClues: [Int]
     public let cageShapes: [Int]
     public let grid: Grid
-    static var shapeRanges: [ClosedRange<Int>] { [1...5] }
 
     public init(cageClues: [Int], cageShapes: [Int], grid: Grid) {
         precondition(grid.count == cageClues.count && grid.count == cageShapes.count)
         let maxCageClue = grid.size.valueRange.reduce(0, +)
         precondition(cageClues.allSatisfy { (0...maxCageClue).contains($0) })
-        precondition(cageShapes.allSatisfy { Self.shapeRanges[0].contains($0) })
+        let shapeRange = 1...5
+        precondition(cageShapes.allSatisfy { shapeRange.contains($0) })
 
         self.cageClues = cageClues
         self.cageShapes = cageShapes
@@ -53,5 +53,15 @@ extension KillerSudoku {
     /// - Parameter version: the format in which to encode the puzzle.
     public func encode(to version: Version = .current) -> String {
         version.coder.encode(self)
+    }
+}
+
+extension KillerSudoku {
+    static var cageRange: ClosedRange<Int> { 1...5 }
+    static func shapeRanges(for size: Size) -> [ClosedRange<Int>] {
+        [cageRange]
+    }
+    var shapes: [[Int]] {
+        [cageShapes]
     }
 }

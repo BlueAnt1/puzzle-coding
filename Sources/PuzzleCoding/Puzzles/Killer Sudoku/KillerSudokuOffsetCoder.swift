@@ -9,15 +9,17 @@ import RegexBuilder
 
 extension KillerSudoku {
     struct Offset: Coder {
-        static var puzzleType: PuzzleType { .killer }
+        static var puzzleType: PuzzleType { .killerSudoku }
         static var version: Character { "B" }
 
         static func encode(_ puzzle: KillerSudoku) -> String {
             let grid = puzzle.grid
+            let shapeRanges = KillerSudoku.shapeRanges(for: puzzle.grid.size)
+            let shapes = puzzle.shapes
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
-                \(KillerCoder(size: puzzle.grid.size, shapeRanges: KillerSudoku.shapeRanges, clues: puzzle.cageClues, shapes: puzzle.cageShapes).rawValue)\
+                \(KillerCoder(size: puzzle.grid.size, shapeRanges: shapeRanges, clues: puzzle.cageClues, shapes: shapes).rawValue)\
                 \(OffsetCoder(grid: grid).rawValue)
                 """
         }
@@ -31,7 +33,7 @@ extension KillerSudoku {
             let gridReference = Reference<(Substring, Grid)>()
             let body = Regex {
                 Capture(as: cageReference) {
-                    KillerPattern(size: size, shapeRanges: KillerSudoku.shapeRanges)
+                    KillerPattern(size: size, shapeRanges: KillerSudoku.shapeRanges(for: size))
                 }
                 Capture(as: gridReference) {
                     OffsetPattern(size: size)

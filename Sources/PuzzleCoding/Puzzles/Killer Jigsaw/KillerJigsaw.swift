@@ -5,7 +5,6 @@
 //  Created by Quintin May on 10/24/24.
 //
 
-/*
 public struct KillerJigsaw {
     public let cageClues: [Int]
     public let cageShapes: [Int]
@@ -16,11 +15,12 @@ public struct KillerJigsaw {
         precondition(grid.count == cageClues.count && grid.count == cageShapes.count && grid.count == boxShapes.count)
         let maxCageClue = grid.size.valueRange.reduce(0, +)
         precondition(cageClues.allSatisfy { (0...maxCageClue).contains($0) })
-        precondition(cageShapes.allSatisfy { (1...5).contains($0) })
+        precondition(cageShapes.allSatisfy { Self.cageRange.contains($0) })
         precondition(boxShapes.allSatisfy { grid.size.valueRange.contains($0) })
 
         self.cageClues = cageClues
         self.cageShapes = cageShapes
+        self.boxShapes = boxShapes
         self.grid = grid
     }
 }
@@ -31,14 +31,14 @@ extension KillerJigsaw {
 
         public static var current: Version { .offset }
 
-        fileprivate var coder: any Coder<KillerSudoku>.Type {
+        fileprivate var coder: any Coder<KillerJigsaw>.Type {
             switch self {
             case .offset: Offset.self
             }
         }
     }
 
-    public static func decode(from input: String) -> (puzzle: KillerSudoku, version: Version)? {
+    public static func decode(from input: String) -> (puzzle: KillerJigsaw, version: Version)? {
         for version in Version.allCases {
             if let puzzle = decode(from: input, using: version) {
                 return (puzzle, version)
@@ -47,7 +47,7 @@ extension KillerJigsaw {
         return nil
     }
 
-    public static func decode(from input: String, using version: Version) -> KillerSudoku? {
+    public static func decode(from input: String, using version: Version) -> KillerJigsaw? {
         version.coder.decode(from: input)
     }
 
@@ -57,4 +57,13 @@ extension KillerJigsaw {
         version.coder.encode(self)
     }
 }
-*/
+
+extension KillerJigsaw {
+    static var cageRange: ClosedRange<Int> { 1...5 }
+    static func shapeRanges(for size: Size) -> [ClosedRange<Int>] {
+        [cageRange, size.valueRange]
+    }
+    var shapes: [[Int]] {
+        [cageShapes, boxShapes]
+    }
+}

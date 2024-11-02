@@ -26,8 +26,8 @@ struct KillerCoding {
         return 0...maxValue
     }
 
-    func encode(clues: [Int], shapes: [Int], _ otherShapes: [Int]...) -> [Int] {
-        let shapes = [shapes] + otherShapes
+    func encode(clues: [Int], shapes: [[Int]]) -> [Int] {
+        // TODO: make these asserts or move to public API
         // sizes
         precondition(size.gridCellCount == clues.count)
         precondition(shapeRanges.count == shapes.count)
@@ -44,7 +44,7 @@ struct KillerCoding {
             .map { clueIndex in
                 var value = clues[clueIndex]
                 for shapeIndex in offsets.indices {
-                    value = value << offsets[shapeIndex] + shapes[shapeIndex][clueIndex] - 1
+                    value = (value << offsets[shapeIndex]) + shapes[shapeIndex][clueIndex] - 1
                 }
                 return value
             }
@@ -62,11 +62,12 @@ struct KillerCoding {
             var value = values[index]
             var shapes = [Int]()
             for offset in offsets.reversed() {
-                shapes.append(value & ((1 << offset) - 1) + 1)  // value & 0b111...
+                shapes.append((value & ((1 << offset) - 1)) + 1)  // value & 0b111...
                 value &>>= offset
             }
             clues.append(value)
-            for index in shapes.indices.reversed() {
+            shapes = shapes.reversed()
+            for index in shapes.indices {
                 outputShapes[index].append(shapes[index])
             }
         }
