@@ -51,7 +51,7 @@ struct KillerSudokuCoderTests {
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
-            Killer Sudoku \(version) \(grid.size)
+            Killer Sudoku \(version) \(grid.size) (Gentle Example 1)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)

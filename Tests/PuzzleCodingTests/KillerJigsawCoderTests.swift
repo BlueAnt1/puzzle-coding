@@ -64,7 +64,7 @@ struct KillerJigsawCoderTests {
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
-            Killer Jigsaw \(version) \(grid.size)
+            Killer Jigsaw \(version) \(grid.size) (Tim Tang)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)

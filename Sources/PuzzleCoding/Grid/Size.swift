@@ -26,7 +26,7 @@ public enum Size: RawRepresentable, Equatable, Hashable, CaseIterable, Sendable,
     public var houseCellCount: Int { boxRowCount * boxColumnCount }
     /// The number of cells in the grid.
     public var gridCellCount: Int { houseCellCount * houseCellCount }
-    /// The range of clues, solutionss & candidates that can be stored in the grid.
+    /// The range of clues, solutions & candidates that can be stored in the grid.
     public var valueRange: ClosedRange<Int> { 1...houseCellCount }
 
     private var dimensions: (boxRowCount: Int, boxColumnCount: Int) {

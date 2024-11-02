@@ -45,7 +45,7 @@ enum PuzzleType: CaseIterable, RawRepresentable {
 
     static var allCases: [PuzzleType] {
         [.jigsaw, .str8ts, .kenken, .kendoku, .killerSudoku, .killerJigsaw]
-        + SudokuType.allCases.map {.sudoku($0) }
+        + SudokuType.allCases.map { .sudoku($0) }
     }
 
     enum SudokuType: Character, CaseIterable {
