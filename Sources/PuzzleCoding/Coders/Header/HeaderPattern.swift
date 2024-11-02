@@ -25,9 +25,6 @@ struct HeaderPattern: CustomConsumingRegexComponent {
         }.ignoresCase()
 
         guard let header = try? regex.prefixMatch(in: input[index ..< bounds.upperBound]) else { return nil }
-        return (header.range.upperBound, (header.output.0,
-                                          puzzleType: header.output.1,
-                                          size: header.output.2,
-                                          version: header.output.3))
+        return (header.range.upperBound, header.output)
     }
 }
