@@ -8,7 +8,7 @@
 import RegexBuilder
 
 extension Str8ts {
-    struct Offset: Coder {
+    struct Offset: VersionCoder {
         private static var puzzleType: PuzzleType { .str8ts }
         private static var version: Character { "B" }
 
@@ -20,7 +20,7 @@ extension Str8ts {
             """
         }
 
-        static func decode(from input: String) -> Str8ts? {
+        static func decode(_ input: String) -> Str8ts? {
             guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
                   header.output.puzzleType == Self.puzzleType,
                   header.output.version == Self.version

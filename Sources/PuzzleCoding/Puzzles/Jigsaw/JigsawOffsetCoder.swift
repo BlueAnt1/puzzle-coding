@@ -8,7 +8,7 @@
 import RegexBuilder
 
 extension Jigsaw {
-    struct Offset: Coder {
+    struct Offset: VersionCoder {
         private static var puzzleType: PuzzleType { .jigsaw }
         private static var version: Character { "B" }
 
@@ -20,7 +20,7 @@ extension Jigsaw {
         """
         }
 
-        static func decode(from input: String) -> Jigsaw? {
+        static func decode(_ input: String) -> Jigsaw? {
             guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
                   header.output.puzzleType == Self.puzzleType,
                   header.output.version == Self.version

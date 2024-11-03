@@ -8,7 +8,7 @@
 import RegexBuilder
 
 extension KillerSudoku {
-    struct Offset: Coder {
+    struct Offset: VersionCoder {
         private static var puzzleType: PuzzleType { .killerSudoku }
         private static var version: Character { "B" }
 
@@ -24,7 +24,7 @@ extension KillerSudoku {
                 """
         }
 
-        static func decode(from input: String) -> KillerSudoku? {
+        static func decode(_ input: String) -> KillerSudoku? {
             guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
                   header.output.puzzleType == Self.puzzleType,
                   header.output.version == Self.version

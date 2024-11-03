@@ -32,34 +32,23 @@ extension KillerJigsaw {
     }
 }
 
-extension KillerJigsaw {
-    public enum Version: CaseIterable, Sendable {
+extension KillerJigsaw: PuzzleCoder {
+    public enum Version: VersionProtocol {
         case offset
 
         public static var current: Version { .offset }
 
-        fileprivate var coder: any Coder<KillerJigsaw>.Type {
+        fileprivate var coder: any VersionCoder<KillerJigsaw>.Type {
             switch self {
             case .offset: Offset.self
             }
         }
     }
 
-    public static func decode(_ input: String) -> (puzzle: KillerJigsaw, version: Version)? {
-        for version in Version.allCases {
-            if let puzzle = decode(input, using: version) {
-                return (puzzle, version)
-            }
-        }
-        return nil
-    }
-
     public static func decode(_ input: String, using version: Version) -> KillerJigsaw? {
-        version.coder.decode(from: input)
+        version.coder.decode(input)
     }
 
-    /// Creates a textual representation of the puzzle using the specified coding version.
-    /// - Parameter version: the format in which to encode the puzzle.
     public func encode(using version: Version = .current) -> String {
         version.coder.encode(self)
     }

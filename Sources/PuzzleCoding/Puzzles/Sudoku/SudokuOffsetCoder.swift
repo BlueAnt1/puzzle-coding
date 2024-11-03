@@ -6,7 +6,7 @@
 //
 
 extension Sudoku {
-    struct Offset: Coder {
+    struct Offset: VersionCoder {
         private static var version: Character { "B" }
 
         static func encode(_ puzzle: Sudoku) -> String {
@@ -16,7 +16,7 @@ extension Sudoku {
             """
         }
 
-        static func decode(from input: String) -> Sudoku? {
+        static func decode(_ input: String) -> Sudoku? {
             guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
                   case .sudoku(let sudokuType) = header.output.puzzleType,
                   header.output.version == Self.version

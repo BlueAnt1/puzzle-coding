@@ -6,7 +6,7 @@
 //
 
 extension Sudoku {
-    struct Shift: Coder {
+    struct Shift: VersionCoder {
         fileprivate static var radix: Int { 32 }
         fileprivate static var fieldWidth: Int { 2 }
 
@@ -33,7 +33,7 @@ extension Sudoku {
             }
         }
 
-        static func decode(from input: String) -> Sudoku? {
+        static func decode(_ input: String) -> Sudoku? {
             guard input.count == 162,
                   let match = try? ShiftedGridPattern().regex.wholeMatch(in: input)
             else { return nil }

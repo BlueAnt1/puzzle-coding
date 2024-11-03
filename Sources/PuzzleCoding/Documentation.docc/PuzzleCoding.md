@@ -14,7 +14,7 @@ using this library can easily decode.
 
 ```swift
 let input = "S9Bel0fbd01ep050eel9u…"
-guard let (puzzle, version) = Sudoku.decode(from: input)
+guard let (puzzle, version) = Sudoku.decode(input)
 else { return }
 
 for content in puzzle.grid {
@@ -30,7 +30,7 @@ for content in puzzle.grid {
     }
 }
 
-let output = puzzle.encode(to: version)
+let output = puzzle.encode(using: version)
 assert(output == input)
 ```
 

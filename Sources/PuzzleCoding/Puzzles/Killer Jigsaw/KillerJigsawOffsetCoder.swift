@@ -8,7 +8,7 @@
 import RegexBuilder
 
 extension KillerJigsaw {
-    struct Offset: Coder {
+    struct Offset: VersionCoder {
         private static var puzzleType: PuzzleType { .killerJigsaw }
         private static var version: Character { "B" }
 
@@ -24,7 +24,7 @@ extension KillerJigsaw {
                 """
         }
 
-        static func decode(from input: String) -> KillerJigsaw? {
+        static func decode(_ input: String) -> KillerJigsaw? {
             guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
                   header.output.puzzleType == Self.puzzleType,
                   header.output.version == Self.version

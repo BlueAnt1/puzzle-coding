@@ -8,7 +8,7 @@
 import Foundation
 
 extension Sudoku {
-    struct Clue: Coder {
+    struct Clue: VersionCoder {
         static func encode(_ puzzle: Sudoku) -> String {
             precondition(puzzle.grid.size == .grid9x9)
             return puzzle.grid.reduce(into: "") { grid, content in
@@ -21,7 +21,7 @@ extension Sudoku {
             }
         }
 
-        static func decode(from input: String) -> Sudoku? {
+        static func decode(_ input: String) -> Sudoku? {
             var grid = Grid(size: .grid9x9)
             var emptyCharacter: Character? = nil
             var input = input[...]

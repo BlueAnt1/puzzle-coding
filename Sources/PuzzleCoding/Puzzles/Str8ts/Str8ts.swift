@@ -16,34 +16,23 @@ public struct Str8ts: Equatable {
     }
 }
 
-extension Str8ts {
-    public enum Version: CaseIterable, Sendable {
+extension Str8ts: PuzzleCoder {
+    public enum Version: VersionProtocol {
         case offset
 
         public static var current: Version { .offset }
 
-        fileprivate var coder: any Coder<Str8ts>.Type {
+        fileprivate var coder: any VersionCoder<Str8ts>.Type {
             switch self {
             case .offset: Offset.self
             }
         }
     }
 
-    public static func decode(_ input: String) -> (puzzle: Str8ts, version: Version)? {
-        for version in Version.allCases {
-            if let puzzle = decode(input, using: version) {
-                return (puzzle, version)
-            }
-        }
-        return nil
-    }
-
     public static func decode(_ input: String, using version: Version) -> Str8ts? {
-        version.coder.decode(from: input)
+        version.coder.decode(input)
     }
 
-    /// Creates a textual representation of the puzzle using the specified coding version.
-    /// - Parameter version: the format in which to encode the puzzle.
     public func encode(using version: Version = .current) -> String {
         version.coder.encode(self)
     }

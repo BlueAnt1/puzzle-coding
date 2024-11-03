@@ -1,12 +1,12 @@
 //
-//  Coder.swift
+//  VersionCoder.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/28/24.
 //
 
-protocol Coder<Puzzle> {
+protocol VersionCoder<Puzzle> {
     associatedtype Puzzle
     static func encode(_ puzzle: Puzzle) -> String
-    static func decode(from input: String) -> Puzzle?
+    static func decode(_ input: String) -> Puzzle?
 }
