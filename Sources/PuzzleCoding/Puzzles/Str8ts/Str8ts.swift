@@ -44,3 +44,7 @@ extension Str8ts {
         version.coder.encode(self)
     }
 }
+
+extension Str8ts: CustomStringConvertible {
+    public var description: String { "\(PuzzleType.str8ts) \(grid.size)" }
+}

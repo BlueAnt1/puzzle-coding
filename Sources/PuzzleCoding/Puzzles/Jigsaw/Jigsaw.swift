@@ -44,3 +44,7 @@ extension Jigsaw {
         version.coder.encode(self)
     }
 }
+
+extension Jigsaw: CustomStringConvertible {
+    public var description: String { "\(PuzzleType.jigsaw) \(grid.size)" }
+}

@@ -21,6 +21,16 @@ public struct KillerSudoku: Equatable {
 }
 
 extension KillerSudoku {
+    static var cageRange: ClosedRange<Int> { 1...5 }
+    static func shapeRanges(for size: Size) -> [ClosedRange<Int>] {
+        [cageRange]
+    }
+    var shapes: [[Int]] {
+        [cageShapes]
+    }
+}
+
+extension KillerSudoku {
     public enum Version: CaseIterable, Sendable {
         case offset
 
@@ -53,12 +63,6 @@ extension KillerSudoku {
     }
 }
 
-extension KillerSudoku {
-    static var cageRange: ClosedRange<Int> { 1...5 }
-    static func shapeRanges(for size: Size) -> [ClosedRange<Int>] {
-        [cageRange]
-    }
-    var shapes: [[Int]] {
-        [cageShapes]
-    }
+extension KillerSudoku: CustomStringConvertible {
+    public var description: String { "\(PuzzleType.killerSudoku) \(grid.size)" }
 }

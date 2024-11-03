@@ -33,7 +33,7 @@ struct Str8tsCoderTests {
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
-            Str8ts \(version) \(grid.size)
+            \(puzzle) \(version)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)

@@ -23,6 +23,16 @@ public struct KillerJigsaw: Equatable {
 }
 
 extension KillerJigsaw {
+    static var cageRange: ClosedRange<Int> { 1...5 }
+    static func shapeRanges(for size: Size) -> [ClosedRange<Int>] {
+        [cageRange, size.valueRange]
+    }
+    var shapes: [[Int]] {
+        [cageShapes, boxShapes]
+    }
+}
+
+extension KillerJigsaw {
     public enum Version: CaseIterable, Sendable {
         case offset
 
@@ -55,12 +65,6 @@ extension KillerJigsaw {
     }
 }
 
-extension KillerJigsaw {
-    static var cageRange: ClosedRange<Int> { 1...5 }
-    static func shapeRanges(for size: Size) -> [ClosedRange<Int>] {
-        [cageRange, size.valueRange]
-    }
-    var shapes: [[Int]] {
-        [cageShapes, boxShapes]
-    }
+extension KillerJigsaw: CustomStringConvertible {
+    public var description: String { "\(PuzzleType.killerJigsaw) \(grid.size)" }
 }

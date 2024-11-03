@@ -39,7 +39,7 @@ struct JigsawCoderTests {
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
-            Jigsaw \(version) \(grid.size)
+            \(puzzle) \(version)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)

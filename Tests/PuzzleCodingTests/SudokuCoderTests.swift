@@ -48,8 +48,9 @@ struct SudokuCoderTests {
         #expect(Array(puzzleFromRaw.grid) == cleanGrid)
 
         let puzzleCount = Double(rawPuzzle.count)
+
         print("""
-            Sudoku \(version) \(Size.grid9x9)
+            \(puzzle)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)
@@ -70,7 +71,7 @@ struct SudokuCoderTests {
         }
         let puzzleCount = Double(rawPuzzle.count)
         print("""
-            Sudoku \(version) \(Size.grid9x9)
+            \(puzzle)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)
@@ -90,7 +91,7 @@ struct SudokuCoderTests {
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
-            Sudoku \(version) \(size)
+            \(puzzle) \(version)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)

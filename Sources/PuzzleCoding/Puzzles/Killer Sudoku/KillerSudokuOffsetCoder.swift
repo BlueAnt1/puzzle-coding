@@ -14,12 +14,12 @@ extension KillerSudoku {
 
         static func encode(_ puzzle: KillerSudoku) -> String {
             let grid = puzzle.grid
-            let shapeRanges = KillerSudoku.shapeRanges(for: puzzle.grid.size)
+            let shapeRanges = KillerSudoku.shapeRanges(for: grid.size)
             let shapes = puzzle.shapes
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
-                \(KillerCoder(size: puzzle.grid.size, shapeRanges: shapeRanges, clues: puzzle.cageClues, shapes: shapes).rawValue)\
+                \(KillerCoder(size: grid.size, shapeRanges: shapeRanges, clues: puzzle.cageClues, shapes: shapes).rawValue)\
                 \(OffsetCoder(grid: grid).rawValue)
                 """
         }

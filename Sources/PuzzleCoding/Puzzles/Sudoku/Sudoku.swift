@@ -64,6 +64,10 @@ extension Sudoku {
     }
 }
 
+extension Sudoku: CustomStringConvertible {
+    public var description: String { "\(type) \(grid.size)" }
+}
+
 // MARK: - Windoku
 
 /// A Windoku puzzle coder.
@@ -80,6 +84,7 @@ public struct Windoku: Equatable {
 
 extension Windoku {
     public typealias Version = Sudoku.Version
+    private static var type: PuzzleType.SudokuType { .windoku }
 
     /// Attempt to decode the puzzle from the provided input.
     /// - Parameter input: The value to parse.
@@ -96,8 +101,12 @@ extension Windoku {
     /// Creates a textual representation of the puzzle using the specified coding version.
     /// - Parameter version: the format in which to encode the puzzle.
     public func encode(to version: Version = .current) -> String {
-        version.coder.encode(Sudoku(grid: self.grid, type: .windoku))
+        version.coder.encode(Sudoku(grid: self.grid, type: Self.type))
     }
+}
+
+extension Windoku: CustomStringConvertible {
+    public var description: String { "\(Self.type) \(grid.size)" }
 }
 
 // MARK: - SudokuX
@@ -116,6 +125,7 @@ public struct SudokuX: Equatable {
 
 extension SudokuX {
     public typealias Version = Sudoku.Version
+    private static var type: PuzzleType.SudokuType { .sudokuX }
 
     /// Attempt to decode the puzzle from the provided input.
     /// - Parameter input: The value to parse.
@@ -132,7 +142,10 @@ extension SudokuX {
     /// Creates a textual representation of the puzzle using the specified coding version.
     /// - Parameter version: the format in which to encode the puzzle.
     public func encode(to version: Version = .current) -> String {
-        version.coder.encode(Sudoku(grid: self.grid, type: .sudokuX))
+        version.coder.encode(Sudoku(grid: self.grid, type: Self.type))
     }
 }
 
+extension SudokuX: CustomStringConvertible {
+    public var description: String { "\(Self.type) \(grid.size)" }
+}
