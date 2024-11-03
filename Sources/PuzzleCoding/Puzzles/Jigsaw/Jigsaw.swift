@@ -31,11 +31,15 @@ extension Jigsaw {
 
     public static func decode(from input: String) -> (puzzle: Jigsaw, version: Version)? {
         for version in Version.allCases {
-            if let puzzle = version.coder.decode(from: input) {
+            if let puzzle = decode(from: input, using: version) {
                 return (puzzle, version)
             }
         }
         return nil
+    }
+
+    public static func decode(from input: String, using version: Version) -> Jigsaw? {
+        version.coder.decode(from: input)
     }
 
     /// Creates a textual representation of the puzzle using the specified coding version.

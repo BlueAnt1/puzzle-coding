@@ -31,11 +31,15 @@ extension Str8ts {
 
     public static func decode(from input: String) -> (puzzle: Str8ts, version: Version)? {
         for version in Version.allCases {
-            if let puzzle = version.coder.decode(from: input) {
+            if let puzzle = decode(from: input, using: version) {
                 return (puzzle, version)
             }
         }
         return nil
+    }
+
+    public static func decode(from input: String, using version: Version) -> Str8ts? {
+        version.coder.decode(from: input)
     }
 
     /// Creates a textual representation of the puzzle using the specified coding version.
