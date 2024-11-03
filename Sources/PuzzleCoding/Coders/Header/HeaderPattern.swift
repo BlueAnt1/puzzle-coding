@@ -20,7 +20,7 @@ struct HeaderPattern: CustomConsumingRegexComponent {
         let versions = CharacterClass.generalCategory(.uppercaseLetter)
         let regex = Regex {
             Capture { puzzleTypes } transform: { PuzzleType(rawValue: $0.uppercased().first!)! }
-            Capture { sizes } transform: { Size(rawValue: Int($0)!)! }
+            Capture { sizes } transform: { Size(rawValue: Int($0, radix: PuzzleCoding.radix)!)! }
             Capture { versions } transform: { $0.uppercased().first! }
         }.ignoresCase()
 
