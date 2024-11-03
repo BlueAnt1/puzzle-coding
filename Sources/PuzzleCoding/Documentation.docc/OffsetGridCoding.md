@@ -1,4 +1,4 @@
-# Offset Grid Algorithm
+# Offset Grid Coding
 
 Code grid content using offsets.
 

@@ -4,34 +4,60 @@ Encode Sudoku and related puzzles as text.
 
 ## Overview
 
-We sometimes wish to share puzzles with others. PuzzleCoding makes converting a puzzle to text & back easy. The textual codings
-generated are web friendly so they can appear in a URL.
+PuzzleCoding makes it possible to share puzzles by providing the functionality to convert them to text and back.
 
-PuzzleCoding does not attempt to create the smallest possible encodings, but rather creates encodings that others who are not
-using this library can easily decode.
+The encodings are:
+- an interchange format that's relatively easy to decode without this library
+- web friendly so they can appear in a URL
+- compatible with [SudokuWiki](https://sudokuwiki.org)
+
+You can learn about the <doc:EncodingFormats> or keep reading to use the library.
 
 ## Usage
 
+### Decode a puzzle
+
+1. Pass the encoded puzzle string to the ``PuzzleCoder/decode(_:)`` method of a puzzle coder.
+2. Copy the decoded data into your puzzle model.
+
 ```swift
 let input = "S9Bel0fbd01ep050eel9u…"
+// decode the input
 guard let (puzzle, version) = Sudoku.decode(input)
 else { return }
 
-for content in puzzle.grid {
-    switch content {
+// copy the decoded data into your model
+for index in grid.indices {
+    switch grid[index] {
     case nil:
-        processEmptyCell()
-    case .clue(let clue):
-        process(clue: clue)
-    case .solution(let solution):
-        process(solution: solution)
+        // set model[index] to empty
+    case .clue(let clue): 
+        // set model[index] to the clue value
+    case .solution(let solution): 
+        // set model[index] to the solution value
     case .candidates(let candidates):
-        process(candidates: candidates)
+        // set model[index] to the candidates
     }
 }
+```
 
-let output = puzzle.encode(using: version)
-assert(output == input)
+### Encode a puzzle
+
+1. Create a ``Grid`` and populate it with the clues, solutions & candidates of your model.
+2. Create a puzzle coder with the grid and any other model data relevant to the puzzle type.
+3. Call the ``PuzzleCoder/encode(using:)`` method of the coder to generate the encoded string.
+
+```swift
+var grid = Grid()
+
+// copy your model data into the grid
+for index in grid.indices {
+    grid[index] = convert model[index] cell data to CellContent
+}
+
+let coder = Sudoku(grid: grid)
+// encode the puzzle
+let encoded = coder.encode()
 ```
 
 ## Topics
