@@ -5,7 +5,7 @@
 //  Created by Quintin May on 10/30/24.
 //
 
-enum PuzzleType: CaseIterable, RawRepresentable {
+enum PuzzleType {
     case jigsaw
     case str8ts
     case kenken
@@ -14,6 +14,21 @@ enum PuzzleType: CaseIterable, RawRepresentable {
     case killerJigsaw
     case sudoku(SudokuType)
 
+    enum SudokuType: Character, CaseIterable {
+        case sudoku = "S"
+        case sudokuX = "X"
+        case windoku = "W"
+    }
+}
+
+extension PuzzleType: CaseIterable {
+    static var allCases: [PuzzleType] {
+        [.jigsaw, .str8ts, .kenken, .kendoku, .killerSudoku, .killerJigsaw]
+        + SudokuType.allCases.map { .sudoku($0) }
+    }
+}
+
+extension PuzzleType: RawRepresentable {
     init?(rawValue: Character) {
         switch rawValue {
         case "J": self = .jigsaw
@@ -42,16 +57,28 @@ enum PuzzleType: CaseIterable, RawRepresentable {
         case .sudoku(let type): type.rawValue
         }
     }
+}
 
-    static var allCases: [PuzzleType] {
-        [.jigsaw, .str8ts, .kenken, .kendoku, .killerSudoku, .killerJigsaw]
-        + SudokuType.allCases.map { .sudoku($0) }
-    }
-
-    enum SudokuType: Character, CaseIterable {
-        case sudoku = "S"
-        case sudokuX = "X"
-        case windoku = "W"
+extension PuzzleType.SudokuType: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .sudoku: String(localized: "Sudoku")
+        case .sudokuX: String(localized: "SudokuX")
+        case .windoku: String(localized: "Windoku")
+        }
     }
 }
 
+extension PuzzleType: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .jigsaw: String(localized: "Jigsaw")
+        case .str8ts: String(localized: "Str8ts")
+        case .kenken: String(localized: "Kenken")
+        case .kendoku: String(localized: "Kendoku")
+        case .killerSudoku: String(localized: "Killer Sudoku")
+        case .killerJigsaw: String(localized: "Killer Jigsaw")
+        case .sudoku(let type): type.description
+        }
+    }
+}
