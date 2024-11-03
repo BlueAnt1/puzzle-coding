@@ -5,7 +5,7 @@
 //  Created by Quintin May on 10/25/24.
 //
 
-/// A Grid represents the clues & progress of a puzzle.
+/// The clues & progress of a puzzle.
 ///
 /// A Grid is a collection of ``CellContent``. Access the content of the grid using subscripts.
 public struct Grid: Equatable {
@@ -19,11 +19,25 @@ public struct Grid: Equatable {
         self.size = size
         self.content = Array(repeating: nil, count: size.gridCellCount)
     }
+
+    /// Creates a grid containing the elements of the content.
+    /// - Parameter content: The cell content.
+    public init?<C>(_ content: C) where C: Collection, C.Element == Grid.Element {
+        guard let size = Size.allCases.first(where: { content.count == $0.gridCellCount }),
+              content.allSatisfy({ $0.map { $0.isValid(in: size.valueRange) } ?? true })
+        else { return nil }
+
+        self.init(size: size)
+        for (index, contentIndex) in zip(indices, content.indices) {
+            self[index] = content[contentIndex]
+        }
+    }
 }
 
 extension Grid: RandomAccessCollection {
     public var startIndex: Int { content.startIndex }
     public var endIndex: Int { content.endIndex }
+
     public subscript(position: Int) -> CellContent? {
         get { content[position] }
         set {

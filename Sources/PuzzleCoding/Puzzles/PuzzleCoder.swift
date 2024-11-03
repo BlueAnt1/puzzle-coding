@@ -5,15 +5,10 @@
 //  Created by Quintin May on 11/3/24.
 //
 
-/// The coding versions available for a puzzle.
-public protocol VersionProtocol: CaseIterable, Sendable {
-    /// The current version.
-    static var current: Self { get }
-}
-
+/// A puzzle coder converts a puzzle to and from text.
 public protocol PuzzleCoder {
     /// The coding version.
-    associatedtype Version: VersionProtocol
+    associatedtype Version: CodingVersion
 
     /// Decode the input using the specified coding version.
     /// - Parameters:
@@ -41,4 +36,3 @@ extension PuzzleCoder {
         return nil
     }
 }
-

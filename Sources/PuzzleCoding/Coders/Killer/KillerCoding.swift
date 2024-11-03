@@ -54,14 +54,14 @@ struct KillerCoding {
 
     func decode(from values: [Int]) -> (clues: [Int], shapes: [[Int]])? {
         guard (values.count == size.gridCellCount) else { return nil }
-        let offsets = shapeRanges.map { String($0.upperBound, radix: 2).count }
+        let offsets = offsets
         var clues = [Int]()
         var outputShapes = Array(repeating: [Int](), count: shapeRanges.count)
 
         for var value in values {
             var shapes = [Int]()
             for offset in offsets.reversed() {
-                let mask = (1 << offset) - 1  // 0b111...
+                let mask = (1 << offset) - 1
                 shapes.append((value & mask) + 1)
                 value &>>= offset
             }

@@ -24,7 +24,7 @@ public struct Sudoku: Equatable {
 }
 
 extension Sudoku: PuzzleCoder {
-    public enum Version: VersionProtocol {
+    public enum Version: CodingVersion {
         /// Converts solutions to clues & removes candidates.
         case clue
         /// Includes puzzle progress. This encoding solves _naked singles_.

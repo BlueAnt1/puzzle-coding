@@ -5,6 +5,7 @@
 //  Created by Quintin May on 10/24/24.
 //
 
+/// A KillerJigsaw puzzle coder.
 public struct KillerJigsaw: Equatable {
     public let cageClues: [Int]
     public let cageShapes: [Int]
@@ -33,7 +34,7 @@ extension KillerJigsaw {
 }
 
 extension KillerJigsaw: PuzzleCoder {
-    public enum Version: VersionProtocol {
+    public enum Version: CodingVersion {
         case offset
 
         public static var current: Version { .offset }

@@ -42,7 +42,7 @@ assert(output == input)
 
 ### Puzzle Coders
 
-Coders convert puzzles to text and back. Every puzzle type has its own coder.
+Coders convert puzzles to text and back.
 
 - ``Jigsaw``
 - ``KillerJigsaw``

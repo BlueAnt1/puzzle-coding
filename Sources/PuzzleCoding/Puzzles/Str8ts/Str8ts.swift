@@ -5,6 +5,7 @@
 //  Created by Quintin May on 10/16/24.
 //
 
+/// A Str8ts puzzle coder.
 public struct Str8ts: Equatable {
     public let colors: [Int]
     public let grid: Grid
@@ -17,7 +18,7 @@ public struct Str8ts: Equatable {
 }
 
 extension Str8ts: PuzzleCoder {
-    public enum Version: VersionProtocol {
+    public enum Version: CodingVersion {
         case offset
 
         public static var current: Version { .offset }

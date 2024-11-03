@@ -5,6 +5,7 @@
 //  Created by Quintin May on 10/16/24.
 //
 
+/// A Jigsaw puzzle coder.
 public struct Jigsaw: Equatable {
     public let boxes: [Int]
     public let grid: Grid
@@ -17,7 +18,7 @@ public struct Jigsaw: Equatable {
 }
 
 extension Jigsaw: PuzzleCoder {
-    public enum Version: VersionProtocol {
+    public enum Version: CodingVersion {
         case offset
 
         public static var current: Version { .offset }

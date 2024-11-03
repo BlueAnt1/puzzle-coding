@@ -31,11 +31,11 @@ public enum Size: RawRepresentable, Equatable, Hashable, CaseIterable, Sendable,
 
     private var dimensions: (boxRowCount: Int, boxColumnCount: Int) {
         switch self {
-        case .grid6x6: return (2, 3)
-        case .grid8x8: return (2, 4)
-        case .grid9x9: return (3, 3)
-        case .grid16x16: return (4, 4)
-        case .grid25x25: return (5, 5)
+        case .grid6x6: (2, 3)
+        case .grid8x8: (2, 4)
+        case .grid9x9: (3, 3)
+        case .grid16x16: (4, 4)
+        case .grid25x25: (5, 5)
         }
     }
 
