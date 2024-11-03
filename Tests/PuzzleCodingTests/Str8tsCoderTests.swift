@@ -23,9 +23,9 @@ struct Str8tsCoderTests {
 
         let colors = "100011001100010001011000110000000100100010001001000000011000110100010001100110001".map(\.wholeNumberValue!)
         let puzzle = Str8ts(colors: colors, grid: grid)
-        let rawPuzzle = puzzle.encode(to: version)
+        let rawPuzzle = puzzle.encode(using: version)
 
-        let decoded = try #require(Str8ts.decode(from: rawPuzzle))
+        let decoded = try #require(Str8ts.decode(rawPuzzle))
 
         #expect(decoded.version == version)
         #expect(decoded.puzzle.colors == colors)

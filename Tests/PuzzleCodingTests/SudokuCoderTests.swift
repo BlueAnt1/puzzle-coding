@@ -34,8 +34,8 @@ struct SudokuCoderTests {
         let grid = sampleGrid
         let puzzle = Sudoku(grid: grid)
         let version = Sudoku.Version.clue
-        let rawPuzzle = puzzle.encode(to: version)
-        let (puzzleFromRaw, versionFromRaw) = try #require(Sudoku.decode(from: rawPuzzle))
+        let rawPuzzle = puzzle.encode(using: version)
+        let (puzzleFromRaw, versionFromRaw) = try #require(Sudoku.decode(rawPuzzle))
 
         #expect(versionFromRaw == version)
         let cleanGrid: [CellContent?] = grid.map {
@@ -61,8 +61,8 @@ struct SudokuCoderTests {
         let grid = sampleGrid
         let puzzle = Sudoku(grid: grid)
         let version = Sudoku.Version.shift
-        let rawPuzzle = puzzle.encode(to: version)
-        let (puzzleFromRaw, versionFromRaw) = try #require(Sudoku.decode(from: rawPuzzle))
+        let rawPuzzle = puzzle.encode(using: version)
+        let (puzzleFromRaw, versionFromRaw) = try #require(Sudoku.decode(rawPuzzle))
 
         #expect(versionFromRaw == version)
         if !grid.contains(where: { $0?.candidates?.count == 1 }) {
@@ -83,8 +83,8 @@ struct SudokuCoderTests {
         let size = grid.size
         let puzzle = Sudoku(grid: grid)
 
-        let rawPuzzle = puzzle.encode(to: version)
-        let decoded = try #require(Sudoku.decode(from: rawPuzzle))
+        let rawPuzzle = puzzle.encode(using: version)
+        let decoded = try #require(Sudoku.decode(rawPuzzle))
 
         #expect(decoded.version == version)
         #expect(decoded.puzzle.grid == puzzle.grid)
@@ -104,17 +104,17 @@ struct SudokuCoderTests {
         case .sudoku:
             let puzzle = Sudoku(grid: grid)
             let raw = puzzle.encode()
-            let decoded = try #require(Sudoku.decode(from: raw))
+            let decoded = try #require(Sudoku.decode(raw))
             #expect(decoded.puzzle == puzzle)
         case .sudokuX:
             let puzzle = SudokuX(grid: grid)
             let raw = puzzle.encode()
-            let decoded = try #require(SudokuX.decode(from: raw))
+            let decoded = try #require(SudokuX.decode(raw))
             #expect(decoded.puzzle == puzzle)
         case .windoku:
             let puzzle = Windoku(grid: grid)
             let raw = puzzle.encode()
-            let decoded = try #require(Windoku.decode(from: raw))
+            let decoded = try #require(Windoku.decode(raw))
             #expect(decoded.puzzle == puzzle)
         }
     }
@@ -137,10 +137,10 @@ struct SudokuCoderTests {
         var expectedGrid = Grid(size: .grid9x9)
         expectedGrid.indices.forEach { expectedGrid[$0] = content[$0] }
 
-        let decoded = try #require(Sudoku.decode(from: rawEncoded))
+        let decoded = try #require(Sudoku.decode(rawEncoded))
         #expect(decoded.puzzle.grid == expectedGrid)
 
-        let encoded = Sudoku(grid: expectedGrid).encode(to: .shift)//Version.shift.coder.encode(Sudoku(grid: expectedGrid))
+        let encoded = Sudoku(grid: expectedGrid).encode(using: .shift)//Version.shift.coder.encode(Sudoku(grid: expectedGrid))
         #expect(encoded == rawEncoded)
     }
 }

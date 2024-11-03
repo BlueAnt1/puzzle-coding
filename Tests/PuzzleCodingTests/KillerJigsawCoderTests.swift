@@ -52,9 +52,9 @@ struct KillerJigsawCoderTests {
         grid.indices.forEach { grid[$0] = content[$0] }
 
         let puzzle = KillerJigsaw(cageClues: cageClues, cageShapes: cageShapes, boxShapes: boxShapes, grid: grid)
-        let rawPuzzle = puzzle.encode(to: version)
+        let rawPuzzle = puzzle.encode(using: version)
 
-        let decoded = try #require(KillerJigsaw.decode(from: rawPuzzle))
+        let decoded = try #require(KillerJigsaw.decode(rawPuzzle))
 
         #expect(decoded.version == version)
         #expect(decoded.puzzle.cageClues == cageClues)

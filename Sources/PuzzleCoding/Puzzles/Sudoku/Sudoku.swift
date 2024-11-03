@@ -48,22 +48,22 @@ extension Sudoku {
     /// Attempt to decode the puzzle from the provided input.
     /// - Parameter input: The value to parse.
     /// - Returns: The puzzle & encoding version if the input is recognized, `nil` otherwise.
-    public static func decode(from input: String) -> (puzzle: Sudoku, version: Version)? {
+    public static func decode(_ input: String) -> (puzzle: Sudoku, version: Version)? {
         for version in Version.allCases {
-            if let puzzle = decode(from: input, using: version) {
+            if let puzzle = decode(input, using: version) {
                 return (puzzle, version)
             }
         }
         return nil
     }
 
-    public static func decode(from input: String, using version: Version) -> Sudoku? {
+    public static func decode(_ input: String, using version: Version) -> Sudoku? {
         version.coder.decode(from: input)
     }
 
     /// Creates a textual representation of the puzzle using the specified coding version.
     /// - Parameter version: the format in which to encode the puzzle.
-    public func encode(to version: Version = .current) -> String {
+    public func encode(using version: Version = .current) -> String {
         version.coder.encode(self)
     }
 }
@@ -93,18 +93,23 @@ extension Windoku {
     /// Attempt to decode the puzzle from the provided input.
     /// - Parameter input: The value to parse.
     /// - Returns: The puzzle & encoding version if the input is recognized, `nil` otherwise.
-    public static func decode(from input: String) -> (puzzle: Windoku, version: Version)? {
+    public static func decode(_ input: String) -> (puzzle: Windoku, version: Version)? {
         for version in Version.allCases {
-            if let puzzle = version.coder.decode(from: input) {
-                return (Windoku(grid: puzzle.grid), version)
+            if let puzzle = decode(input, using: version) {
+                return (puzzle, version)
             }
         }
         return nil
     }
 
+    public static func decode(_ input: String, using version: Version) -> Windoku? {
+        guard let sudoku = version.coder.decode(from: input) else { return nil }
+        return Windoku(grid: sudoku.grid)
+    }
+
     /// Creates a textual representation of the puzzle using the specified coding version.
     /// - Parameter version: the format in which to encode the puzzle.
-    public func encode(to version: Version = .current) -> String {
+    public func encode(using version: Version = .current) -> String {
         version.coder.encode(Sudoku(grid: self.grid, type: Self.type))
     }
 }
@@ -134,18 +139,23 @@ extension SudokuX {
     /// Attempt to decode the puzzle from the provided input.
     /// - Parameter input: The value to parse.
     /// - Returns: The puzzle & encoding version if the input is recognized, `nil` otherwise.
-    public static func decode(from input: String) -> (puzzle: SudokuX, version: Version)? {
+    public static func decode(_ input: String) -> (puzzle: SudokuX, version: Version)? {
         for version in Version.allCases {
-            if let puzzle = version.coder.decode(from: input) {
-                return (SudokuX(grid: puzzle.grid), version)
+            if let puzzle = decode(input, using: version) {
+                return (puzzle, version)
             }
         }
         return nil
     }
 
+    public static func decode(_ input: String, using version: Version) -> SudokuX? {
+        guard let sudoku = version.coder.decode(from: input) else { return nil }
+        return SudokuX(grid: sudoku.grid)
+    }
+
     /// Creates a textual representation of the puzzle using the specified coding version.
     /// - Parameter version: the format in which to encode the puzzle.
-    public func encode(to version: Version = .current) -> String {
+    public func encode(using version: Version = .current) -> String {
         version.coder.encode(Sudoku(grid: self.grid, type: Self.type))
     }
 }

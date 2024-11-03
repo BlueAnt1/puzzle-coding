@@ -29,9 +29,9 @@ struct JigsawCoderTests {
 
         let boxes = "111112222113345522133444552134444452637777752633777559638878859668888899666699999".map(\.wholeNumberValue!)
         let puzzle = Jigsaw(boxes: boxes, grid: grid)
-        let rawPuzzle = puzzle.encode(to: version)
+        let rawPuzzle = puzzle.encode(using: version)
 
-        let decoded = try #require(Jigsaw.decode(from: rawPuzzle))
+        let decoded = try #require(Jigsaw.decode(rawPuzzle))
 
         #expect(decoded.version == version)
         #expect(decoded.puzzle.boxes == boxes)
