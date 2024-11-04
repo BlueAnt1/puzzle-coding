@@ -16,8 +16,9 @@ struct OffsetGridPattern: CustomConsumingRegexComponent {
     {
         let offsetCoding = OffsetGridCoding(size: size)
         let fieldCoding = FieldCoding(range: offsetCoding.range, radix: PuzzleCoding.radix)
+        let arrayPattern = ArrayPattern(count: size.gridCellCount, range: fieldCoding.range, radix: PuzzleCoding.radix)
 
-        guard let match = try? fieldCoding.arrayPattern(count: size.gridCellCount).regex
+        guard let match = try? arrayPattern.regex
             .prefixMatch(in: input[index ..< bounds.upperBound])
         else { return  nil }
 

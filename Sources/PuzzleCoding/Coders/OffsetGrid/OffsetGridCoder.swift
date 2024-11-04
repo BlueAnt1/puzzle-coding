@@ -18,10 +18,9 @@ extension OffsetGridCoder {
 
     var rawValue: String {
         let offsetCoding = OffsetGridCoding(size: grid.size)
-        let fieldCoding = FieldCoding(range: offsetCoding.range, radix: PuzzleCoding.radix)
+        let values = grid.map(offsetCoding.encode)
 
-        return grid.reduce(into: "") { rawValue, content in
-            rawValue.append(fieldCoding.encode(offsetCoding.encode(content)))
-        }
+        let fieldCoding = FieldCoding(range: offsetCoding.range, radix: PuzzleCoding.radix)
+        return values.map(fieldCoding.encode).joined()
     }
 }

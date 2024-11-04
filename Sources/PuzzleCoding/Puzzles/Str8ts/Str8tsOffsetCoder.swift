@@ -13,9 +13,11 @@ extension Str8ts {
         private static var version: Character { "B" }
 
         static func encode(_ puzzle: Str8ts) -> String {
-            """
+            let fieldCoding = FieldCoding(range: 0...1, radix: PuzzleCoding.radix)
+
+            return """
             \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
-            \(FieldCoding(range: 0...1, radix: PuzzleCoding.radix).encode(puzzle.colors))\
+            \(puzzle.colors.map(fieldCoding.encode).joined())\
             \(OffsetGridCoder(grid: puzzle.grid).rawValue)
             """
         }
@@ -31,7 +33,7 @@ extension Str8ts {
             let grid = Reference<(Substring, Grid)>()
             let body = Regex {
                 Capture(as: colors) {
-                    FieldCoding(range: 0...1, radix: PuzzleCoding.radix).arrayPattern(count: size.gridCellCount)
+                    ArrayPattern(count: size.gridCellCount, range: 0...1, radix: PuzzleCoding.radix)
                 }
                 Capture(as: grid) {
                     OffsetGridPattern(size: size)

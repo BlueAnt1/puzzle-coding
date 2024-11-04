@@ -6,13 +6,11 @@
 //
 
 struct ShiftedKillerCoding {
-    private let size: Size
     private let shapeRanges: [ClosedRange<Int>]
     private let clueRange: ClosedRange<Int>
     private let coding: ShiftCoding
 
     init(size: Size, shapeRanges: [ClosedRange<Int>]) {
-        self.size = size
         self.shapeRanges = shapeRanges
 
         let clueRange = 0...size.valueRange.reduce(0, +)

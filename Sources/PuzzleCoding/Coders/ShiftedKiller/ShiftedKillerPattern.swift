@@ -20,7 +20,7 @@ struct ShiftedKillerPattern: CustomConsumingRegexComponent {
         let coding = ShiftedKillerCoding(size: size, shapeRanges: shapeRanges)
         let killer = Regex {
             Capture {
-                FieldCoding(range: coding.range, radix: PuzzleCoding.radix).arrayPattern(count: size.gridCellCount)
+                ArrayPattern(count: size.gridCellCount, range: coding.range, radix: PuzzleCoding.radix)
             } transform: {
                 guard let decoded = coding.decode($0.values) else { return nil as Self.RegexOutput }
                 return ($0.0, decoded.clues, decoded.shapes)
