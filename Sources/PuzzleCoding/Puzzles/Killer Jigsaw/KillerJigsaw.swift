@@ -13,7 +13,7 @@ public struct KillerJigsaw: Equatable {
     public let grid: Grid
 
     public init(cageClues: [Int], cageShapes: [Int], boxShapes: [Int], grid: Grid) {
-        let coding = KillerCoding(size: grid.size, shapeRanges: Self.shapeRanges(for: grid.size))
+        let coding = ShiftedKillerCoding(size: grid.size, shapeRanges: Self.shapeRanges(for: grid.size))
         coding.checkPreconditions(clues: cageClues, shapes: [cageShapes, boxShapes])
 
         self.cageClues = cageClues

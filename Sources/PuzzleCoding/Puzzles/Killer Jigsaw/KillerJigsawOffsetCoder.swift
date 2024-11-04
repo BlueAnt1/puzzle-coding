@@ -19,8 +19,8 @@ extension KillerJigsaw {
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
-                \(KillerCoder(size: grid.size, shapeRanges: shapeRanges, clues: puzzle.cageClues, shapes: shapes).rawValue)\
-                \(OffsetCoder(grid: grid).rawValue)
+                \(ShiftedKillerCoder(size: grid.size, shapeRanges: shapeRanges, clues: puzzle.cageClues, shapes: shapes).rawValue)\
+                \(OffsetGridCoder(grid: grid).rawValue)
                 """
         }
 
@@ -35,10 +35,10 @@ extension KillerJigsaw {
             let gridReference = Reference<(Substring, Grid)>()
             let body = Regex {
                 Capture(as: cageReference) {
-                    KillerPattern(size: size, shapeRanges: KillerJigsaw.shapeRanges(for: size))
+                    ShiftedKillerPattern(size: size, shapeRanges: KillerJigsaw.shapeRanges(for: size))
                 }
                 Capture(as: gridReference) {
-                    OffsetPattern(size: size)
+                    OffsetGridPattern(size: size)
                 }
             }
 

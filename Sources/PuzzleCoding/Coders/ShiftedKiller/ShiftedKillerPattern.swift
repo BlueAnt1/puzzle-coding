@@ -1,5 +1,5 @@
 //
-//  KillerPattern.swift
+//  ShiftedKillerPattern.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 11/1/24.
@@ -7,7 +7,7 @@
 
 import RegexBuilder
 
-struct KillerPattern: CustomConsumingRegexComponent {
+struct ShiftedKillerPattern: CustomConsumingRegexComponent {
     typealias RegexOutput = (Substring, clues: [Int], shapes: [[Int]])?
 
     let size: Size
@@ -17,12 +17,12 @@ struct KillerPattern: CustomConsumingRegexComponent {
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
-        let killerCoding = KillerCoding(size: size, shapeRanges: shapeRanges)
+        let coding = ShiftedKillerCoding(size: size, shapeRanges: shapeRanges)
         let killer = Regex {
             Capture {
-                FieldCoding(range: killerCoding.range, radix: PuzzleCoding.radix).arrayPattern(count: size.gridCellCount)
+                FieldCoding(range: coding.range, radix: PuzzleCoding.radix).arrayPattern(count: size.gridCellCount)
             } transform: {
-                guard let decoded = killerCoding.decode(from: $0.values) else { return nil as Self.RegexOutput }
+                guard let decoded = coding.decode(from: $0.values) else { return nil as Self.RegexOutput }
                 return ($0.0, decoded.clues, decoded.shapes)
             }
         }

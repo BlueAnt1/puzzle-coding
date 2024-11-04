@@ -16,7 +16,7 @@ extension Jigsaw {
         """
         \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
         \(FieldCoding(range: puzzle.grid.size.valueRange, radix: PuzzleCoding.radix).encode(puzzle.boxes))\
-        \(OffsetCoder(grid: puzzle.grid).rawValue)
+        \(OffsetGridCoder(grid: puzzle.grid).rawValue)
         """
         }
 
@@ -28,13 +28,13 @@ extension Jigsaw {
             let size = header.output.size
 
             let boxes = Reference<(Substring, values: [Int])>()
-            let grid = Reference<OffsetPattern.RegexOutput>()
+            let grid = Reference<OffsetGridPattern.RegexOutput>()
             let body = Regex {
                 Capture(as: boxes) {
                     FieldCoding(range: size.valueRange, radix: PuzzleCoding.radix).arrayPattern(count: size.gridCellCount)
                 }
                 Capture(as: grid) {
-                    OffsetPattern(size: size)
+                    OffsetGridPattern(size: size)
                 }
             }
 

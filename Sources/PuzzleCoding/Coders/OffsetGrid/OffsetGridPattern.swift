@@ -1,11 +1,11 @@
 //
-//  OffsetPattern.swift
+//  OffsetGridPattern.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/21/24.
 //
 
-struct OffsetPattern: CustomConsumingRegexComponent {
+struct OffsetGridPattern: CustomConsumingRegexComponent {
     typealias RegexOutput = (Substring, Grid)
 
     let size: Size
@@ -14,7 +14,7 @@ struct OffsetPattern: CustomConsumingRegexComponent {
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
-        let offsetCoding = OffsetCoding(size: size)
+        let offsetCoding = OffsetGridCoding(size: size)
         let fieldCoding = FieldCoding(range: offsetCoding.range, radix: PuzzleCoding.radix)
 
         guard let match = try? fieldCoding.arrayPattern(count: size.gridCellCount).regex

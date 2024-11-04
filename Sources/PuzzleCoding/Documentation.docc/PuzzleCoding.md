@@ -4,7 +4,7 @@ Encode Sudoku and related puzzles as text.
 
 ## Overview
 
-PuzzleCoding makes it possible to share puzzles by providing the functionality to convert them to text and back.
+Share your puzzles with others by converting them to text & back.
 
 The encodings are:
 - an interchange format that's relatively easy to decode without this library

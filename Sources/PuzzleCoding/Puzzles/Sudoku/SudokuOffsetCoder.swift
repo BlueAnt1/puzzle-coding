@@ -12,7 +12,7 @@ extension Sudoku {
         static func encode(_ puzzle: Sudoku) -> String {
             """
             \(HeaderCoder(puzzleType: .sudoku(puzzle.type), size: puzzle.grid.size, version: Self.version).rawValue)\
-            \(OffsetCoder(grid: puzzle.grid).rawValue)
+            \(OffsetGridCoder(grid: puzzle.grid).rawValue)
             """
         }
 
@@ -22,7 +22,7 @@ extension Sudoku {
                   header.output.version == Self.version
             else { return nil }
 
-            guard let coder = OffsetCoder(size: header.output.size, rawValue: String(input[header.range.upperBound...]))
+            guard let coder = OffsetGridCoder(size: header.output.size, rawValue: String(input[header.range.upperBound...]))
             else { return nil }
 
             return Sudoku(grid: coder.grid, type: sudokuType)

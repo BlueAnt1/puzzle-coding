@@ -16,7 +16,7 @@ extension Str8ts {
             """
             \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
             \(FieldCoding(range: 0...1, radix: PuzzleCoding.radix).encode(puzzle.colors))\
-            \(OffsetCoder(grid: puzzle.grid).rawValue)
+            \(OffsetGridCoder(grid: puzzle.grid).rawValue)
             """
         }
 
@@ -34,7 +34,7 @@ extension Str8ts {
                     FieldCoding(range: 0...1, radix: PuzzleCoding.radix).arrayPattern(count: size.gridCellCount)
                 }
                 Capture(as: grid) {
-                    OffsetPattern(size: size)
+                    OffsetGridPattern(size: size)
                 }
             }
 

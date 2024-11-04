@@ -1,11 +1,11 @@
 //
-//  OffsetCoding.swift
+//  OffsetGridCoding.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/25/24.
 //
 
-struct OffsetCoding {
+struct OffsetGridCoding {
     let size: Size
 
     private var solutionOffset: Int { size.valueRange.upperBound }

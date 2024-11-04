@@ -1,11 +1,11 @@
 //
-//  KillerCoding.swift
+//  ShiftedKillerCoding.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 11/1/24.
 //
 
-struct KillerCoding {
+struct ShiftedKillerCoding {
     let size: Size
     let shapeRanges: [ClosedRange<Int>]
 
