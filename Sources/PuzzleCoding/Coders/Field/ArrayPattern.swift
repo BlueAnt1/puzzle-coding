@@ -7,22 +7,25 @@
 
 import RegexBuilder
 
-struct ArrayPattern: CustomConsumingRegexComponent {
-    typealias RegexOutput = (Substring, values: [Int])
+struct ArrayPattern<Element>: CustomConsumingRegexComponent {
+    typealias RegexOutput = (Substring, values: [Element])
 
+    let elementPattern: any RegexComponent<(Substring, Element)>
     let count: Int
-    let range: ClosedRange<Int>
-    let radix: Int
 
+    init(repeating elementPattern: some RegexComponent<(Substring, Element)>, count: Int) {
+        self.elementPattern = elementPattern
+        self.count = count
+    }
+    
     func consuming(_ input: String,
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
-        let valuePattern = FieldCoding(range: range, radix: radix).valuePattern
-        var array = [Int]()
+        var array = [Element]()
         var elementIndex = index
         while bounds.contains(elementIndex) && array.count < count {
-            guard let match = try? valuePattern.regex.prefixMatch(in: input[elementIndex..<bounds.upperBound]) else { return nil }
+            guard let match = try? elementPattern.regex.prefixMatch(in: input[elementIndex..<bounds.upperBound]) else { return nil }
             array.append(match.output.1)
             elementIndex = match.range.upperBound
         }

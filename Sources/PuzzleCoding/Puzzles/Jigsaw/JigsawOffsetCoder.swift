@@ -28,11 +28,12 @@ extension Jigsaw {
             else { return nil }
             let size = header.output.size
 
+            let fieldCoding = FieldCoding(range: size.valueRange, radix: PuzzleCoding.radix)
             let boxes = Reference<(Substring, values: [Int])>()
             let grid = Reference<OffsetGridPattern.RegexOutput>()
             let body = Regex {
                 Capture(as: boxes) {
-                    ArrayPattern(count: size.gridCellCount, range: size.valueRange, radix: PuzzleCoding.radix)
+                    ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
                 }
                 Capture(as: grid) {
                     OffsetGridPattern(size: size)

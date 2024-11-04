@@ -11,7 +11,7 @@ struct FieldCoding {
     let range: ClosedRange<Int>
     private let radix: Int
     private let fieldWidth: Int
-    let valuePattern: any RegexComponent<(Substring, Int)>
+    let pattern: any RegexComponent<(Substring, Int)>
     private let padding: String
 
     init(range: ClosedRange<Int>, radix: Int) {
@@ -23,7 +23,7 @@ struct FieldCoding {
         self.fieldWidth = fieldWidth
 
         let characters = range.charactersToEncode(radix: radix)
-        valuePattern = Regex {
+        pattern = Regex {
             Capture {
                 Repeat(characters, count: fieldWidth)
             } transform: { Int($0, radix: radix)! }

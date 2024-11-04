@@ -29,11 +29,12 @@ extension Str8ts {
             else { return nil }
             let size = header.output.size
 
+            let fieldCoding = FieldCoding(range: 0...1, radix: PuzzleCoding.radix)
             let colors = Reference<(Substring, values: [Int])>()
             let grid = Reference<(Substring, Grid)>()
             let body = Regex {
                 Capture(as: colors) {
-                    ArrayPattern(count: size.gridCellCount, range: 0...1, radix: PuzzleCoding.radix)
+                    ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
                 }
                 Capture(as: grid) {
                     OffsetGridPattern(size: size)
