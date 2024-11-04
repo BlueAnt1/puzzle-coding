@@ -8,29 +8,29 @@
 struct ShiftedKillerCoding {
     private let shapeRanges: [ClosedRange<Int>]
     private let clueRange: ClosedRange<Int>
-    private let coding: ShiftCoding
+    private let shiftCoding: ShiftCoding
 
     init(size: Size, shapeRanges: [ClosedRange<Int>]) {
         self.shapeRanges = shapeRanges
 
         let clueRange = 0...size.valueRange.reduce(0, +)
         self.clueRange = clueRange
-        self.coding = ShiftCoding(ranges: [clueRange] + shapeRanges)
+        self.shiftCoding = ShiftCoding(ranges: [clueRange] + shapeRanges)
     }
 
-    var range: ClosedRange<Int> { coding.range }
+    var range: ClosedRange<Int> { shiftCoding.range }
 
     func isEncodable(clues: [Int], shapes: [[Int]]) -> Bool {
-        coding.isEncodable([clues] + shapes)
+        shiftCoding.isEncodable([clues] + shapes)
     }
 
     private func encode(clue: Int, shapes: [Int]) -> Int {
-        coding.encode([clue] + shapes)
+        shiftCoding.encode([clue] + shapes)
     }
 
     private func decode(_ value: Int) -> (clue: Int, shapes: [Int])? {
         guard range.contains(value) else { return nil }
-        guard let decoded = coding.decode(value) else { return nil }
+        guard let decoded = shiftCoding.decode(value) else { return nil }
         return (decoded[0], Array(decoded[1...]))
     }
 
@@ -43,8 +43,8 @@ struct ShiftedKillerCoding {
     func decode(_ values: [Int]) -> (clues: [Int], shapes: [[Int]])? {
         var clues = [Int]()
         var shapes = Array(repeating: [Int](), count: shapeRanges.count)
-        for index in values.indices {
-            guard let decoded = decode(values[index]) else { return nil }
+        for value in values {
+            guard let decoded = decode(value) else { return nil }
             clues.append(decoded.clue)
             shapes.indices.forEach { shapes[$0].append(decoded.shapes[$0]) }
         }

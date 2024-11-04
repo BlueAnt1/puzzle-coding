@@ -4,8 +4,8 @@ Puzzle encoding format reference.
 
 ## Overview
 
-The formats are an evolution of encodings that have been in use for years. Over that time new puzzles have been developed and new requirements
-for the data exchanged have evolved. The hope is that the structure of the encodings is resilient to changes in requirements going forward.
+The formats are an evolution of encodings that have been in use for years. Over that time new puzzles have been developed and requirements
+for the data exchanged have evolved. The new encoding format is designed to be resilient to change in the future.
 
 Every encoding starts with a header which is followed by the puzzle data.
 
@@ -59,26 +59,26 @@ Every puzzle type has its own data requirements. We'll start with the simplest &
 
 **Version B**
 
-- Encodes colors using <doc:ArrayCoding>.
+- Encodes colors using <doc:FieldCoding>.
 - Encodes the grid using <doc:OffsetGridCoding>.
 
 ### Jigsaw
 
 **Version B**
 
-- Encodes boxes using <doc:ArrayCoding>.
+- Encodes boxes using <doc:FieldCoding>.
 - Encodes the grid using <doc:OffsetGridCoding>.
 
 ### Killer Sudoku
 
 **Version B**
 
-- Encodes cage clues & cage shapes using <doc:ShiftedKillerCoding>.
+- Encodes cage clues & cage shapes using <doc:ShiftCoding>.
 - Encodes the grid using <doc:OffsetGridCoding>.
 
 ### Killer Jigsaw
 
 **Version B**
 
-- Encodes cage clues, cage shapes & box shapes using <doc:ShiftedKillerCoding>.
+- Encodes cage clues, cage shapes & box shapes using <doc:ShiftCoding>.
 - Encodes the grid using <doc:OffsetGridCoding>.

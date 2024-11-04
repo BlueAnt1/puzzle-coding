@@ -47,3 +47,22 @@ extension Grid: RandomAccessCollection {
     }
 }
 
+extension Grid: CustomStringConvertible {
+    public var description: String {
+        var output = ""
+        for (index, content) in zip(indices, self) {
+            if index > 0 && index.isMultiple(of: size.houseCellCount) {
+                output.append("\n")
+            }
+            let cell = switch content {
+            case nil: "."
+            case .clue(let clue): "=\(clue)"
+            case .solution(let solution): "\(solution)"
+            case .candidates(let candidates):
+                "[\(candidates.sorted().map(String.init).joined())]"
+            }
+            output.append(cell)
+        }
+        return output
+    }
+}

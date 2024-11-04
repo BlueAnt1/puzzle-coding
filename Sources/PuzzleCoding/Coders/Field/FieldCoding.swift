@@ -38,7 +38,6 @@ struct FieldCoding {
     }
 
     func decode(_ value: String) -> Int? {
-        assert(value.count == fieldWidth)
         guard let value = Int(value, radix: radix), range.contains(value) else { return nil }
         return value
     }

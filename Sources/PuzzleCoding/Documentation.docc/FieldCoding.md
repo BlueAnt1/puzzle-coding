@@ -1,11 +1,39 @@
-# Array Coding
+# Field Coding
 
-<!--@START_MENU_TOKEN@-->Summary<!--@END_MENU_TOKEN@-->
+Code values using fixed width fields.
 
 ## Overview
 
-<!--@START_MENU_TOKEN@-->Text<!--@END_MENU_TOKEN@-->
+Values are coded in fixed width fields.
 
-### Section header
+The fields:
+- represent integer values
+- are coded in a radix ranging from 2...36
+- are leading zero padded to the field width
 
-<!--@START_MENU_TOKEN@-->Text<!--@END_MENU_TOKEN@-->
+## Details
+
+The radix is generally 32. The algorithm you're implementing will note when the radix is something else.
+
+### Set up
+
+```
+maxValue = maximum value that will be stored in the field
+maxEncodedValue = convert maxValue to the radix
+fieldWidth = the number of characters in maxEncodedValue
+```
+
+### Encode
+
+```
+input = value to encode
+encodedValue = input converted to the radix
+output = pad encodedValue with leading zeroes to fieldWidth
+```
+
+### Decode
+
+```
+input = fieldWidth number of characters to decode
+output = convert input from the radix
+```

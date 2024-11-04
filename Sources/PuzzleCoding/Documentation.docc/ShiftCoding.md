@@ -1,11 +1,30 @@
-# Shifted Killer Coding
+# Shift Coding
 
-<!--@START_MENU_TOKEN@-->Summary<!--@END_MENU_TOKEN@-->
+Code grid content by shifting bits.
 
 ## Overview
 
-<!--@START_MENU_TOKEN@-->Text<!--@END_MENU_TOKEN@-->
+We need to encode several pieces of information for a single cell in a limited amount of space.
+This algorithm combines multiple values into a single value.
 
-### Section header
+## Details
 
-<!--@START_MENU_TOKEN@-->Text<!--@END_MENU_TOKEN@-->
+### Set up
+
+```
+```
+
+
+### Encode
+
+Use <doc:FieldCoding> with `maxValue` to write the output.
+
+```
+```
+
+### Decode
+
+Use <doc:FieldCoding> with `maxValue` to read the input.
+
+```
+```
