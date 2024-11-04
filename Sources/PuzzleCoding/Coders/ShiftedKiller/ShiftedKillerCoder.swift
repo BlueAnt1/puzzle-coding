@@ -25,8 +25,8 @@ extension ShiftedKillerCoder {
 
     var rawValue: String {
         let coding = ShiftedKillerCoding(size: size, shapeRanges: shapeRanges)
-        let values = coding.encode(clues: clues, shapes: shapes)
-        return FieldCoding(range: coding.range, radix: PuzzleCoding.radix).encode(values)
+        let encoded = coding.encode(clues: clues, shapes: shapes)
+        return FieldCoding(range: coding.range, radix: PuzzleCoding.radix).encode(encoded)
     }
 }
 

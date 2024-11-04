@@ -6,76 +6,50 @@
 //
 
 struct ShiftedKillerCoding {
-    let size: Size
-    let shapeRanges: [ClosedRange<Int>]
+    private let size: Size
+    private let shapeRanges: [ClosedRange<Int>]
+    private let clueRange: ClosedRange<Int>
+    private let coding: ShiftCoding
 
     init(size: Size, shapeRanges: [ClosedRange<Int>]) {
         self.size = size
         self.shapeRanges = shapeRanges
+
+        let clueRange = 0...size.valueRange.reduce(0, +)
+        self.clueRange = clueRange
+        self.coding = ShiftCoding(ranges: [clueRange] + shapeRanges)
     }
 
-    private var clueRange: ClosedRange<Int> { 0...size.valueRange.reduce(0, +) }
-    private var offsets: [Int] { shapeRanges.map { String($0.upperBound, radix: 2).count }}
+    var range: ClosedRange<Int> { coding.range }
 
-    var range: ClosedRange<Int> {
-        let offsets = offsets
-        let maxValue = shapeRanges.indices.reduce(clueRange.upperBound) { maxValue, rangeIndex in
-            (maxValue << offsets[rangeIndex]) + shapeRanges[rangeIndex].upperBound
-        }
-        return 0...maxValue
+    func isCodable(clues: [Int], shapes: [[Int]]) -> Bool {
+        coding.isCodable([clues] + shapes)
     }
 
-    func checkPreconditions(clues: [Int], shapes: [[Int]]) {
-        // sizes
-        precondition(size.gridCellCount == clues.count)
-        precondition(shapeRanges.count == shapes.count)
-        precondition(shapes.allSatisfy { clues.count == $0.count})
-        // values
-        precondition(clues.allSatisfy(clueRange.contains))
-        for (shapeRange, shapes) in zip(shapeRanges, shapes) {
-            precondition(shapeRange.lowerBound == 1)
-            precondition(shapes.allSatisfy(shapeRange.contains))
-        }
+    private func encode(clue: Int, shapes: [Int]) -> Int {
+        coding.encode([clue] + shapes)
+    }
+
+    private func decode(_ value: Int) -> (clue: Int, shapes: [Int])? {
+        guard range.contains(value) else { return nil }
+        guard let decoded = coding.decode(value) else { return nil }
+        return (decoded[0], Array(decoded[1...]))
     }
 
     func encode(clues: [Int], shapes: [[Int]]) -> [Int] {
-        let offsets = offsets
-        let values = clues.indices
-            .map { clueIndex in
-                var value = clues[clueIndex]
-                for shapeIndex in offsets.indices {
-                    value = (value << offsets[shapeIndex]) + shapes[shapeIndex][clueIndex] - 1
-                }
-                return value
-            }
-
-        return values
+        clues.indices.map { index in
+            encode(clue: clues[index], shapes: shapes.map { $0[index] })
+        }
     }
 
-    func decode(from values: [Int]) -> (clues: [Int], shapes: [[Int]])? {
-        guard (values.count == size.gridCellCount) else { return nil }
-        let offsets = offsets
+    func decode(_ values: [Int]) -> (clues: [Int], shapes: [[Int]])? {
         var clues = [Int]()
-        var outputShapes = Array(repeating: [Int](), count: shapeRanges.count)
-
-        for var value in values {
-            var shapes = [Int]()
-            for offset in offsets.reversed() {
-                let mask = (1 << offset) - 1
-                shapes.append((value & mask) + 1)
-                value &>>= offset
-            }
-            clues.append(value)
-            shapes = shapes.reversed()
-            for index in shapes.indices {
-                outputShapes[index].append(shapes[index])
-            }
+        var shapes = Array(repeating: [Int](), count: shapeRanges.count)
+        for index in values.indices {
+            guard let decoded = decode(values[index]) else { return nil }
+            clues.append(decoded.clue)
+            shapes.indices.forEach { shapes[$0].append(decoded.shapes[$0]) }
         }
-
-        guard clues.allSatisfy(clueRange.contains) else { return nil }
-        for index in shapeRanges.indices {
-            guard outputShapes[index].allSatisfy(shapeRanges[index].contains) else { return nil }
-        }
-        return (clues, outputShapes)
+        return (clues, shapes)
     }
 }

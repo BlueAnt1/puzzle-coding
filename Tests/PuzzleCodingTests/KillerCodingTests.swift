@@ -34,7 +34,7 @@ struct KillerCodingTests {
 
         let coding = ShiftedKillerCoding(size: .grid9x9, shapeRanges: [1...5])
         let encoded = coding.encode(clues: cageClues, shapes: [cageShapes])
-        let decoded = try #require(coding.decode(from: encoded))
+        let decoded = try #require(coding.decode(encoded))
         #expect(decoded.clues == cageClues)
         #expect(decoded.shapes == [cageShapes])
     }
@@ -77,7 +77,7 @@ struct KillerCodingTests {
 
         let coding = ShiftedKillerCoding(size: .grid9x9, shapeRanges: [1...5, 1...9])
         let encoded = coding.encode(clues: cageClues, shapes: [cageShapes, boxShapes])
-        let decoded = try #require(coding.decode(from: encoded))
+        let decoded = try #require(coding.decode(encoded))
         #expect(decoded.clues == cageClues)
         #expect(decoded.shapes[0] == cageShapes)
         #expect(decoded.shapes[1] == boxShapes)

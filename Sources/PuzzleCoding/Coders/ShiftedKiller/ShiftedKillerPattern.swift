@@ -22,7 +22,7 @@ struct ShiftedKillerPattern: CustomConsumingRegexComponent {
             Capture {
                 FieldCoding(range: coding.range, radix: PuzzleCoding.radix).arrayPattern(count: size.gridCellCount)
             } transform: {
-                guard let decoded = coding.decode(from: $0.values) else { return nil as Self.RegexOutput }
+                guard let decoded = coding.decode($0.values) else { return nil as Self.RegexOutput }
                 return ($0.0, decoded.clues, decoded.shapes)
             }
         }

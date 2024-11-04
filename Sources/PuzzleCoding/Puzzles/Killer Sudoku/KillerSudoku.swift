@@ -13,7 +13,7 @@ public struct KillerSudoku: Equatable {
 
     public init(cageClues: [Int], cageShapes: [Int], grid: Grid) {
         let coding = ShiftedKillerCoding(size: grid.size, shapeRanges: Self.shapeRanges(for: grid.size))
-        coding.checkPreconditions(clues: cageClues, shapes: [cageShapes])
+        precondition(coding.isCodable(clues: cageClues, shapes: [cageShapes]))
 
         self.cageClues = cageClues
         self.cageShapes = cageShapes
@@ -22,10 +22,12 @@ public struct KillerSudoku: Equatable {
 }
 
 extension KillerSudoku {
-    static var cageRange: ClosedRange<Int> { 1...5 }
+    private static var cageRange: ClosedRange<Int> { 1...5 }
+
     static func shapeRanges(for size: Size) -> [ClosedRange<Int>] {
         [cageRange]
     }
+
     var shapes: [[Int]] {
         [cageShapes]
     }
