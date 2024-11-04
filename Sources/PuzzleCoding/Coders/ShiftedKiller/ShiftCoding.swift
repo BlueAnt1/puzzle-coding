@@ -5,6 +5,7 @@
 //  Created by Quintin May on 11/4/24.
 //
 
+/// Generic shift coding.
 struct ShiftCoding {
     private let ranges: [ClosedRange<Int>]
     private let offsets: [Int]
@@ -22,7 +23,7 @@ struct ShiftCoding {
         self.range = 0...maxValue
     }
 
-    func isCodable(_ values: [[Int]]) -> Bool {
+    func isEncodable(_ values: [[Int]]) -> Bool {
         values.count == ranges.count
         && values.indices.allSatisfy { values[$0].allSatisfy(ranges[$0].contains) }
     }

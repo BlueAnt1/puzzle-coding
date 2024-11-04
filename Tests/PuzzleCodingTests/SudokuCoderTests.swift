@@ -79,9 +79,7 @@ struct SudokuCoderTests {
 
     @Test(arguments: modernVersions)
     func coderRoundtrips(version: Version) async throws {
-        let grid = sampleGrid
-        let size = grid.size
-        let puzzle = Sudoku(grid: grid)
+        let puzzle = Sudoku(grid: sampleGrid)
 
         let rawPuzzle = puzzle.encode(using: version)
         let decoded = try #require(Sudoku.decode(rawPuzzle))

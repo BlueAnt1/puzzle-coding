@@ -20,8 +20,8 @@ struct ShiftedKillerCoding {
 
     var range: ClosedRange<Int> { coding.range }
 
-    func isCodable(clues: [Int], shapes: [[Int]]) -> Bool {
-        coding.isCodable([clues] + shapes)
+    func isEncodable(clues: [Int], shapes: [[Int]]) -> Bool {
+        coding.isEncodable([clues] + shapes)
     }
 
     private func encode(clue: Int, shapes: [Int]) -> Int {

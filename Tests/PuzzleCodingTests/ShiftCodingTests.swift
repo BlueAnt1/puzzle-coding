@@ -13,20 +13,20 @@ struct ShiftCodingTests {
     @Test
     func emptyRangesCode() throws {
         let coding = ShiftCoding(ranges: [])
-        #expect(coding.isCodable([]))
-        #expect(!coding.isCodable([[]]))
-        #expect(!coding.isCodable([[1]]))
+        #expect(coding.isEncodable([]))
+        #expect(!coding.isEncodable([[]]))
+        #expect(!coding.isEncodable([[1]]))
     }
 
     @Test
     func oneRangeCodes() throws {
         let coding = ShiftCoding(ranges: [0...5])
-        #expect(coding.isCodable([[0]]))
-        #expect(coding.isCodable([[2]]))
-        #expect(coding.isCodable([[5]]))
-        #expect(!coding.isCodable([[6]]))
-        #expect(!coding.isCodable([[0], [0]]))
-        #expect(!coding.isCodable([[5], [5]]))
+        #expect(coding.isEncodable([[0]]))
+        #expect(coding.isEncodable([[2]]))
+        #expect(coding.isEncodable([[5]]))
+        #expect(!coding.isEncodable([[6]]))
+        #expect(!coding.isEncodable([[0], [0]]))
+        #expect(!coding.isEncodable([[5], [5]]))
     }
 
     @Test
