@@ -14,9 +14,18 @@ private struct UsageDecode {
     struct Model: RandomAccessCollection {
         var startIndex: Int { 0 }
         var endIndex: Int { 0 }
-        subscript(_ position: Int) -> Any? {
-            get { nil }
+        subscript(_ position: Int) -> Content {
+            get { Content() }
             set {  }
+        }
+
+        struct Content {
+            var empty = false
+            var clue: Int? = nil
+            var solution: Int? = nil
+            var candidates: Set<Int>? = nil
+            init() {}
+            var cellContent: CellContent? = nil
         }
     }
 
@@ -33,13 +42,13 @@ private struct UsageDecode {
         for (index, content) in zip(model.indices, puzzle.grid) {
             switch content {
             case nil:
-                model[index] = "empty"
+                model[index].empty = true
             case .clue(let clue):
-                model[index] = clue
+                model[index].clue = clue
             case .solution(let solution):
-                model[index] = solution
+                model[index].solution = solution
             case .candidates(let candidates):
-                model[index] = candidates
+                model[index].candidates = candidates
             }
         }
 // snippet.hide

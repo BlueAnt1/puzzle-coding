@@ -28,18 +28,7 @@ You can learn about the <doc:EncodingFormats> or keep reading to use the library
 2. Create a puzzle coder with the grid and any other model data relevant to the puzzle type.
 3. Call the ``PuzzleCoder/encode(using:)`` method of the coder to generate the encoded string.
 
-```swift
-var grid = Grid()
-
-// copy your model data into the grid
-for index in grid.indices {
-    grid[index] = convert model[index] cell data to CellContent
-}
-
-let coder = Sudoku(grid: grid)
-// encode the puzzle
-let encoded = coder.encode()
-```
+@Snippet(path: "PuzzleCoding/Snippets/UsageEncode")
 
 ## Topics
 
