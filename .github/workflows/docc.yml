@@ -37,8 +37,11 @@ jobs:
       - name: Build Documentation
         env:
             PRODUCT_NAME: PuzzleCoding
-            CLEAN_PACKAGE_NAME: puzzlecoding
-            HOSTING_BASE_PATH: puzzle-coding
+# use these if the package name contains special characters, e.g. "puzzle-coding"
+#            CLEAN_PACKAGE_NAME: puzzlecoding
+#            HOSTING_BASE_PATH: puzzle-coding
+            CLEAN_PACKAGE_NAME: $PRODUCT_NAME
+            HOSTING_BASE_PATH: $PRODUCT_NAME
             SOURCE_URL: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
             
         run: |
@@ -54,7 +57,7 @@ jobs:
                 --source-service github \
                 --source-service-base-url "$SOURCE_URL"
           
-            echo "<script>window.location.href += \"documentation/$PRODUCT_NAME\"</script>" > docs/index.html
+            echo "<script>window.location.href += \"documentation/$CLEAN_PACKAGE_NAME\"</script>" > docs/index.html
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

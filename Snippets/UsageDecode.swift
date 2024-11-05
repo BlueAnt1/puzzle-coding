@@ -1,3 +1,4 @@
+// snippet.hide
 //
 //  UsageDecode.swift
 //  puzzle-coding
@@ -7,7 +8,6 @@
 
 // Decode a puzzle from an input string
 
-// snippet.hide
 import PuzzleCoding
 
 private struct UsageDecode {
@@ -23,7 +23,7 @@ private struct UsageDecode {
     func encode() {
         var model = Model()
 
-        // snippet.show
+// snippet.show
         let input = "S9Bel0fbd01ep050eel9u…"
         // decode the input
         guard let (puzzle, version) = Sudoku.decode(input)
@@ -42,7 +42,7 @@ private struct UsageDecode {
                 model[index] = candidates
             }
         }
-        // snippet.hide
+// snippet.hide
         let _ = version
     }
 }

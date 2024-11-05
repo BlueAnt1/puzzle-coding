@@ -22,27 +22,6 @@ You can learn about the <doc:EncodingFormats> or keep reading to use the library
 
 @Snippet(path: "PuzzleCoding/Snippets/UsageDecode")
 
-```swift
-let input = "S9Bel0fbd01ep050eel9u…"
-// decode the input
-guard let (puzzle, version) = Sudoku.decode(input)
-else { return }
-
-// copy the decoded data into your model
-for index in grid.indices {
-    switch grid[index] {
-    case nil:
-        // set model[index] to empty
-    case .clue(let clue): 
-        // set model[index] to the clue value
-    case .solution(let solution): 
-        // set model[index] to the solution value
-    case .candidates(let candidates):
-        // set model[index] to the candidates
-    }
-}
-```
-
 ### Encode a puzzle
 
 1. Create a ``Grid`` and populate it with the clues, solutions & candidates of your model.
