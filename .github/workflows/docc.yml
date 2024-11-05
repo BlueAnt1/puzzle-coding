@@ -44,16 +44,16 @@ jobs:
             swift package plugin \
                 --allow-writing-to-directory docs \
                 generate-documentation \
-                --product "${{PRODUCT_NAME}}" \
+                --product "${{env.PRODUCT_NAME}}" \
                 --disable-indexing \
                 --output-path docs \
                 --transform-for-static-hosting \
-                --hosting-base-path ${{HOSTING_BASE_PATH}} \
+                --hosting-base-path ${{env.HOSTING_BASE_PATH}} \
                 --checkout-path "${{github.workspace}}" \
                 --source-service github \
-                --source-service-base-url "${{SOURCE_URL}}"
+                --source-service-base-url "${{env.SOURCE_URL}}"
           
-            echo "<script>window.location.href += \"documentation/${{PRODUCT_NAME}}\"</script>" > docs/index.html
+            echo "<script>window.location.href += \"documentation/${{env.PRODUCT_NAME}}\"</script>" > docs/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
