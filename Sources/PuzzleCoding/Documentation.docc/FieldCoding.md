@@ -18,7 +18,7 @@ The radix is generally 32. The algorithm you're implementing will note when the 
 ### Set up
 
 ```
-maxValue = maximum value that will be stored in the field
+maxValue = maximum value that can be stored in the field
 maxEncodedValue = convert maxValue to the radix
 fieldWidth = the number of characters in maxEncodedValue
 ```
@@ -28,7 +28,7 @@ fieldWidth = the number of characters in maxEncodedValue
 ```
 input = value to encode
 encodedValue = input converted to the radix
-output = pad encodedValue with leading zeroes to fieldWidth
+output = pad encodedValue to fieldWidth with leading zeroes
 ```
 
 ### Decode

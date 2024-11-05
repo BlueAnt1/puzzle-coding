@@ -20,6 +20,8 @@ You can learn about the <doc:EncodingFormats> or keep reading to use the library
 1. Pass the encoded puzzle string to the ``PuzzleCoder/decode(_:)`` method of a puzzle coder.
 2. Copy the decoded data into your puzzle model.
 
+@Snippet(path: "PuzzleCoding/Snippets/UsageDecode")
+
 ```swift
 let input = "S9Bel0fbd01ep050eel9u…"
 // decode the input

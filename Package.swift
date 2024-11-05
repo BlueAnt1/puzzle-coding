@@ -4,13 +4,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "puzzle-coding",
+    name: "PuzzleCoding",
     platforms: [.macOS(.v15), .iOS(.v18), .tvOS(.v18), .watchOS(.v11)],
     products: [
         .library(name: "PuzzleCoding", targets: ["PuzzleCoding"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.4.3"),
     ],
     targets: [
         .target(

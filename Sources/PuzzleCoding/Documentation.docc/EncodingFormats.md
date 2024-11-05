@@ -21,29 +21,35 @@ A sample header: `S9B`
 - The second character is the puzzle size (base 32)
 - The third character is the encoding version which is always a letter A...Z
 
-### Puzzle types
+@Row {
+    @Column {
+        ### Puzzle types
 
-Puzzle Type   | Code
-:----------   | :----:
-Jigsaw        |   J
-Str8ts        |   T
-KenKen        |   K
-KenDoku       |   D
-Killer Sudoku |   L
-Killer Jigsaw |   M
-Sudoku        |   S
-SudokuX       |   X
-Windoku       |   W
+        Puzzle Type   | Code
+        :----------   | :----:
+        Jigsaw        |   J
+        Str8ts        |   T
+        KenKen        |   K
+        KenDoku       |   D
+        Killer Sudoku |   L
+        Killer Jigsaw |   M
+        Sudoku        |   S
+        SudokuX       |   X
+        Windoku       |   W       
+    }
+    
+    @Column {
+        ### Puzzle sizes
 
-### Puzzle sizes
-
-Size  | Code
-:---  | :----:
-6×6   |   6
-8×8   |   8
-9×9   |   9
-16×16 |   G
-25×25 |   P
+        Size  | Code
+        :---  | :----:
+        6×6   |   6
+        8×8   |   8
+        9×9   |   9
+        16×16 |   G
+        25×25 |   P 
+    }
+}
 
 ## Puzzle data
 
@@ -51,34 +57,44 @@ Every puzzle type has its own data requirements. We'll start with the simplest &
 
 ### Sudoku, SudokuX & Windoku
 
-**Version B**
-
-- Encodes the grid using <doc:OffsetGridCoding>.
+@TabNavigator {
+    @Tab("Version B") {
+        - Encodes the grid using <doc:OffsetGridCoding>.
+    }
+}
 
 ### Str8ts
 
-**Version B**
-
-- Encodes colors using <doc:FieldCoding>.
-- Encodes the grid using <doc:OffsetGridCoding>.
+@TabNavigator {
+    @Tab("Version B") {
+        - Encodes colors using <doc:FieldCoding>.
+        - Encodes the grid using <doc:OffsetGridCoding>.
+    }
+}
 
 ### Jigsaw
 
-**Version B**
-
-- Encodes boxes using <doc:FieldCoding>.
-- Encodes the grid using <doc:OffsetGridCoding>.
+@TabNavigator {
+    @Tab("Version B") {
+        - Encodes boxes using <doc:FieldCoding>.
+        - Encodes the grid using <doc:OffsetGridCoding>.
+    }
+}
 
 ### Killer Sudoku
 
-**Version B**
-
-- Encodes cage clues & cage shapes using <doc:ShiftCoding>.
-- Encodes the grid using <doc:OffsetGridCoding>.
+@TabNavigator {
+    @Tab("Version B") {
+        - Encodes cage clues & cage shapes using <doc:ShiftCoding>.
+        - Encodes the grid using <doc:OffsetGridCoding>.
+    }
+}
 
 ### Killer Jigsaw
 
-**Version B**
-
-- Encodes cage clues, cage shapes & box shapes using <doc:ShiftCoding>.
-- Encodes the grid using <doc:OffsetGridCoding>.
+@TabNavigator {
+    @Tab("Version B") {
+        - Encodes cage clues, cage shapes & box shapes using <doc:ShiftCoding>.
+        - Encodes the grid using <doc:OffsetGridCoding>.
+    }
+}
