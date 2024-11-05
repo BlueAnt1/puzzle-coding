@@ -38,6 +38,7 @@ jobs:
         env:
             PRODUCT_NAME: PuzzleCoding
             HOSTING_BASE_PATH: puzzle-coding
+            LOWER_PRODUCT_NAME: puzzlecoding
             SOURCE_URL: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
             
         run: |
@@ -53,7 +54,7 @@ jobs:
                 --source-service github \
                 --source-service-base-url "${{env.SOURCE_URL}}"
           
-            echo "<script>window.location.href += \"documentation/${{env.PRODUCT_NAME}}\".toLowerCase()</script>" > docs/index.html
+            echo "<script>window.location.href += \"documentation/${{env.LOWER_PRODUCT_NAME}}\"</script>" > docs/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
