@@ -4,7 +4,7 @@ import Foundation
 
 struct SudokuCoderTests {
     typealias Version = Sudoku.Version
-    private static var legacyVersions: [Version] { [.clue, .shift] }
+    private static var legacyVersions: [Version] { [.clue, .noNakedSingles] }
     private static var modernVersions: [Version] { Version.allCases.filter { !legacyVersions.contains($0) }}
 
     private var sampleContent: [CellContent?] {
@@ -60,7 +60,7 @@ struct SudokuCoderTests {
     func shiftRoundtrips() throws {
         let grid = sampleGrid
         let puzzle = Sudoku(grid: grid)
-        let version = Sudoku.Version.shift
+        let version = Sudoku.Version.noNakedSingles
         let rawPuzzle = puzzle.encode(using: version)
         let (puzzleFromRaw, versionFromRaw) = try #require(Sudoku.decode(rawPuzzle))
 
@@ -138,7 +138,7 @@ struct SudokuCoderTests {
         let decoded = try #require(Sudoku.decode(rawEncoded))
         #expect(decoded.puzzle.grid == expectedGrid)
 
-        let encoded = Sudoku(grid: expectedGrid).encode(using: .shift)//Version.shift.coder.encode(Sudoku(grid: expectedGrid))
+        let encoded = Sudoku(grid: expectedGrid).encode(using: .noNakedSingles)
         #expect(encoded == rawEncoded)
     }
 }

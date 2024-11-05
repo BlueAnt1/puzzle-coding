@@ -28,7 +28,7 @@ extension Sudoku: PuzzleCoder {
         /// Converts solutions to clues & removes candidates.
         case clue
         /// Includes puzzle progress. This encoding solves _naked singles_.
-        case shift
+        case noNakedSingles
         /// Includes puzzle progress.
         case offset
 
@@ -37,7 +37,7 @@ extension Sudoku: PuzzleCoder {
         fileprivate var coder: any VersionCoder<Sudoku>.Type {
             switch self {
             case .clue: Clue.self
-            case .shift: Shift.self
+            case .noNakedSingles: NoNakedSingles.self
             case .offset: Offset.self
             }
         }

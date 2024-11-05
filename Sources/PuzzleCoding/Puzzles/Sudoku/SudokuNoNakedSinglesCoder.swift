@@ -1,12 +1,12 @@
 //
-//  SudokuShiftCoder.swift
+//  SudokuNoNakedSinglesCoder.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/22/24.
 //
 
 extension Sudoku {
-    struct Shift: VersionCoder {
+    struct NoNakedSingles: VersionCoder {
         fileprivate static var radix: Int { 32 }
         fileprivate static var fieldWidth: Int { 2 }
 
@@ -35,7 +35,7 @@ extension Sudoku {
 
         static func decode(_ input: String) -> Sudoku? {
             guard input.count == 162,
-                  let match = try? ShiftedGridPattern().regex.wholeMatch(in: input)
+                  let match = try? NoNakedSinglesGridPattern().regex.wholeMatch(in: input)
             else { return nil }
 
             return Sudoku(grid: match.output)
@@ -43,11 +43,11 @@ extension Sudoku {
     }
 }
 
-private struct ShiftedGridPattern: CustomConsumingRegexComponent {
+private struct NoNakedSinglesGridPattern: CustomConsumingRegexComponent {
     typealias RegexOutput = Grid
 
-    var radix: Int { Sudoku.Shift.radix }
-    var fieldWidth: Int { Sudoku.Shift.fieldWidth }
+    var radix: Int { Sudoku.NoNakedSingles.radix }
+    var fieldWidth: Int { Sudoku.NoNakedSingles.fieldWidth }
 
     func consuming(_ input: String,
                    startingAt index: String.Index,
