@@ -42,7 +42,7 @@ jobs:
         env:
             PRODUCT_NAME: PuzzleCoding
             CLEAN_PACKAGE_NAME: PuzzleCoding
-            HOSTING_BASE_PATH: PuzzleCoding
+            HOSTING_BASE_PATH: puzzle-coding
             SOURCE_URL: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
             
         run: |
