@@ -8,22 +8,21 @@ Please see the [Puzzle Coding documentation](https://blueant1.github.io/puzzle-c
 
 ```swift
 let input = "S9Bel0fbd01ep050eel9u…"
-guard let (puzzle, version) = Sudoku.decode(from: input)
+// decode the input
+guard let (puzzle, version) = Sudoku.decode(input)
 else { return }
 
-for content in puzzle.grid {
+// copy the decoded data into your model
+for (index, content) in zip(model.indices, puzzle.grid) {
     switch content {
     case nil:
-        processEmptyCell()
+        model[index] = "empty"
     case .clue(let clue):
-        process(clue: clue)
+        model[index] = clue
     case .solution(let solution):
-        process(solution: solution)
+        model[index] = solution
     case .candidates(let candidates):
-        process(candidates: candidates)
+        model[index] = candidates
     }
 }
-
-let output = puzzle.encode(to: version)
-assert(output == input)
 ```

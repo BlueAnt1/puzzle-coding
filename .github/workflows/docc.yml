@@ -16,6 +16,10 @@ concurrency:
   cancel-in-progress: true
   
 # A single job that builds and deploys the DocC documentation
+# use these if the _package_ name contains special characters, e.g. "puzzle-coding"
+#            CLEAN_PACKAGE_NAME: puzzlecoding
+#            HOSTING_BASE_PATH: puzzle-coding
+
 jobs:
   deploy:
     environment:
@@ -37,9 +41,6 @@ jobs:
       - name: Build Documentation
         env:
             PRODUCT_NAME: PuzzleCoding
-# use these if the _package_ name contains special characters, e.g. "puzzle-coding"
-#            CLEAN_PACKAGE_NAME: puzzlecoding
-#            HOSTING_BASE_PATH: puzzle-coding
             CLEAN_PACKAGE_NAME: PuzzleCoding
             HOSTING_BASE_PATH: PuzzleCoding
             SOURCE_URL: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
