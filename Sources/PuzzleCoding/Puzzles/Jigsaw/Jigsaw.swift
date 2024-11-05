@@ -7,12 +7,12 @@
 
 /// A Jigsaw puzzle coder.
 public struct Jigsaw: Equatable {
-    public let boxes: [Int]
+    public let boxShapes: [Int]
     public let grid: Grid
 
-    public init(boxes: [Int], grid: Grid) {
-        precondition(boxes.count == grid.count)
-        self.boxes = boxes
+    public init(boxShapes: [Int], grid: Grid) {
+        precondition(boxShapes.count == grid.count)
+        self.boxShapes = boxShapes
         self.grid = grid
     }
 }

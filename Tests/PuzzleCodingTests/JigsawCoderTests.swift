@@ -27,14 +27,14 @@ struct JigsawCoderTests {
         var grid = Grid(size: .grid9x9)
         grid.indices.forEach { grid[$0] = content[$0] }
 
-        let boxes = "111112222113345522133444552134444452637777752633777559638878859668888899666699999".map(\.wholeNumberValue!)
-        let puzzle = Jigsaw(boxes: boxes, grid: grid)
+        let boxShapes = "111112222113345522133444552134444452637777752633777559638878859668888899666699999".map(\.wholeNumberValue!)
+        let puzzle = Jigsaw(boxShapes: boxShapes, grid: grid)
         let rawPuzzle = puzzle.encode(using: version)
 
         let decoded = try #require(Jigsaw.decode(rawPuzzle))
 
         #expect(decoded.version == version)
-        #expect(decoded.puzzle.boxes == boxes)
+        #expect(decoded.puzzle.boxShapes == boxShapes)
         #expect(decoded.puzzle.grid == grid)
 
         let puzzleCount = Double(rawPuzzle.count)
