@@ -37,11 +37,11 @@ jobs:
       - name: Build Documentation
         env:
             PRODUCT_NAME: PuzzleCoding
-# use these if the package name contains special characters, e.g. "puzzle-coding"
+# use these if the _package_ name contains special characters, e.g. "puzzle-coding"
 #            CLEAN_PACKAGE_NAME: puzzlecoding
 #            HOSTING_BASE_PATH: puzzle-coding
-            CLEAN_PACKAGE_NAME: $PRODUCT_NAME
-            HOSTING_BASE_PATH: $PRODUCT_NAME
+            CLEAN_PACKAGE_NAME: PuzzleCoding
+            HOSTING_BASE_PATH: PuzzleCoding
             SOURCE_URL: ${{github.server_url}}/${{github.repository}}/blob/${{github.ref_name}}
             
         run: |
