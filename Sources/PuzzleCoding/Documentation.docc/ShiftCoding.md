@@ -1,6 +1,6 @@
 # Shift Coding
 
-Code grid content by shifting bits.
+Code cell information by shifting bits.
 
 ## Overview
 

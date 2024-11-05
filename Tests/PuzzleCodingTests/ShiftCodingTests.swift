@@ -10,13 +10,14 @@ import Testing
 
 struct ShiftCodingTests {
 
-    @Test
-    func emptyRangesCode() throws {
-        let coding = ShiftCoding(ranges: [])
-        #expect(coding.isEncodable([]))
-        #expect(!coding.isEncodable([[]]))
-        #expect(!coding.isEncodable([[1]]))
-    }
+    // This is no longer a valid test. ShiftCoding(ranges:) no longer permits empty ranges.
+//    @Test
+//    func emptyRangesCode() throws {
+//        let coding = ShiftCoding(ranges: [])
+//        #expect(coding.isEncodable([]))
+//        #expect(!coding.isEncodable([[]]))
+//        #expect(!coding.isEncodable([[1]]))
+//    }
 
     @Test
     func oneRangeCodes() throws {

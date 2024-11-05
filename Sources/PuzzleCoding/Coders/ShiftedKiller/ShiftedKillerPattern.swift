@@ -30,6 +30,6 @@ struct ShiftedKillerPattern: CustomConsumingRegexComponent {
 
         guard let match = try? killer.regex.prefixMatch(in: input[index ..< bounds.upperBound]),
               let output = match.output.1 else { return nil }
-        return (match.range.upperBound, (output.0, output.clues, output.shapes))
+        return (match.range.upperBound, output)
     }
 }
