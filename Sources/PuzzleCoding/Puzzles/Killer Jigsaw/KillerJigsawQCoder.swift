@@ -36,6 +36,7 @@ extension KillerJigsaw {
             """
         }
 
+        // FIXME: implement
         static func decode(_ input: String) -> KillerJigsaw? {
             guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
                   header.output.puzzleType == Self.puzzleType,
@@ -55,8 +56,8 @@ extension KillerJigsaw {
                 }
             }
 
-            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
-            else { return nil }
+//            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
+//            else { return nil }
 
             return nil
             //return KillerJigsaw(colors: match[colors].1, grid: match[grid].1)
