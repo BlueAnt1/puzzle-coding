@@ -1,5 +1,5 @@
 //
-//  KillerCodingTests.swift
+//  KillerTransformTests.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 11/1/24.
@@ -8,7 +8,7 @@
 import Testing
 @testable import PuzzleCoding
 
-struct KillerCodingTests {
+struct KillerTransformTests {
     @Test
     func testKillerSudoku() throws {
         let cageClues = [24,  0,  6,  0, 17,  0,  2, 10,  0,
@@ -32,9 +32,9 @@ struct KillerCodingTests {
                         131113332
                         """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
 
-        let coding = ShiftedKillerCoding(size: .grid9x9, shapeRanges: [1...5])
-        let encoded = coding.encode(clues: cageClues, shapes: [cageShapes])
-        let decoded = try #require(coding.decode(encoded))
+        let transform = ShiftedKillerTransform(size: .grid9x9, shapeRanges: [1...5])
+        let encoded = transform.encode(clues: cageClues, shapes: [cageShapes])
+        let decoded = try #require(transform.decode(encoded))
         #expect(decoded.clues == cageClues)
         #expect(decoded.shapes == [cageShapes])
     }
@@ -75,9 +75,9 @@ struct KillerCodingTests {
              0,  0,  0,  0,  0,  0,  0,  0,  0
         ]
 
-        let coding = ShiftedKillerCoding(size: .grid9x9, shapeRanges: [1...5, 1...9])
-        let encoded = coding.encode(clues: cageClues, shapes: [cageShapes, boxShapes])
-        let decoded = try #require(coding.decode(encoded))
+        let transform = ShiftedKillerTransform(size: .grid9x9, shapeRanges: [1...5, 1...9])
+        let encoded = transform.encode(clues: cageClues, shapes: [cageShapes, boxShapes])
+        let decoded = try #require(transform.decode(encoded))
         #expect(decoded.clues == cageClues)
         #expect(decoded.shapes[0] == cageShapes)
         #expect(decoded.shapes[1] == boxShapes)

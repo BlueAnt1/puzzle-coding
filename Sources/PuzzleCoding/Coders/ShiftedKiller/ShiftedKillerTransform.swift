@@ -1,36 +1,36 @@
 //
-//  ShiftedKillerCoding.swift
+//  ShiftedKillerTransform.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 11/1/24.
 //
 
-struct ShiftedKillerCoding {
+struct ShiftedKillerTransform {
     private let shapeRanges: [ClosedRange<Int>]
     private let clueRange: ClosedRange<Int>
-    private let shiftCoding: ShiftCoding
+    private let shiftTransform: ShiftTransform
 
     init(size: Size, shapeRanges: [ClosedRange<Int>]) {
         self.shapeRanges = shapeRanges
 
         let clueRange = 0...size.valueRange.reduce(0, +)
         self.clueRange = clueRange
-        self.shiftCoding = ShiftCoding(ranges: [clueRange] + shapeRanges)
+        self.shiftTransform = ShiftTransform(ranges: [clueRange] + shapeRanges)
     }
 
-    var range: ClosedRange<Int> { shiftCoding.range }
+    var range: ClosedRange<Int> { shiftTransform.range }
 
     func isEncodable(clues: [Int], shapes: [[Int]]) -> Bool {
-        shiftCoding.isEncodable([clues] + shapes)
+        shiftTransform.isEncodable([clues] + shapes)
     }
 
     private func encode(clue: Int, shapes: [Int]) -> Int {
-        shiftCoding.encode([clue] + shapes)
+        shiftTransform.encode([clue] + shapes)
     }
 
     private func decode(_ value: Int) -> (clue: Int, shapes: [Int])? {
         guard range.contains(value) else { return nil }
-        guard let decoded = shiftCoding.decode(value) else { return nil }
+        guard let decoded = shiftTransform.decode(value) else { return nil }
         return (decoded[0], Array(decoded[1...]))
     }
 

@@ -1,12 +1,12 @@
 //
-//  ShiftCoding.swift
+//  ShiftTransform.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 11/4/24.
 //
 
 /// Generic shift coding.
-struct ShiftCoding {
+struct ShiftTransform {
     private let ranges: [ClosedRange<Int>]
     private let offsets: [Int]
     let range: ClosedRange<Int>
@@ -14,6 +14,7 @@ struct ShiftCoding {
     init(ranges: [ClosedRange<Int>]) {
         assert(!ranges.isEmpty && ranges.allSatisfy { $0.lowerBound >= 0 })
         self.ranges = ranges
+
         let maxValues = ranges.map { $0.upperBound - $0.lowerBound }
         let offsets = [0] + maxValues.dropFirst().map { String($0, radix: 2).count }
         self.offsets = offsets
@@ -29,7 +30,7 @@ struct ShiftCoding {
     }
 
     func isEncodable(_ values: [[Int]]) -> Bool {
-        ranges.count == values.count
+        return ranges.count == values.count
         && values.allSatisfy { $0.count == values[0].count }
         && values[0].indices.allSatisfy { index in isEncodable(values.indices.map { values[$0][index] })}
     }
@@ -37,7 +38,9 @@ struct ShiftCoding {
     /// Pack values into a single value
     func encode(_ values: [Int]) -> Int {
         assert(isEncodable(values))
-        return values.indices.reduce(0) { encoded, index in
+        return ranges.isEmpty
+        ? 0
+        : values.indices.reduce(0) { encoded, index in
             (encoded << offsets[index]) + values[index] - ranges[index].lowerBound
         }
     }

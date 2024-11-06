@@ -17,13 +17,13 @@ struct ShiftedKillerPattern: CustomConsumingRegexComponent {
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
-        let killerCoding = ShiftedKillerCoding(size: size, shapeRanges: shapeRanges)
-        let fieldCoding = FieldCoding(range: killerCoding.range, radix: PuzzleCoding.radix)
+        let killerTransform = ShiftedKillerTransform(size: size, shapeRanges: shapeRanges)
+        let fieldCoding = FieldCoding(range: killerTransform.range, radix: PuzzleCoding.radix)
         let killer = Regex {
             Capture {
                 ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
             } transform: {
-                guard let decoded = killerCoding.decode($0.values) else { return nil as Self.RegexOutput }
+                guard let decoded = killerTransform.decode($0.values) else { return nil as Self.RegexOutput }
                 return ($0.0, decoded.clues, decoded.shapes)
             }
         }

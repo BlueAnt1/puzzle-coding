@@ -13,12 +13,12 @@ extension Str8ts {
         private static var version: Character { "Q" }
 
         static func encode(_ puzzle: Str8ts) -> String {
-            let gridCoding = OffsetGridCoding(size: puzzle.grid.size)
-            let shiftCoding = ShiftCoding(ranges: [gridCoding.range, 0...1])
-            let fieldCoding = FieldCoding(range: shiftCoding.range, radix: PuzzleCoding.radix)
+            let gridTransform = OffsetGridTransform(size: puzzle.grid.size)
+            let shiftTransform = ShiftTransform(ranges: [gridTransform.range, 0...1])
+            let fieldCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
 
-            let zipper = Zipper([puzzle.grid.map(gridCoding.encode), puzzle.colors])
-            let coded = zipper.map(shiftCoding.encode)
+            let zipper = Zipper([puzzle.grid.map(gridTransform.encode), puzzle.colors])
+            let coded = zipper.map(shiftTransform.encode)
 
 //            let values = zip(puzzle.grid.map(gridCoding.encode), puzzle.colors).map { [$0.0, $0.1] }
 //            let coded = values.map(shiftCoding.encode)

@@ -17,10 +17,10 @@ extension OffsetGridCoder {
     }
 
     var rawValue: String {
-        let offsetCoding = OffsetGridCoding(size: grid.size)
-        let values = grid.map(offsetCoding.encode)
+        let offsetTransform = OffsetGridTransform(size: grid.size)
+        let values = grid.map(offsetTransform.encode)
 
-        let fieldCoding = FieldCoding(range: offsetCoding.range, radix: PuzzleCoding.radix)
+        let fieldCoding = FieldCoding(range: offsetTransform.range, radix: PuzzleCoding.radix)
         return values.map(fieldCoding.encode).joined()
     }
 }

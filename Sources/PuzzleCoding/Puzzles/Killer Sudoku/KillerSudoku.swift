@@ -12,8 +12,8 @@ public struct KillerSudoku: Equatable {
     public let grid: Grid
 
     public init(cageClues: [Int], cageShapes: [Int], grid: Grid) {
-        let coding = ShiftedKillerCoding(size: grid.size, shapeRanges: Self.shapeRanges(for: grid.size))
-        precondition(coding.isEncodable(clues: cageClues, shapes: [cageShapes]))
+        let transform = ShiftedKillerTransform(size: grid.size, shapeRanges: Self.shapeRanges(for: grid.size))
+        precondition(transform.isEncodable(clues: cageClues, shapes: [cageShapes]))
 
         self.cageClues = cageClues
         self.cageShapes = cageShapes

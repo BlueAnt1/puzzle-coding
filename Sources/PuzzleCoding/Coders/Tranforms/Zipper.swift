@@ -13,8 +13,9 @@ struct Zipper: RandomAccessCollection {
         self.collections = collections
     }
 
-    var startIndex: Int { collections[0].startIndex }
-    var endIndex: Int { collections[0].endIndex }
+    var startIndex: Int { collections.first?.startIndex ?? 0 }
+    var endIndex: Int { collections.first?.endIndex ?? 1 }
+
     subscript(_ position: Int) -> [Int] {
         get { collections.map { $0[position] }}
         set {

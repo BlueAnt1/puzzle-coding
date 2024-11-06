@@ -14,7 +14,7 @@ extension KillerJigsaw {
 
         static func encode(_ puzzle: KillerJigsaw) -> String {
             let grid = puzzle.grid
-            let gridCoding = OffsetGridCoding(size: grid.size)
+            let gridTransform = OffsetGridTransform(size: grid.size)
 
             let clues = puzzle.cageClues
             let clueRange = 0...grid.size.valueRange.reduce(0, +)
@@ -22,11 +22,11 @@ extension KillerJigsaw {
             let shapes = puzzle.shapes  // cageShapes: 1...5, boxShapes: size.valueRange
             let shapeRanges = KillerJigsaw.shapeRanges(for: grid.size)
 
-            let shiftCoding = ShiftCoding(ranges: [gridCoding.range, clueRange] + shapeRanges)
-            let fieldCoding = FieldCoding(range: shiftCoding.range, radix: PuzzleCoding.radix)
+            let shiftTransform = ShiftTransform(ranges: [gridTransform.range, clueRange] + shapeRanges)
+            let fieldCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
 
-            let coded = Zipper([grid.map(gridCoding.encode), clues] + shapes)
-                .map(shiftCoding.encode)
+            let coded = Zipper([grid.map(gridTransform.encode), clues] + shapes)
+                .map(shiftTransform.encode)
                 .map(fieldCoding.encode)
                 .joined()
 
