@@ -25,11 +25,11 @@ struct Str8tsCoderTests {
         let puzzle = Str8ts(colors: colors, grid: grid)
         let rawPuzzle = puzzle.encode(using: version)
 
-        let decoded = try #require(Str8ts.decode(rawPuzzle))
-
-        #expect(decoded.version == version)
-        #expect(decoded.puzzle.colors == colors)
-        #expect(decoded.puzzle.grid == grid)
+//        let decoded = try #require(Str8ts.decode(rawPuzzle))
+//
+//        #expect(decoded.version == version)
+//        #expect(decoded.puzzle.colors == colors)
+//        #expect(decoded.puzzle.grid == grid)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""

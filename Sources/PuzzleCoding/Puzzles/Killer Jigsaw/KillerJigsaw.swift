@@ -36,12 +36,14 @@ extension KillerJigsaw {
 extension KillerJigsaw: PuzzleCoder {
     public enum Version: CodingVersion {
         case offset
+        case q
 
         public static var current: Version { .offset }
 
         fileprivate var coder: any VersionCoder<KillerJigsaw>.Type {
             switch self {
             case .offset: Offset.self
+            case .q: QCoder.self
             }
         }
     }

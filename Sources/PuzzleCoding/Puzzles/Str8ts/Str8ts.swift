@@ -20,12 +20,14 @@ public struct Str8ts: Equatable {
 extension Str8ts: PuzzleCoder {
     public enum Version: CodingVersion {
         case offset
+        case q
 
         public static var current: Version { .offset }
 
         fileprivate var coder: any VersionCoder<Str8ts>.Type {
             switch self {
             case .offset: Offset.self
+            case .q: QCoder.self
             }
         }
     }
