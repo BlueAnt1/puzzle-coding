@@ -15,6 +15,10 @@ public struct Jigsaw: Equatable {
         self.boxShapes = boxShapes
         self.grid = grid
     }
+
+    static func boxRange(in size: Size) -> ClosedRange<Int> {
+        size.valueRange
+    }
 }
 
 extension Jigsaw: PuzzleCoder {

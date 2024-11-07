@@ -24,11 +24,12 @@ struct ShiftTransform {
         self.range = 0...maxValue
     }
 
-    private func isEncodable(_ values: [Int]) -> Bool {
+    func isEncodable(_ values: [Int]) -> Bool {
         ranges.count == values.count
         && zip(ranges, values).allSatisfy { $0.contains($1) }
     }
 
+    // TODO: is this needed?
     func isEncodable(_ values: [[Int]]) -> Bool {
         return ranges.count == values.count
         && values.allSatisfy { $0.count == values[0].count }

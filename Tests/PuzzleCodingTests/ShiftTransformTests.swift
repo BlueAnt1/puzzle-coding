@@ -10,15 +10,6 @@ import Testing
 
 struct ShiftTransformTests {
 
-    // This is no longer a valid test. ShiftCoding(ranges:) no longer permits empty ranges.
-//    @Test
-//    func emptyRangesCode() throws {
-//        let transform = ShiftCoding(ranges: [])
-//        #expect(transform.isEncodable([]))
-//        #expect(!transform.isEncodable([[]]))
-//        #expect(!transform.isEncodable([[1]]))
-//    }
-
     @Test
     func oneRangeCodes() throws {
         let transform = ShiftTransform(ranges: [0...5])

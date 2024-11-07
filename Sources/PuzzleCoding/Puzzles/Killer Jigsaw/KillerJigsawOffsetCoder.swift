@@ -14,13 +14,20 @@ extension KillerJigsaw {
 
         static func encode(_ puzzle: KillerJigsaw) -> String {
             let grid = puzzle.grid
-            let shapeRanges = KillerJigsaw.shapeRanges(for: grid.size)
-            let shapes = puzzle.shapes
+            let ranges = KillerJigsaw.ranges(for: grid.size)
+
+            let shiftTransform = ShiftTransform(ranges: [ranges.cageClue, ranges.cageShape, ranges.boxShape])
+            let shiftValues = Zipper([puzzle.cageClues, puzzle.cageShapes, puzzle.boxShapes]).map(shiftTransform.encode)
+            let shiftCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
+
+            let gridTransform = OffsetGridTransform(size: grid.size)
+            let gridValues = grid.map(gridTransform.encode)
+            let gridCoding = FieldCoding(range: gridTransform.range, radix: PuzzleCoding.radix)
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
-                \(ShiftedKillerCoder(size: grid.size, shapeRanges: shapeRanges, clues: puzzle.cageClues, shapes: shapes).rawValue)\
-                \(OffsetGridCoder(grid: grid).rawValue)
+                \(shiftValues.map(shiftCoding.encode).joined())\
+                \(gridValues.map(gridCoding.encode).joined())
                 """
         }
 
@@ -31,25 +38,28 @@ extension KillerJigsaw {
             else { return nil }
             let size = header.output.size
 
-            let cageReference = Reference<(Substring, clues: [Int], shapes: [[Int]])?>()
-            let gridReference = Reference<(Substring, Grid)>()
+            let ranges = KillerJigsaw.ranges(for: size)
+
+            let shiftReference = Reference<(Substring, values: [[Int]])>()
+            let gridReference = Reference<(Substring, grid: Grid)>()
             let body = Regex {
-                Capture(as: cageReference) {
-                    ShiftedKillerPattern(size: size, shapeRanges: KillerJigsaw.shapeRanges(for: size))
+                Capture(as: shiftReference) {
+                    ShiftPattern(size: size,
+                                 ranges: [ranges.cageClue, ranges.cageShape, ranges.boxShape])
                 }
                 Capture(as: gridReference) {
                     OffsetGridPattern(size: size)
                 }
             }
 
-            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...]),
-                  let output = match[cageReference]
+            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
+            let values = match[shiftReference].values
 
-            return KillerJigsaw(cageClues: output.clues,
-                                cageShapes: output.shapes[0],
-                                boxShapes: output.shapes[1],
-                                grid: match[gridReference].1)
+            return KillerJigsaw(cageClues: values.map { $0[0] },
+                                cageShapes: values.map { $0[1] },
+                                boxShapes: values.map { $0[2] },
+                                grid: match[gridReference].grid)
         }
     }
 }

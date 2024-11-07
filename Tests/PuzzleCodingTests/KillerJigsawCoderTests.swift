@@ -54,13 +54,13 @@ struct KillerJigsawCoderTests {
         let puzzle = KillerJigsaw(cageClues: cageClues, cageShapes: cageShapes, boxShapes: boxShapes, grid: grid)
         let rawPuzzle = puzzle.encode(using: version)
 
-//        let decoded = try #require(KillerJigsaw.decode(rawPuzzle))
+        let decoded = try #require(KillerJigsaw.decode(rawPuzzle))
 
-//        #expect(decoded.version == version)
-//        #expect(decoded.puzzle.cageClues == cageClues)
-//        #expect(decoded.puzzle.cageShapes == cageShapes)
-//        #expect(decoded.puzzle.boxShapes == boxShapes)
-//        #expect(decoded.puzzle.grid == grid)
+        #expect(decoded.version == version)
+        #expect(decoded.puzzle.cageClues == cageClues)
+        #expect(decoded.puzzle.cageShapes == cageShapes)
+        #expect(decoded.puzzle.boxShapes == boxShapes)
+        #expect(decoded.puzzle.grid == grid)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""

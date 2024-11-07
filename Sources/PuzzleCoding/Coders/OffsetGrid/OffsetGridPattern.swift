@@ -5,8 +5,10 @@
 //  Created by Quintin May on 10/21/24.
 //
 
+import RegexBuilder
+
 struct OffsetGridPattern: CustomConsumingRegexComponent {
-    typealias RegexOutput = (Substring, Grid)
+    typealias RegexOutput = (Substring, grid: Grid)
 
     let size: Size
 
@@ -14,23 +16,22 @@ struct OffsetGridPattern: CustomConsumingRegexComponent {
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
-        let offsetTransform = OffsetGridTransform(size: size)
-        let fieldCoding = FieldCoding(range: offsetTransform.range, radix: PuzzleCoding.radix)
-        let arrayPattern = ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
+        let gridTransform = OffsetGridTransform(size: size)
+        let fieldCoding = FieldCoding(range: gridTransform.range, radix: PuzzleCoding.radix)
 
-        guard let match = try? arrayPattern.regex
-            .prefixMatch(in: input[index ..< bounds.upperBound])
-        else { return  nil }
-
-        let numbers = match.output.1
-        var grid = Grid(size: size)
-
-        do {
-            for (index, number) in zip(numbers.indices, numbers) {
-                grid[index] = try offsetTransform.decode(number)
+        let body = Regex {
+            Capture {
+                ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
+            } transform: {
+                ($0.0, grid: Grid(try $0.elements.map(gridTransform.decode)))
             }
-        } catch { return nil }
-        
+        }
+
+        guard let match = try? body.prefixMatch(in: input[index ..< bounds.upperBound]),
+              let grid = match.output.1.grid
+        else { return nil }
+
         return (match.range.upperBound, (match.output.0, grid))
     }
 }
+

@@ -14,26 +14,29 @@ extension KillerJigsaw {
 
         static func encode(_ puzzle: KillerJigsaw) -> String {
             let grid = puzzle.grid
+            let jigsawRanges = KillerJigsaw.ranges(for: grid.size)
+
             let gridTransform = OffsetGridTransform(size: grid.size)
+            let shiftTransform = ShiftTransform(ranges: [
+                jigsawRanges.cageClue,
+                jigsawRanges.cageShape,
+                jigsawRanges.boxShape,
+                gridTransform.range
+            ])
 
-            let clues = puzzle.cageClues
-            let clueRange = 0...grid.size.valueRange.reduce(0, +)
+            let values = Zipper([
+                puzzle.cageClues,
+                puzzle.cageShapes,
+                puzzle.boxShapes,
+                grid.map(gridTransform.encode)
+            ]).map(shiftTransform.encode)
 
-            let shapes = puzzle.shapes  // cageShapes: 1...5, boxShapes: size.valueRange
-            let shapeRanges = KillerJigsaw.shapeRanges(for: grid.size)
-
-            let shiftTransform = ShiftTransform(ranges: [gridTransform.range, clueRange] + shapeRanges)
             let fieldCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
 
-            let coded = Zipper([grid.map(gridTransform.encode), clues] + shapes)
-                .map(shiftTransform.encode)
-                .map(fieldCoding.encode)
-                .joined()
-
             return """
-            \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
-            \(coded)
-            """
+                \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
+                \(values.map(fieldCoding.encode).joined())
+                """
         }
 
         // FIXME: implement
@@ -44,23 +47,33 @@ extension KillerJigsaw {
             else { return nil }
             let size = header.output.size
 
-            let fieldCoding = FieldCoding(range: 0...1, radix: PuzzleCoding.radix)
-            let colors = Reference<(Substring, values: [Int])>()
-            let grid = Reference<(Substring, Grid)>()
+            let jigsawRanges = KillerJigsaw.ranges(for: size)
+            let gridTransform = OffsetGridTransform(size: size)
+
             let body = Regex {
-                Capture(as: colors) {
-                    ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
-                }
-                Capture(as: grid) {
-                    OffsetGridPattern(size: size)
+                Capture {
+                    ShiftPattern(size: size,
+                                 ranges: [jigsawRanges.cageClue,
+                                          jigsawRanges.cageShape,
+                                          jigsawRanges.boxShape,
+                                          gridTransform.range])
                 }
             }
 
-//            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
-//            else { return nil }
+            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
+            else { return nil }
+            let values = match.output.1.values
 
-            return nil
-            //return KillerJigsaw(colors: match[colors].1, grid: match[grid].1)
+            do {
+                let gridValues = try values.map { try gridTransform.decode($0[3]) }
+                guard let grid = Grid(gridValues) else { return nil }
+                return KillerJigsaw(cageClues: values.map { $0[0] },
+                                    cageShapes: values.map { $0[1] },
+                                    boxShapes: values.map { $0[2] },
+                                    grid: grid)
+            } catch {
+                return nil
+            }
         }
     }
 }

@@ -22,12 +22,7 @@ struct SudokuCoderTests {
         }
     }
 
-    private var sampleGrid: Grid {
-        var grid = Grid(size: .grid9x9)
-        let content = sampleContent
-        grid.indices.forEach { grid[$0] = content[$0] }
-        return grid
-    }
+    private var sampleGrid: Grid { Grid(sampleContent)! }
 
     @Test
     func clueRoundtrips() throws {

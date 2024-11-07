@@ -22,7 +22,7 @@ public struct Grid: Equatable {
 
     /// Creates a grid containing the elements of the content.
     /// - Parameter content: The cell content.
-    public init?<C>(_ content: C) where C: Collection, C.Element == Grid.Element {
+    public init?(_ content: some Collection<CellContent?>) {
         guard let size = Size.allCases.first(where: { content.count == $0.gridCellCount }),
               content.allSatisfy({ $0.map { $0.isValid(in: size.valueRange) } ?? true })
         else { return nil }
@@ -51,7 +51,7 @@ extension Grid: CustomStringConvertible {
     public var description: String {
         var output = ""
         for (index, content) in zip(indices, self) {
-            if index > 0 && index.isMultiple(of: size.houseCellCount) {
+            if index > 0 && index.isMultiple(of: size.rawValue) {
                 output.append("\n")
             }
             let cell = switch content {

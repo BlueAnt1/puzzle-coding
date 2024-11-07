@@ -8,7 +8,7 @@
 import RegexBuilder
 
 struct ArrayPattern<Element>: CustomConsumingRegexComponent {
-    typealias RegexOutput = (Substring, values: [Element])
+    typealias RegexOutput = (Substring, elements: [Element])
 
     let elementPattern: any RegexComponent<(Substring, Element)>
     let count: Int

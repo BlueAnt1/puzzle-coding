@@ -13,12 +13,15 @@ extension Str8ts {
         private static var version: Character { "B" }
 
         static func encode(_ puzzle: Str8ts) -> String {
-            let fieldCoding = FieldCoding(range: 0...1, radix: PuzzleCoding.radix)
+            let grid = puzzle.grid
+            let gridTransform = OffsetGridTransform(size: grid.size)
+            let gridCoding = FieldCoding(range: gridTransform.range, radix: PuzzleCoding.radix)
+            let colorCoding = FieldCoding(range: 0...1, radix: PuzzleCoding.radix)
 
             return """
             \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
-            \(puzzle.colors.map(fieldCoding.encode).joined())\
-            \(OffsetGridCoder(grid: puzzle.grid).rawValue)
+            \(puzzle.colors.map(colorCoding.encode).joined())\
+            \(grid.map(gridTransform.encode).map(gridCoding.encode).joined())
             """
         }
 
@@ -30,8 +33,8 @@ extension Str8ts {
             let size = header.output.size
 
             let fieldCoding = FieldCoding(range: 0...1, radix: PuzzleCoding.radix)
-            let colors = Reference<(Substring, values: [Int])>()
-            let grid = Reference<(Substring, Grid)>()
+            let colors = Reference<(Substring, elements: [Int])>()
+            let grid = Reference<(Substring, grid: Grid)>()
             let body = Regex {
                 Capture(as: colors) {
                     ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
@@ -44,7 +47,7 @@ extension Str8ts {
             guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
 
-            return Str8ts(colors: match[colors].1, grid: match[grid].1)
+            return Str8ts(colors: match[colors].1, grid: match[grid].grid)
         }
     }
 }

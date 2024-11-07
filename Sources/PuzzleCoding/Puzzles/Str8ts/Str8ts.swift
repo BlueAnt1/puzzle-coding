@@ -15,6 +15,10 @@ public struct Str8ts: Equatable {
         self.colors = colors
         self.grid = grid
     }
+
+    static func colorRange(for size: Size) -> ClosedRange<Int> {
+        0...1
+    }
 }
 
 extension Str8ts: PuzzleCoder {

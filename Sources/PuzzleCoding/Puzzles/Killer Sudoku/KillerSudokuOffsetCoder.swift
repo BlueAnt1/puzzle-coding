@@ -14,13 +14,18 @@ extension KillerSudoku {
 
         static func encode(_ puzzle: KillerSudoku) -> String {
             let grid = puzzle.grid
-            let shapeRanges = KillerSudoku.shapeRanges(for: grid.size)
-            let shapes = puzzle.shapes
+            let gridTransform = OffsetGridTransform(size: grid.size)
+            let gridCoding = FieldCoding(range: gridTransform.range, radix: PuzzleCoding.radix)
+
+            let ranges = KillerSudoku.ranges(for: grid.size)
+            let shiftTransform = ShiftTransform(ranges: [ranges.cageClue, ranges.cageShape])
+            let shiftValues = Zipper([puzzle.cageClues, puzzle.cageShapes]).map(shiftTransform.encode)
+            let shiftCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
-                \(ShiftedKillerCoder(size: grid.size, shapeRanges: shapeRanges, clues: puzzle.cageClues, shapes: shapes).rawValue)\
-                \(OffsetGridCoder(grid: grid).rawValue)
+                \(shiftValues.map(shiftCoding.encode).joined())\
+                \(grid.map(gridTransform.encode).map(gridCoding.encode).joined())
                 """
         }
 
@@ -30,25 +35,29 @@ extension KillerSudoku {
                   header.output.version == Self.version
             else { return nil }
             let size = header.output.size
+            let maxClueValue = size.valueRange.reduce(0, +)
+            let clueRange = 0...maxClueValue
+            let shapeRange = 1...5
+            let ranges = [clueRange, shapeRange]
 
-            let cageReference = Reference<(Substring, clues: [Int], shapes: [[Int]])?>()
-            let gridReference = Reference<(Substring, Grid)>()
+            let valuesReference = Reference<(Substring, values: [[Int]])>()
+            let gridReference = Reference<(Substring, grid: Grid)>()
             let body = Regex {
-                Capture(as: cageReference) {
-                    ShiftedKillerPattern(size: size, shapeRanges: KillerSudoku.shapeRanges(for: size))
+                Capture(as: valuesReference) {
+                    ShiftPattern(size: size, ranges: ranges)
                 }
                 Capture(as: gridReference) {
                     OffsetGridPattern(size: size)
                 }
             }
 
-            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...]),
-                  let output = match[cageReference]
+            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
+            let output = match[valuesReference]
 
-            return KillerSudoku(cageClues: output.clues,
-                                cageShapes: output.shapes[0],
-                                grid: match[gridReference].1)
+            return KillerSudoku(cageClues: output.values.map { $0[0] },
+                                cageShapes: output.values.map { $0[1] },
+                                grid: match[gridReference].grid)
         }
     }
 }

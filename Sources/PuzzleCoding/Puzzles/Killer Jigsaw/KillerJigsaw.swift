@@ -13,25 +13,30 @@ public struct KillerJigsaw: Equatable {
     public let grid: Grid
 
     public init(cageClues: [Int], cageShapes: [Int], boxShapes: [Int], grid: Grid) {
-        let transform = ShiftedKillerTransform(size: grid.size, shapeRanges: Self.shapeRanges(for: grid.size))
-        precondition(transform.isEncodable(clues: cageClues, shapes: [cageShapes, boxShapes]))
+        let ranges = Self.ranges(for: grid.size)
+
+        precondition(cageClues.count == cageShapes.count
+                     && cageClues.count == boxShapes.count
+                     && cageClues.count == grid.size.gridCellCount
+                     && cageClues.allSatisfy(ranges.cageClue.contains)
+                     && cageShapes.allSatisfy(ranges.cageShape.contains)
+                     && boxShapes.allSatisfy(ranges.boxShape.contains))
 
         self.cageClues = cageClues
         self.cageShapes = cageShapes
         self.boxShapes = boxShapes
         self.grid = grid
     }
+
+    static func ranges(for size: Size) -> (cageClue: ClosedRange<Int>, cageShape: ClosedRange<Int>, boxShape: ClosedRange<Int>){
+        let maxClueValue = size.valueRange.reduce(0, +)
+        let cageClueRange = 0...maxClueValue
+        let cageShapeRange = 1...5
+        let boxShapeRange = 1...size.valueRange.upperBound
+        return (cageClueRange, cageShapeRange, boxShapeRange)
+    }
 }
 
-extension KillerJigsaw {
-    static var cageRange: ClosedRange<Int> { 1...5 }
-    static func shapeRanges(for size: Size) -> [ClosedRange<Int>] {
-        [cageRange, size.valueRange]
-    }
-    var shapes: [[Int]] {
-        [cageShapes, boxShapes]
-    }
-}
 
 extension KillerJigsaw: PuzzleCoder {
     public enum Version: CodingVersion {

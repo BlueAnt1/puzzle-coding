@@ -34,15 +34,15 @@ struct FieldCodingTests {
 
         do {
             let match = try #require(try? pattern.regex.wholeMatch(in: "111"))
-            #expect(match.output.1 == [7])
+            #expect(match.output.elements == [7])
         }
         do {
             let match = try #require(try? pattern.regex.wholeMatch(in: "000"))
-            #expect(match.output.1 == [0])
+            #expect(match.output.elements == [0])
         }
         do {
             let match = try #require(try? pattern.regex.wholeMatch(in: "001"))
-            #expect(match.output.1 == [1])
+            #expect(match.output.elements == [1])
         }
     }
 

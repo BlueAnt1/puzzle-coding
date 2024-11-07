@@ -12,24 +12,23 @@ public struct KillerSudoku: Equatable {
     public let grid: Grid
 
     public init(cageClues: [Int], cageShapes: [Int], grid: Grid) {
-        let transform = ShiftedKillerTransform(size: grid.size, shapeRanges: Self.shapeRanges(for: grid.size))
-        precondition(transform.isEncodable(clues: cageClues, shapes: [cageShapes]))
+        let ranges = Self.ranges(for: grid.size)
+
+        precondition(cageClues.count == cageShapes.count
+                     && cageClues.count == grid.size.gridCellCount
+                     && cageClues.allSatisfy(ranges.cageClue.contains)
+                     && cageShapes.allSatisfy(ranges.cageShape.contains))
 
         self.cageClues = cageClues
         self.cageShapes = cageShapes
         self.grid = grid
     }
-}
 
-extension KillerSudoku {
-    private static var cageRange: ClosedRange<Int> { 1...5 }
-
-    static func shapeRanges(for size: Size) -> [ClosedRange<Int>] {
-        [cageRange]
-    }
-
-    var shapes: [[Int]] {
-        [cageShapes]
+    static func ranges(for size: Size) -> (cageClue: ClosedRange<Int>, cageShape: ClosedRange<Int>){
+        let maxClueValue = size.valueRange.reduce(0, +)
+        let cageClueRange = 0...maxClueValue
+        let cageShapeRange = 1...5
+        return (cageClueRange, cageShapeRange)
     }
 }
 
