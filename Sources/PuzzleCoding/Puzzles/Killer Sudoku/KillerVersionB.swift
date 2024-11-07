@@ -1,5 +1,5 @@
 //
-//  KillerSudokuOffsetCoder.swift
+//  KillerVersionB.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/24/24.
@@ -8,7 +8,7 @@
 import RegexBuilder
 
 extension KillerSudoku {
-    struct Offset: VersionCoder {
+    struct VersionB: VersionCoder {
         private static var puzzleType: PuzzleType { .killerSudoku }
         private static var version: Character { "B" }
 

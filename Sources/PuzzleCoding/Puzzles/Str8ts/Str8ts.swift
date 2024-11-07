@@ -7,12 +7,12 @@
 
 /// A Str8ts puzzle coder.
 public struct Str8ts: Equatable {
-    public let colors: [Int]
+    public let colorShapes: [Int]
     public let grid: Grid
 
-    public init(colors: [Int], grid: Grid) {
-        precondition(colors.count == grid.count)
-        self.colors = colors
+    public init(colorShapes: [Int], grid: Grid) {
+        precondition(colorShapes.count == grid.count)
+        self.colorShapes = colorShapes
         self.grid = grid
     }
 
@@ -23,15 +23,15 @@ public struct Str8ts: Equatable {
 
 extension Str8ts: PuzzleCoder {
     public enum Version: CodingVersion {
-        case offset
-        case q
+        case versionB
+        case experimental
 
-        public static var current: Version { .offset }
+        public static var current: Version { .versionB }
 
         fileprivate var coder: any VersionCoder<Str8ts>.Type {
             switch self {
-            case .offset: Offset.self
-            case .q: QCoder.self
+            case .versionB: VersionB.self
+            case .experimental: Experimental.self
             }
         }
     }

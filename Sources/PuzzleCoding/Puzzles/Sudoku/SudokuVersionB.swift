@@ -1,12 +1,12 @@
 //
-//  SudokuOffsetCoder.swift
+//  SudokuVersionB.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/22/24.
 //
 
 extension Sudoku {
-    struct Offset: VersionCoder {
+    struct VersionB: VersionCoder {
         private static var version: Character { "B" }
 
         static func encode(_ puzzle: Sudoku) -> String {

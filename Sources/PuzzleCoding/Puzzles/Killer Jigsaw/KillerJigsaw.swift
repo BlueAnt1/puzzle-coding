@@ -40,15 +40,15 @@ public struct KillerJigsaw: Equatable {
 
 extension KillerJigsaw: PuzzleCoder {
     public enum Version: CodingVersion {
-        case offset
-        case q
+        case versionB
+        case experimental
 
-        public static var current: Version { .offset }
+        public static var current: Version { .versionB }
 
         fileprivate var coder: any VersionCoder<KillerJigsaw>.Type {
             switch self {
-            case .offset: Offset.self
-            case .q: QCoder.self
+            case .versionB: VersionB.self
+            case .experimental: Experimental.self
             }
         }
     }

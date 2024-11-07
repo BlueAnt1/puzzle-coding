@@ -1,4 +1,4 @@
-# ``Sudoku/Version/offset``
+# ``Sudoku/Version/versionB``
 
 An encoded value looks like: 
 
@@ -10,5 +10,5 @@ An encoded value looks like:
 - term `9`: the size of the puzzle expressed as the number of cells in a row or column (base 32).
 - term `B`: the encoding version.
 
-The remainder of the encoding is <doc:OffsetGridCoding>.
+The remainder of the encoding is <doc:OffsetGridTransform>.
 

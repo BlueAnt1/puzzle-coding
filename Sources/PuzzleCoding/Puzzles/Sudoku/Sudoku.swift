@@ -30,15 +30,15 @@ extension Sudoku: PuzzleCoder {
         /// Includes puzzle progress. This encoding solves _naked singles_.
         case noNakedSingles
         /// Includes puzzle progress.
-        case offset
+        case versionB
 
-        public static var current: Version { .offset }
+        public static var current: Version { .versionB }
 
         fileprivate var coder: any VersionCoder<Sudoku>.Type {
             switch self {
             case .clue: Clue.self
             case .noNakedSingles: NoNakedSingles.self
-            case .offset: Offset.self
+            case .versionB: VersionB.self
             }
         }
     }

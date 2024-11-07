@@ -1,5 +1,5 @@
 //
-//  Str8tsOffsetGridCoder.swift
+//  KillerJigsawExperimental.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/22/24.
@@ -8,9 +8,9 @@
 import RegexBuilder
 
 extension KillerJigsaw {
-    struct QCoder: VersionCoder {
+    struct Experimental: VersionCoder {
         private static var puzzleType: PuzzleType { .killerJigsaw }
-        private static var version: Character { "Q" }
+        private static var version: Character { "X" }
 
         static func encode(_ puzzle: KillerJigsaw) -> String {
             let grid = puzzle.grid
@@ -39,7 +39,6 @@ extension KillerJigsaw {
                 """
         }
 
-        // FIXME: implement
         static func decode(_ input: String) -> KillerJigsaw? {
             guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
                   header.output.puzzleType == Self.puzzleType,

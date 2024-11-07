@@ -34,13 +34,13 @@ public struct KillerSudoku: Equatable {
 
 extension KillerSudoku: PuzzleCoder {
     public enum Version: CodingVersion {
-        case offset
+        case versionB
 
-        public static var current: Version { .offset }
+        public static var current: Version { .versionB }
 
         fileprivate var coder: any VersionCoder<KillerSudoku>.Type {
             switch self {
-            case .offset: Offset.self
+            case .versionB: VersionB.self
             }
         }
     }

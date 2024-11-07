@@ -1,5 +1,5 @@
 //
-//  Str8tsOffsetGridCoder.swift
+//  Str8tsVersionB.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/22/24.
@@ -8,7 +8,7 @@
 import RegexBuilder
 
 extension Str8ts {
-    struct Offset: VersionCoder {
+    struct VersionB: VersionCoder {
         private static var puzzleType: PuzzleType { .str8ts }
         private static var version: Character { "B" }
 
@@ -20,7 +20,7 @@ extension Str8ts {
 
             return """
             \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
-            \(puzzle.colors.map(colorCoding.encode).joined())\
+            \(puzzle.colorShapes.map(colorCoding.encode).joined())\
             \(grid.map(gridTransform.encode).map(gridCoding.encode).joined())
             """
         }
@@ -47,7 +47,7 @@ extension Str8ts {
             guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
 
-            return Str8ts(colors: match[colors].1, grid: match[grid].grid)
+            return Str8ts(colorShapes: match[colors].1, grid: match[grid].grid)
         }
     }
 }

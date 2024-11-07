@@ -1,5 +1,5 @@
 //
-//  Str8tsOffsetGridCoder.swift
+//  Str8tsExperimental.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/22/24.
@@ -8,9 +8,9 @@
 import RegexBuilder
 
 extension Str8ts {
-    struct QCoder: VersionCoder {
+    struct Experimental: VersionCoder {
         private static var puzzleType: PuzzleType { .str8ts }
-        private static var version: Character { "Q" }
+        private static var version: Character { "X" }
 
         static func encode(_ puzzle: Str8ts) -> String {
             let grid = puzzle.grid
@@ -19,7 +19,7 @@ extension Str8ts {
             let shiftTransform = ShiftTransform(ranges: ranges)
             let fieldCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
 
-            let zipper = Zipper([puzzle.colors, puzzle.grid.map(gridTransform.encode)])
+            let zipper = Zipper([puzzle.colorShapes, puzzle.grid.map(gridTransform.encode)])
             let shiftValues = zipper.map(shiftTransform.encode)
 
             return """
@@ -44,7 +44,7 @@ extension Str8ts {
             do {
                 let content = try values.map { try gridTransform.decode($0[1]) }
                 guard let grid = Grid(content) else { return nil }
-                return Str8ts(colors: values.map { $0[0] }, grid: grid)
+                return Str8ts(colorShapes: values.map { $0[0] }, grid: grid)
             } catch {
                 return nil
             }

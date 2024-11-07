@@ -1,6 +1,6 @@
-# Shift Coding
+# Shift Transform
 
-Code cell information by shifting bits.
+Transform cell information by shifting bits.
 
 ## Overview
 

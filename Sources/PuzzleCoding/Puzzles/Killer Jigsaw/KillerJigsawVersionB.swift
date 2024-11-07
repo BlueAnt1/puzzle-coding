@@ -1,5 +1,5 @@
 //
-//  KillerSudokuOffsetCoder.swift
+//  KillerJigsawVersionB.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/24/24.
@@ -8,7 +8,7 @@
 import RegexBuilder
 
 extension KillerJigsaw {
-    struct Offset: VersionCoder {
+    struct VersionB: VersionCoder {
         private static var puzzleType: PuzzleType { .killerJigsaw }
         private static var version: Character { "B" }
 
@@ -25,7 +25,7 @@ extension KillerJigsaw {
             let gridCoding = FieldCoding(range: gridTransform.range, radix: PuzzleCoding.radix)
 
             return """
-                \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
+                \(HeaderCoder(puzzleType: VersionB.puzzleType, size: grid.size, version: VersionB.version).rawValue)\
                 \(shiftValues.map(shiftCoding.encode).joined())\
                 \(gridValues.map(gridCoding.encode).joined())
                 """
@@ -33,8 +33,8 @@ extension KillerJigsaw {
 
         static func decode(_ input: String) -> KillerJigsaw? {
             guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
-                  header.output.puzzleType == Self.puzzleType,
-                  header.output.version == Self.version
+                  header.output.puzzleType == VersionB.puzzleType,
+                  header.output.version == VersionB.version
             else { return nil }
             let size = header.output.size
 

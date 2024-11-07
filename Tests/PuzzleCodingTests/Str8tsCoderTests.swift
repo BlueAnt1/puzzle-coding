@@ -22,13 +22,13 @@ struct Str8tsCoderTests {
         grid.indices.forEach { grid[$0] = content[$0] }
 
         let colors = "100011001100010001011000110000000100100010001001000000011000110100010001100110001".map(\.wholeNumberValue!)
-        let puzzle = Str8ts(colors: colors, grid: grid)
+        let puzzle = Str8ts(colorShapes: colors, grid: grid)
         let rawPuzzle = puzzle.encode(using: version)
 
         let decoded = try #require(Str8ts.decode(rawPuzzle))
 
         #expect(decoded.version == version)
-        #expect(decoded.puzzle.colors == colors)
+        #expect(decoded.puzzle.colorShapes == colors)
         #expect(decoded.puzzle.grid == grid)
 
         let puzzleCount = Double(rawPuzzle.count)

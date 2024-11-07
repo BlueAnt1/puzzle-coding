@@ -7,8 +7,9 @@ Encode Sudoku and related puzzles as text.
 Share puzzles with others by converting them to text & back.
 
 The encodings are:
-- an interchange format that's relatively easy to decode without this library.
+- an interchange format.
 - web friendly so they can appear in a URL.
+- relatively easy to decode without this library.
 - compatible with [SudokuWiki](https://sudokuwiki.org).
 
 You can learn about the <doc:EncodingFormats> or keep reading to use the library.
@@ -25,7 +26,7 @@ You can learn about the <doc:EncodingFormats> or keep reading to use the library
 ### Encode a puzzle
 
 1. Create a ``Grid`` and populate it with the clues, solutions & candidates of your model.
-2. Create a puzzle coder with the grid and any other model data relevant to the puzzle type.
+2. Create a puzzle coder with the grid and any other data relevant to the puzzle type.
 3. Call the ``PuzzleCoder/encode(using:)`` method of the coder to generate the encoded string.
 
 @Snippet(path: "PuzzleCoding/Snippets/UsageEncode")

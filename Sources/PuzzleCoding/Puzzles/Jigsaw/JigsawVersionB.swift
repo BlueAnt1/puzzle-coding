@@ -1,5 +1,5 @@
 //
-//  JigsawOffsetGridCoder.swift
+//  JigsawVersionB.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/22/24.
@@ -8,7 +8,7 @@
 import RegexBuilder
 
 extension Jigsaw {
-    struct Offset: VersionCoder {
+    struct VersionB: VersionCoder {
         private static var puzzleType: PuzzleType { .jigsaw }
         private static var version: Character { "B" }
 

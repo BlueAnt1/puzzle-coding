@@ -12,7 +12,7 @@ Every encoding starts with a header which is followed by the puzzle data.
 ## Header
 
 The header's purpose is to describe what comes later. It contains the puzzle type, the size of the puzzle and the version of the encoding.
-As new requirements for the transferred data evolve the version number will change.
+As new requirements for the transferred data evolve the version will change.
 
 All numeric values are encoded as base 32 characters. The encodings are not case sensitive.
 
@@ -59,7 +59,8 @@ Every puzzle type has its own data requirements. We'll start with the simplest &
 
 @TabNavigator {
     @Tab("Version B") {
-        - Encodes the grid using <doc:OffsetGridCoding>.
+        - Transform the grid using <doc:OffsetGridTransform>.
+        - Encode the transformed grid using <doc:FieldCoding>
     }
 }
 
@@ -67,8 +68,16 @@ Every puzzle type has its own data requirements. We'll start with the simplest &
 
 @TabNavigator {
     @Tab("Version B") {
-        - Encodes colors using <doc:FieldCoding>.
-        - Encodes the grid using <doc:OffsetGridCoding>.
+        - Encode colorShapes using <doc:FieldCoding>.
+        - Transform the grid using <doc:OffsetGridTransform>.
+        - Encode the transformed grid using <doc:FieldCoding>.
+    }
+    @Tab("Experimental") {
+        For every cell in the grid:
+        - <doc:ShiftTransform>
+            - colorShape
+            - Transform cell content using <doc:OffsetGridTransform>.
+        - Encode the transform using <doc:FieldCoding>
     }
 }
 
@@ -76,8 +85,9 @@ Every puzzle type has its own data requirements. We'll start with the simplest &
 
 @TabNavigator {
     @Tab("Version B") {
-        - Encodes boxes using <doc:FieldCoding>.
-        - Encodes the grid using <doc:OffsetGridCoding>.
+        - Encode boxShapes using <doc:FieldCoding>.
+        - Transform the grid using <doc:OffsetGridTransform>.
+        - Encode the transformed grid using <doc:FieldCoding>.
     }
 }
 
@@ -85,8 +95,10 @@ Every puzzle type has its own data requirements. We'll start with the simplest &
 
 @TabNavigator {
     @Tab("Version B") {
-        - Encodes cage clues & cage shapes using <doc:ShiftCoding>.
-        - Encodes the grid using <doc:OffsetGridCoding>.
+        - Transform cage clues & cage shapes using <doc:ShiftTransform>.
+        - Encode the transform using <doc:FieldCoding>
+        - Transform the grid using <doc:OffsetGridTransform>.
+        - Encode the transformed grid using <doc:FieldCoding>
     }
 }
 
@@ -94,7 +106,18 @@ Every puzzle type has its own data requirements. We'll start with the simplest &
 
 @TabNavigator {
     @Tab("Version B") {
-        - Encodes cage clues, cage shapes & box shapes using <doc:ShiftCoding>.
-        - Encodes the grid using <doc:OffsetGridCoding>.
+        - Transform cage clues, cage shapes & box shapes using <doc:ShiftTransform>.
+        - Encode the transform using <doc:FieldCoding>
+        - Transform the grid using <doc:OffsetGridTransform>.
+        - Encode the transformed grid using <doc:FieldCoding>
+    }
+    @Tab("Experimental") {
+        For every cell in the grid:
+        - <doc:ShiftTransform>
+            - cageClues
+            - cageShapes
+            - boxShapes
+            - Transform cell content using <doc:OffsetGridTransform>.
+        - Encode the transform using <doc:FieldCoding>
     }
 }

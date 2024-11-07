@@ -1,6 +1,6 @@
-# Offset Grid Coding
+# Offset Grid Transform
 
-Code grid content using offsets.
+Transform grid content using offsets.
 
 ## Overview
 
