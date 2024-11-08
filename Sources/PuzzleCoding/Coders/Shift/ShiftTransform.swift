@@ -5,7 +5,7 @@
 //  Created by Quintin May on 11/4/24.
 //
 
-/// Generic shift coding.
+/// Generic shift transform.
 struct ShiftTransform {
     private let ranges: [ClosedRange<Int>]
     private let offsets: [Int]
@@ -29,19 +29,10 @@ struct ShiftTransform {
         && zip(ranges, values).allSatisfy { $0.contains($1) }
     }
 
-    // TODO: is this needed?
-    func isEncodable(_ values: [[Int]]) -> Bool {
-        return ranges.count == values.count
-        && values.allSatisfy { $0.count == values[0].count }
-        && values[0].indices.allSatisfy { index in isEncodable(values.indices.map { values[$0][index] })}
-    }
-
     /// Pack values into a single value
     func encode(_ values: [Int]) -> Int {
         assert(isEncodable(values))
-        return ranges.isEmpty
-        ? 0
-        : values.indices.reduce(0) { encoded, index in
+        return values.indices.reduce(0) { encoded, index in
             (encoded << offsets[index]) + values[index] - ranges[index].lowerBound
         }
     }
@@ -51,7 +42,7 @@ struct ShiftTransform {
         var value = value
         var values = [Int]()
         for (offset, range) in zip(offsets.reversed(), ranges.reversed()) where offset > 0 {
-            let mask = (1 << offset) - 1
+            let mask = (1 << offset) - 1    // a contiguous bunch of 1 bits
             values.append((value & mask) + range.lowerBound)
             value &>>= offset
         }

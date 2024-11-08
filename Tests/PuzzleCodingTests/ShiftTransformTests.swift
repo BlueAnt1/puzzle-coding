@@ -13,12 +13,12 @@ struct ShiftTransformTests {
     @Test
     func oneRangeCodes() throws {
         let transform = ShiftTransform(ranges: [0...5])
-        #expect(transform.isEncodable([[0]]))
-        #expect(transform.isEncodable([[2]]))
-        #expect(transform.isEncodable([[5]]))
-        #expect(!transform.isEncodable([[6]]))
-        #expect(!transform.isEncodable([[0], [0]]))
-        #expect(!transform.isEncodable([[5], [5]]))
+        #expect(transform.isEncodable([0]))
+        #expect(transform.isEncodable([2]))
+        #expect(transform.isEncodable([5]))
+        #expect(!transform.isEncodable([6]))
+        #expect(!transform.isEncodable([0, 0]))
+        #expect(!transform.isEncodable([5, 5]))
     }
 
     @Test
