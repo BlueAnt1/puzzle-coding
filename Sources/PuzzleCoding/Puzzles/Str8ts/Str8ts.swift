@@ -5,7 +5,7 @@
 //  Created by Quintin May on 10/16/24.
 //
 
-/// A Str8ts puzzle coder.
+/// Str8ts puzzle coder.
 public struct Str8ts: Equatable {
     public let colorShapes: [Int]
     public let grid: Grid

@@ -5,7 +5,7 @@
 //  Created by Quintin May on 10/16/24.
 //
 
-/// A Jigsaw puzzle coder.
+/// Jigsaw puzzle coder.
 public struct Jigsaw: Equatable {
     public let boxShapes: [Int]
     public let grid: Grid

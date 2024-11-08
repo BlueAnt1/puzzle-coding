@@ -1,6 +1,6 @@
-# Offset Grid Transform
+# Cell Content Transform
 
-Transform grid content using offsets.
+Transform cell content into an integer.
 
 ## Overview
 

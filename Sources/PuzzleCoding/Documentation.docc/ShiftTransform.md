@@ -1,6 +1,6 @@
 # Shift Transform
 
-Transform cell information by shifting bits.
+Transform cell information into an integer.
 
 ## Overview
 

@@ -5,7 +5,7 @@
 //  Created by Quintin May on 10/18/24.
 //
 
-/// A Sudoku puzzle coder.
+/// Sudoku puzzle coder.
 public struct Sudoku: Equatable {
     /// The puzzle content.
     public let grid: Grid
@@ -58,7 +58,7 @@ extension Sudoku: CustomStringConvertible {
 
 // MARK: - Windoku
 
-/// A Windoku puzzle coder.
+/// Windoku puzzle coder.
 public struct Windoku: Equatable {
     /// The puzzle content.
     public let grid: Grid
@@ -90,7 +90,7 @@ extension Windoku: CustomStringConvertible {
 
 // MARK: - SudokuX
 
-/// A SudokuX puzzle coder.
+/// SudokuX puzzle coder.
 public struct SudokuX: Equatable {
     /// The puzzle content.
     public let grid: Grid

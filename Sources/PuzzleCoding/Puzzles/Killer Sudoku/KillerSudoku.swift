@@ -5,7 +5,7 @@
 //  Created by Quintin May on 10/24/24.
 //
 
-/// A KillerSudoku puzzle coder.
+/// KillerSudoku puzzle coder.
 public struct KillerSudoku: Equatable {
     public let cageClues: [Int]
     public let cageShapes: [Int]
