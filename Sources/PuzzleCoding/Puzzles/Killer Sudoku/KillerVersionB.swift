@@ -15,12 +15,12 @@ extension KillerSudoku {
         static func encode(_ puzzle: KillerSudoku) -> String {
             let grid = puzzle.grid
             let gridTransform = OffsetGridTransform(size: grid.size)
-            let gridCoding = FieldCoding(range: gridTransform.range, radix: PuzzleCoding.radix)
+            let gridCoding = FieldCoding(range: gridTransform.range)
 
             let ranges = KillerSudoku.ranges(for: grid.size)
             let shiftTransform = ShiftTransform(ranges: [ranges.cageClue, ranges.cageShape])
             let shiftValues = Zipper([puzzle.cageClues, puzzle.cageShapes]).map(shiftTransform.encode)
-            let shiftCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
+            let shiftCoding = FieldCoding(range: shiftTransform.range)
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\

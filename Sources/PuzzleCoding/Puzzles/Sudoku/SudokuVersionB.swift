@@ -12,7 +12,7 @@ extension Sudoku {
         static func encode(_ puzzle: Sudoku) -> String {
             let grid = puzzle.grid
             let transform = OffsetGridTransform(size: grid.size)
-            let coding = FieldCoding(range: transform.range, radix: PuzzleCoding.radix)
+            let coding = FieldCoding(range: transform.range)
 
             return """
             \(HeaderCoder(puzzleType: .sudoku(puzzle.type), size: grid.size, version: Self.version).rawValue)\

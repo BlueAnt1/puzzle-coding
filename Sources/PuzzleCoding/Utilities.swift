@@ -30,8 +30,3 @@ extension Collection<Int> {
     /// - SeeAlso: ``FixedWidthInteger/oneBits``
     var bitValue: Int { reduce(0) { $0 | (1 << ($1 - 1)) }}
 }
-
-enum PuzzleCoding {
-    /// The numeric radix used for puzzle coding.
-    static var radix: Int { 32 }
-}

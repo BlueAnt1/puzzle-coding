@@ -18,11 +18,11 @@ extension KillerJigsaw {
 
             let shiftTransform = ShiftTransform(ranges: [ranges.cageClue, ranges.cageShape, ranges.boxShape])
             let shiftValues = Zipper([puzzle.cageClues, puzzle.cageShapes, puzzle.boxShapes]).map(shiftTransform.encode)
-            let shiftCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
+            let shiftCoding = FieldCoding(range: shiftTransform.range)
 
             let gridTransform = OffsetGridTransform(size: grid.size)
             let gridValues = grid.map(gridTransform.encode)
-            let gridCoding = FieldCoding(range: gridTransform.range, radix: PuzzleCoding.radix)
+            let gridCoding = FieldCoding(range: gridTransform.range)
 
             return """
                 \(HeaderCoder(puzzleType: VersionB.puzzleType, size: grid.size, version: VersionB.version).rawValue)\

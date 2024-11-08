@@ -18,7 +18,7 @@ struct ShiftPattern: CustomConsumingRegexComponent {
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
         let shiftTransform = ShiftTransform(ranges: ranges)
-        let fieldCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
+        let fieldCoding = FieldCoding(range: shiftTransform.range)
         let values = Regex {
             Capture {
                 ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)

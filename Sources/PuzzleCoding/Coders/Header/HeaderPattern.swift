@@ -16,11 +16,11 @@ struct HeaderPattern: CustomConsumingRegexComponent {
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
         let puzzleTypes = CharacterClass.anyOf(PuzzleType.allCases.map(\.rawValue))
-        let sizes = CharacterClass.anyOf(Size.allCases.flatMap { String($0.rawValue, radix: PuzzleCoding.radix) })
+        let sizes = CharacterClass.anyOf(Size.allCases.flatMap { String($0.rawValue, radix: FieldCoding.radix) })
         let versions = CharacterClass.generalCategory(.uppercaseLetter)
         let regex = Regex {
             Capture { puzzleTypes } transform: { PuzzleType(rawValue: $0.uppercased().first!)! }
-            Capture { sizes } transform: { Size(rawValue: Int($0, radix: PuzzleCoding.radix)!)! }
+            Capture { sizes } transform: { Size(rawValue: Int($0, radix: FieldCoding.radix)!)! }
             Capture { versions } transform: { $0.uppercased().first! }
         }.ignoresCase()
 

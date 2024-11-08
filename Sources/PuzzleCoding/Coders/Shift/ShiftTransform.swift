@@ -48,9 +48,7 @@ struct ShiftTransform {
         }
         values.append(value + ranges[0].lowerBound)
         values = values.reversed()
-        for (range, value) in zip(ranges, values) {
-            guard range.contains(value) else { return nil }
-        }
+        guard zip(ranges, values).allSatisfy({ $0.contains($1) }) else { return nil }
         return values
     }
 }

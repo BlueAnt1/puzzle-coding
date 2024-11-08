@@ -17,7 +17,7 @@ extension Str8ts {
             let gridTransform = OffsetGridTransform(size: grid.size)
             let ranges = [Str8ts.colorRange(for: grid.size), gridTransform.range]
             let shiftTransform = ShiftTransform(ranges: ranges)
-            let fieldCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
+            let fieldCoding = FieldCoding(range: shiftTransform.range)
 
             let zipper = Zipper([puzzle.colorShapes, puzzle.grid.map(gridTransform.encode)])
             let shiftValues = zipper.map(shiftTransform.encode)

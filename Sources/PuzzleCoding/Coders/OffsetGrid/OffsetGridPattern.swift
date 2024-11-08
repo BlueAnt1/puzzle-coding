@@ -17,7 +17,7 @@ struct OffsetGridPattern: CustomConsumingRegexComponent {
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
         let gridTransform = OffsetGridTransform(size: size)
-        let fieldCoding = FieldCoding(range: gridTransform.range, radix: PuzzleCoding.radix)
+        let fieldCoding = FieldCoding(range: gridTransform.range)
 
         let body = Regex {
             Capture {

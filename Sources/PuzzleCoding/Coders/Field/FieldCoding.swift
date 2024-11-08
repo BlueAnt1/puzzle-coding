@@ -8,13 +8,15 @@
 import RegexBuilder
 
 struct FieldCoding {
-    let range: ClosedRange<Int>
+    static var radix: Int { 32 }
+
+    private let range: ClosedRange<Int>
     private let radix: Int
     private let fieldWidth: Int
     let pattern: any RegexComponent<(Substring, Int)>
     private let padding: String
 
-    init(range: ClosedRange<Int>, radix: Int) {
+    init(range: ClosedRange<Int>, radix: Int = Self.radix) {
         assert(range.lowerBound >= 0 && (2...36).contains(radix))
         self.range = range
         self.radix = radix
@@ -52,4 +54,3 @@ private extension ClosedRange<Int> {
         return CharacterClass.anyOf(characters)
     }
 }
-

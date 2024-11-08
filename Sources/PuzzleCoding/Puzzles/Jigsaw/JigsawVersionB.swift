@@ -15,8 +15,8 @@ extension Jigsaw {
         static func encode(_ puzzle: Jigsaw) -> String {
             let grid = puzzle.grid
             let gridTransform = OffsetGridTransform(size: grid.size)
-            let gridCoding = FieldCoding(range: gridTransform.range, radix: PuzzleCoding.radix)
-            let boxCoding = FieldCoding(range: Jigsaw.boxRange(in: grid.size), radix: PuzzleCoding.radix)
+            let gridCoding = FieldCoding(range: gridTransform.range)
+            let boxCoding = FieldCoding(range: Jigsaw.boxRange(in: grid.size))
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
@@ -32,7 +32,7 @@ extension Jigsaw {
             else { return nil }
             let size = header.output.size
 
-            let boxCoding = FieldCoding(range: Jigsaw.boxRange(in: size), radix: PuzzleCoding.radix)
+            let boxCoding = FieldCoding(range: Jigsaw.boxRange(in: size))
             let boxShapes = Reference<(Substring, elements: [Int])>()
             let grid = Reference<OffsetGridPattern.RegexOutput>()
             let body = Regex {

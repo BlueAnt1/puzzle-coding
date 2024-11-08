@@ -31,7 +31,7 @@ extension KillerJigsaw {
                 grid.map(gridTransform.encode)
             ]).map(shiftTransform.encode)
 
-            let fieldCoding = FieldCoding(range: shiftTransform.range, radix: PuzzleCoding.radix)
+            let fieldCoding = FieldCoding(range: shiftTransform.range)
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
