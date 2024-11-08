@@ -12,7 +12,7 @@ struct OffsetGridTransformTests {
     @Test
     func encode() {
         let size = Size.grid9x9
-        let transform = OffsetGridTransform(size: size)
+        let transform = CellContentTransform(size: size)
         #expect(transform.encode(.clue(1)) == 1)
         #expect(transform.encode(.clue(9)) == 9)
         #expect(transform.encode(.solution(1)) == 10)
@@ -24,7 +24,7 @@ struct OffsetGridTransformTests {
     @Test
     func decode() throws {
         let size = Size.grid9x9
-        let transform = OffsetGridTransform(size: size)
+        let transform = CellContentTransform(size: size)
         #expect(try transform.decode(1) == .clue(1))
         #expect(try transform.decode(9) == .clue(9))
         #expect(try transform.decode(10) == .solution(1))

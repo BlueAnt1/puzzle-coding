@@ -20,9 +20,9 @@ extension KillerJigsaw {
             let shiftValues = Zipper([puzzle.cageClues, puzzle.cageShapes, puzzle.boxShapes]).map(shiftTransform.encode)
             let shiftCoding = FieldCoding(range: shiftTransform.range)
 
-            let gridTransform = OffsetGridTransform(size: grid.size)
-            let gridValues = grid.map(gridTransform.encode)
-            let gridCoding = FieldCoding(range: gridTransform.range)
+            let cellTransform = CellContentTransform(size: grid.size)
+            let gridValues = grid.map(cellTransform.encode)
+            let gridCoding = FieldCoding(range: cellTransform.range)
 
             return """
                 \(HeaderCoder(puzzleType: VersionB.puzzleType, size: grid.size, version: VersionB.version).rawValue)\
@@ -48,7 +48,7 @@ extension KillerJigsaw {
                                  ranges: [ranges.cageClue, ranges.cageShape, ranges.boxShape])
                 }
                 Capture(as: gridReference) {
-                    OffsetGridPattern(size: size)
+                    GridPattern(size: size)
                 }
             }
 

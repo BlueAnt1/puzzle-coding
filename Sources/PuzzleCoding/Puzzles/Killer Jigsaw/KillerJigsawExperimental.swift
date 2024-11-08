@@ -16,19 +16,19 @@ extension KillerJigsaw {
             let grid = puzzle.grid
             let jigsawRanges = KillerJigsaw.ranges(for: grid.size)
 
-            let gridTransform = OffsetGridTransform(size: grid.size)
+            let cellTransform = CellContentTransform(size: grid.size)
             let shiftTransform = ShiftTransform(ranges: [
                 jigsawRanges.cageClue,
                 jigsawRanges.cageShape,
                 jigsawRanges.boxShape,
-                gridTransform.range
+                cellTransform.range
             ])
 
             let values = Zipper([
                 puzzle.cageClues,
                 puzzle.cageShapes,
                 puzzle.boxShapes,
-                grid.map(gridTransform.encode)
+                grid.map(cellTransform.encode)
             ]).map(shiftTransform.encode)
 
             let fieldCoding = FieldCoding(range: shiftTransform.range)
@@ -47,7 +47,7 @@ extension KillerJigsaw {
             let size = header.output.size
 
             let jigsawRanges = KillerJigsaw.ranges(for: size)
-            let gridTransform = OffsetGridTransform(size: size)
+            let cellTransform = CellContentTransform(size: size)
 
             let body = Regex {
                 Capture {
@@ -55,7 +55,7 @@ extension KillerJigsaw {
                                  ranges: [jigsawRanges.cageClue,
                                           jigsawRanges.cageShape,
                                           jigsawRanges.boxShape,
-                                          gridTransform.range])
+                                          cellTransform.range])
                 }
             }
 
@@ -64,8 +64,8 @@ extension KillerJigsaw {
             let values = match.output.1.values
 
             do {
-                let gridValues = try values.map { try gridTransform.decode($0[3]) }
-                guard let grid = Grid(gridValues) else { return nil }
+                let content = try values.map { try cellTransform.decode($0[3]) }
+                guard let grid = Grid(content) else { return nil }
                 return KillerJigsaw(cageClues: values.map { $0[0] },
                                     cageShapes: values.map { $0[1] },
                                     boxShapes: values.map { $0[2] },

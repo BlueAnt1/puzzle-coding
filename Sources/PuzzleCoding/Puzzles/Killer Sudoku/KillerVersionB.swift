@@ -14,8 +14,8 @@ extension KillerSudoku {
 
         static func encode(_ puzzle: KillerSudoku) -> String {
             let grid = puzzle.grid
-            let gridTransform = OffsetGridTransform(size: grid.size)
-            let gridCoding = FieldCoding(range: gridTransform.range)
+            let cellTransform = CellContentTransform(size: grid.size)
+            let gridCoding = FieldCoding(range: cellTransform.range)
 
             let ranges = KillerSudoku.ranges(for: grid.size)
             let shiftTransform = ShiftTransform(ranges: [ranges.cageClue, ranges.cageShape])
@@ -25,7 +25,7 @@ extension KillerSudoku {
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
                 \(shiftValues.map(shiftCoding.encode).joined())\
-                \(grid.map(gridTransform.encode).map(gridCoding.encode).joined())
+                \(grid.map(cellTransform.encode).map(gridCoding.encode).joined())
                 """
         }
 
@@ -47,7 +47,7 @@ extension KillerSudoku {
                     ShiftPattern(size: size, ranges: ranges)
                 }
                 Capture(as: gridReference) {
-                    OffsetGridPattern(size: size)
+                    GridPattern(size: size)
                 }
             }
 

@@ -14,14 +14,14 @@ extension Jigsaw {
 
         static func encode(_ puzzle: Jigsaw) -> String {
             let grid = puzzle.grid
-            let gridTransform = OffsetGridTransform(size: grid.size)
-            let gridCoding = FieldCoding(range: gridTransform.range)
+            let cellTransform = CellContentTransform(size: grid.size)
+            let gridCoding = FieldCoding(range: cellTransform.range)
             let boxCoding = FieldCoding(range: Jigsaw.boxRange(in: grid.size))
 
             return """
                 \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
                 \(puzzle.boxShapes.map(boxCoding.encode).joined())\
-                \(grid.map(gridTransform.encode).map(gridCoding.encode).joined())
+                \(grid.map(cellTransform.encode).map(gridCoding.encode).joined())
                 """
         }
 
@@ -34,13 +34,13 @@ extension Jigsaw {
 
             let boxCoding = FieldCoding(range: Jigsaw.boxRange(in: size))
             let boxShapes = Reference<(Substring, elements: [Int])>()
-            let grid = Reference<OffsetGridPattern.RegexOutput>()
+            let grid = Reference<GridPattern.RegexOutput>()
             let body = Regex {
                 Capture(as: boxShapes) {
                     ArrayPattern(repeating: boxCoding.pattern, count: size.gridCellCount)
                 }
                 Capture(as: grid) {
-                    OffsetGridPattern(size: size)
+                    GridPattern(size: size)
                 }
             }
 

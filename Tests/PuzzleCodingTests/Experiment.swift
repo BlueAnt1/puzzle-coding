@@ -122,7 +122,7 @@ struct ExperimentClueWithProgress {
                  \.cageClues: 0...size.valueRange.reduce(0, +),
                  \.cageShapes: 1...5,
                  \.clueOperator: 1...4,
-                 \.progress: OffsetGridTransform(size: size).range
+                 \.progress: CellContentTransform(size: size).range
             ]
         }
     }

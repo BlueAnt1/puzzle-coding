@@ -14,14 +14,14 @@ extension Str8ts {
 
         static func encode(_ puzzle: Str8ts) -> String {
             let grid = puzzle.grid
-            let gridTransform = OffsetGridTransform(size: grid.size)
-            let gridCoding = FieldCoding(range: gridTransform.range)
+            let cellTransform = CellContentTransform(size: grid.size)
+            let gridCoding = FieldCoding(range: cellTransform.range)
             let colorCoding = FieldCoding(range: 0...1)
 
             return """
             \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
             \(puzzle.colorShapes.map(colorCoding.encode).joined())\
-            \(grid.map(gridTransform.encode).map(gridCoding.encode).joined())
+            \(grid.map(cellTransform.encode).map(gridCoding.encode).joined())
             """
         }
 
@@ -40,7 +40,7 @@ extension Str8ts {
                     ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
                 }
                 Capture(as: grid) {
-                    OffsetGridPattern(size: size)
+                    GridPattern(size: size)
                 }
             }
 

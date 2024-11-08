@@ -11,7 +11,7 @@ extension Sudoku {
 
         static func encode(_ puzzle: Sudoku) -> String {
             let grid = puzzle.grid
-            let transform = OffsetGridTransform(size: grid.size)
+            let transform = CellContentTransform(size: grid.size)
             let coding = FieldCoding(range: transform.range)
 
             return """
@@ -27,7 +27,7 @@ extension Sudoku {
             else { return nil }
             let size = header.output.size
 
-            guard let match = try? OffsetGridPattern(size: size).regex.wholeMatch(in: input[header.range.upperBound...]) else { return nil }
+            guard let match = try? GridPattern(size: size).regex.wholeMatch(in: input[header.range.upperBound...]) else { return nil }
             return Sudoku(grid: match.output.grid, type: sudokuType)
         }
     }

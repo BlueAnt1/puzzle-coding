@@ -1,11 +1,11 @@
 //
-//  OffsetGridTransform.swift
+//  CellContentTransform.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/25/24.
 //
 
-struct OffsetGridTransform {
+struct CellContentTransform {
     let size: Size
 
     private var solutionOffset: Int { size.valueRange.upperBound }
