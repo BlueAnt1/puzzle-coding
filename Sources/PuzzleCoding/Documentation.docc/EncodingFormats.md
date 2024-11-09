@@ -77,7 +77,7 @@ Every puzzle type has its own data requirements. We'll start with the simplest &
         - <doc:ShiftTransform>
             - colorShape
             - Transform cell content using <doc:CellContentTransform>.
-        - Encode the transform using <doc:FieldCoding>.
+        - Encode the transform using <doc:FieldCoding>
     }
 }
 
