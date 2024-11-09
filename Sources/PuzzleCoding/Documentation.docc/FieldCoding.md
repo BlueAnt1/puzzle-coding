@@ -13,7 +13,7 @@ The fields:
 
 ## Details
 
-The radix is generally 32. The algorithm you're implementing will note when the radix is something else.
+The radix is generally 32.
 
 ### Set up
 

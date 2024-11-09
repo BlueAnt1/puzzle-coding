@@ -4,7 +4,6 @@ Transform cell content into an integer.
 
 ## Overview
 
-We need to encode the content of a puzzle cell in a limited amount of space.
 This algorithm represents each type of content as a unique range of values.
 
 ## Details
