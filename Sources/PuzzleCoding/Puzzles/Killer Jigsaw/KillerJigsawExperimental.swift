@@ -48,20 +48,14 @@ extension KillerJigsaw {
 
             let jigsawRanges = KillerJigsaw.ranges(for: size)
             let cellTransform = CellContentTransform(size: size)
-
-            let body = Regex {
-                Capture {
-                    ShiftPattern(size: size,
-                                 ranges: [jigsawRanges.cageClue,
-                                          jigsawRanges.cageShape,
-                                          jigsawRanges.boxShape,
-                                          cellTransform.range])
-                }
-            }
-
-            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
+            let pattern = ShiftPattern(size: size,
+                                       ranges: [jigsawRanges.cageClue,
+                                                jigsawRanges.cageShape,
+                                                jigsawRanges.boxShape,
+                                                cellTransform.range])
+            guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
-            let values = match.output.1.values
+            let values = match.output.values
 
             do {
                 let content = try values.map { try cellTransform.decode($0[3]) }

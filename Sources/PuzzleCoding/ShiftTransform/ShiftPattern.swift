@@ -29,7 +29,7 @@ struct ShiftPattern: CustomConsumingRegexComponent {
             }
         }
 
-        guard let match = try? values.regex.prefixMatch(in: input[index ..< bounds.upperBound]),
+        guard let match = try? values.prefixMatch(in: input[index ..< bounds.upperBound]),
               let output = match.output.1 else { return nil }
         return (match.range.upperBound, output)
     }
