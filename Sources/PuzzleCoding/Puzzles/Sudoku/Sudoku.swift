@@ -34,7 +34,7 @@ extension Sudoku: PuzzleCoder {
 
         public static var current: Version { .versionB }
 
-        fileprivate var coder: any VersionCoder<Sudoku>.Type {
+        var coder: any VersionCoder<Sudoku>.Type {
             switch self {
             case .clue: Clue.self
             case .noNakedSingles: NoNakedSingles.self
@@ -75,12 +75,14 @@ extension Windoku: PuzzleCoder {
     private static var type: PuzzleType.SudokuType { .windoku }
 
     public static func decode(_ input: String, using version: Version) -> Windoku? {
-        guard let sudoku = version.coder.decode(input) else { return nil }
+        guard let sudoku = Sudoku.decode(input, using: version),
+              sudoku.type == Self.type
+        else { return nil }
         return Windoku(grid: sudoku.grid)
     }
 
     public func encode(using version: Version = .current) -> String {
-        version.coder.encode(Sudoku(grid: self.grid, type: Self.type))
+        Sudoku(grid: grid, type: Self.type).encode(using: version)
     }
 }
 
@@ -107,12 +109,14 @@ extension SudokuX: PuzzleCoder {
     private static var type: PuzzleType.SudokuType { .sudokuX }
 
     public static func decode(_ input: String, using version: Version) -> SudokuX? {
-        guard let sudoku = version.coder.decode(input) else { return nil }
+        guard let sudoku = Sudoku.decode(input, using: version),
+              sudoku.type == Self.type
+        else { return nil }
         return SudokuX(grid: sudoku.grid)
     }
 
     public func encode(using version: Version = .current) -> String {
-        version.coder.encode(Sudoku(grid: self.grid, type: Self.type))
+        Sudoku(grid: self.grid, type: Self.type).encode(using: version)
     }
 }
 
