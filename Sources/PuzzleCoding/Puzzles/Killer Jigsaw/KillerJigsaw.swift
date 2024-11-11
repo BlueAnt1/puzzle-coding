@@ -32,7 +32,7 @@ public struct KillerJigsaw: Equatable {
         let maxClueValue = size.valueRange.reduce(0, +)
         let cageClueRange = 0...maxClueValue
         let cageShapeRange = 1...5
-        let boxShapeRange = 1...size.valueRange.upperBound
+        let boxShapeRange = size.valueRange
         return (cageClueRange, cageShapeRange, boxShapeRange)
     }
 }

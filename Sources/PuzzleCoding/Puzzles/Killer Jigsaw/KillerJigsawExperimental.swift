@@ -58,11 +58,11 @@ extension KillerJigsaw {
             let values = match.output.values
 
             do {
-                let content = try values.map { try cellTransform.decode($0[3]) }
+                let content = try values.map(\.[3]).map(cellTransform.decode)
                 guard let grid = Grid(content) else { return nil }
-                return KillerJigsaw(cageClues: values.map { $0[0] },
-                                    cageShapes: values.map { $0[1] },
-                                    boxShapes: values.map { $0[2] },
+                return KillerJigsaw(cageClues: values.map(\.[0]),
+                                    cageShapes: values.map(\.[1]),
+                                    boxShapes: values.map(\.[2]),
                                     grid: grid)
             } catch {
                 return nil
