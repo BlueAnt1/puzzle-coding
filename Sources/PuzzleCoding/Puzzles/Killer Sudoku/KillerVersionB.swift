@@ -23,7 +23,7 @@ extension KillerSudoku {
             let shiftCoding = FieldCoding(range: shiftTransform.range)
 
             return """
-                \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
+                \(Header(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
                 \(shiftValues.map(shiftCoding.encode).joined())\
                 \(grid.map(cellTransform.encode).map(gridCoding.encode).joined())
                 """

@@ -34,7 +34,7 @@ extension KillerJigsaw {
             let fieldCoding = FieldCoding(range: shiftTransform.range)
 
             return """
-                \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
+                \(Header(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
                 \(values.map(fieldCoding.encode).joined())
                 """
         }

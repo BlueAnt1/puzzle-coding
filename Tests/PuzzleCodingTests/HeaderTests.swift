@@ -12,7 +12,7 @@ struct HeaderTests {
 
     @Test(arguments: Size.allCases)
     func headerRoundTrips(size: Size) throws {
-        let coder = HeaderCoder(puzzleType: .sudoku(.sudoku), size: size, version: "B")
+        let coder = Header(puzzleType: .sudoku(.sudoku), size: size, version: "B")
         let raw = coder.rawValue
         #expect(raw.count == 3)
 

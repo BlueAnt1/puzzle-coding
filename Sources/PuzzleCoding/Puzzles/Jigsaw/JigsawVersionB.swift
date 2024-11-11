@@ -19,7 +19,7 @@ extension Jigsaw {
             let boxCoding = FieldCoding(range: Jigsaw.boxRange(in: grid.size))
 
             return """
-                \(HeaderCoder(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
+                \(Header(puzzleType: Self.puzzleType, size: grid.size, version: Self.version).rawValue)\
                 \(puzzle.boxShapes.map(boxCoding.encode).joined())\
                 \(grid.map(cellTransform.encode).map(gridCoding.encode).joined())
                 """

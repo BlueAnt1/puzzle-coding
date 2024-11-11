@@ -1,5 +1,5 @@
 //
-//  HeaderCoder.swift
+//  Header.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/22/24.
@@ -7,7 +7,7 @@
 
 import RegexBuilder
 
-struct HeaderCoder {
+struct Header {
     let puzzleType: PuzzleType
     let size: Size
     let version: Character

@@ -23,7 +23,7 @@ extension Str8ts {
             let shiftValues = zipper.map(shiftTransform.encode)
 
             return """
-            \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
+            \(Header(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
             \(shiftValues.map(fieldCoding.encode).joined())
             """
         }

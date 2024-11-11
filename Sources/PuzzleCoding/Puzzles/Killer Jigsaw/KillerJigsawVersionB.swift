@@ -25,7 +25,7 @@ extension KillerJigsaw {
             let gridCoding = FieldCoding(range: cellTransform.range)
 
             return """
-                \(HeaderCoder(puzzleType: VersionB.puzzleType, size: grid.size, version: VersionB.version).rawValue)\
+                \(Header(puzzleType: VersionB.puzzleType, size: grid.size, version: VersionB.version).rawValue)\
                 \(shiftValues.map(shiftCoding.encode).joined())\
                 \(gridValues.map(gridCoding.encode).joined())
                 """

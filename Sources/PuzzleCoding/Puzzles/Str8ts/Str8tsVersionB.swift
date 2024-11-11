@@ -19,7 +19,7 @@ extension Str8ts {
             let colorCoding = FieldCoding(range: 0...1)
 
             return """
-            \(HeaderCoder(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
+            \(Header(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
             \(puzzle.colorShapes.map(colorCoding.encode).joined())\
             \(grid.map(cellTransform.encode).map(gridCoding.encode).joined())
             """

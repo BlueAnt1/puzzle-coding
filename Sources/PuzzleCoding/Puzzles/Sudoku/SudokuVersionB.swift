@@ -15,7 +15,7 @@ extension Sudoku {
             let coding = FieldCoding(range: transform.range)
 
             return """
-            \(HeaderCoder(puzzleType: .sudoku(puzzle.type), size: grid.size, version: Self.version).rawValue)\
+            \(Header(puzzleType: .sudoku(puzzle.type), size: grid.size, version: Self.version).rawValue)\
             \(grid.map(transform.encode).map(coding.encode).joined())
             """
         }
