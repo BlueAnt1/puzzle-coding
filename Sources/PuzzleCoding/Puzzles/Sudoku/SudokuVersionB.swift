@@ -6,29 +6,34 @@
 //
 
 extension Sudoku {
-    struct VersionB: VersionCoder {
+    struct VersionB: Coder {
         private static var version: Character { "B" }
 
         static func encode(_ puzzle: Sudoku) -> String {
-            let grid = puzzle.grid
-            let transform = CellContentTransform(size: grid.size)
-            let coding = FieldCoding(range: transform.range)
+            let cellTransform = CellContentTransform(size: puzzle.size)
+            let fieldCoding = FieldCoding(range: cellTransform.range)
 
             return """
-            \(Header(puzzleType: .sudoku(puzzle.type), size: grid.size, version: Self.version).rawValue)\
-            \(grid.map(transform.encode).map(coding.encode).joined())
+            \(Header(puzzleType: puzzle.type, size: puzzle.size, version: Self.version).rawValue)\
+            \(puzzle.cells.map { cellTransform.encode($0.content) }.map(fieldCoding.encode).joined())
             """
         }
 
-        static func decode(_ input: String) -> Sudoku? {
+        static func decode(_ input: String, type: PuzzleType) -> Sudoku? {
             guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
-                  case .sudoku(let sudokuType) = header.output.puzzleType,
+                  case type = header.output.puzzleType,
                   header.output.version == Self.version
             else { return nil }
             let size = header.output.size
 
-            guard let match = try? GridPattern(size: size).regex.wholeMatch(in: input[header.range.upperBound...]) else { return nil }
-            return Sudoku(grid: match.output.grid, type: sudokuType)
+            let cellTransform = CellContentTransform(size: size)
+            let fieldCoding = FieldCoding(range: cellTransform.range)
+            let pattern = ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
+            guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...]),
+                  let content = try? match.output.elements.map(cellTransform.decode),
+                  let sudoku = try? Sudoku(cells: content.map { Cell(content: $0) }, type: type)
+            else { return nil }
+            return sudoku
         }
     }
 }

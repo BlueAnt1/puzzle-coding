@@ -25,3 +25,10 @@ public enum Size: Int, Equatable, Hashable, CaseIterable, Sendable, CustomString
 
     public var description: String { "\(rawValue)×\(rawValue)" }
 }
+
+extension Size {
+    init?(cellCount: Int) {
+        guard let size = Size.allCases.first(where: { $0.gridCellCount == cellCount }) else { return nil }
+        self = size
+    }
+}

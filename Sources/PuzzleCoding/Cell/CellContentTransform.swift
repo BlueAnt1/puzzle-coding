@@ -26,13 +26,13 @@ struct CellContentTransform {
         }
     }
 
-    func decode(_ number: Int) throws -> CellContent? {
-        switch number {
+    func decode(_ value: Int) throws -> CellContent? {
+        switch value {
         case empty: nil
-        case clueRange: .clue(number)
-        case solutionRange: .solution(number - solutionOffset)
-        case candidatesRange: .candidates((number - candidatesOffset).oneBits)
-        default: throw CodingError.invalidCoding
+        case clueRange: .clue(value)
+        case solutionRange: .solution(value - solutionOffset)
+        case candidatesRange: .candidates((value - candidatesOffset).oneBits)
+        default: throw Error.outOfRange
         }
     }
 }

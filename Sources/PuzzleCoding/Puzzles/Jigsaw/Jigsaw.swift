@@ -44,5 +44,5 @@ extension Jigsaw: PuzzleCoder {
 }
 
 extension Jigsaw: CustomStringConvertible {
-    public var description: String { "\(PuzzleType.jigsaw) \(grid.size)" }
+    public var description: String { "\(PuzzleType.jigsawSudoku) \(grid.size)" }
 }

@@ -9,7 +9,7 @@ import RegexBuilder
 
 extension Jigsaw {
     struct VersionB: VersionCoder {
-        private static var puzzleType: PuzzleType { .jigsaw }
+        private static var puzzleType: PuzzleType { .jigsawSudoku }
         private static var version: Character { "B" }
 
         static func encode(_ puzzle: Jigsaw) -> String {

@@ -22,25 +22,25 @@ struct SudokuCoderTests {
         }
     }
 
-    private var sampleGrid: Grid { Grid(sampleContent)! }
+    private var sampleCells: [Cell] { sampleContent.map { Cell(content: $0) }}
 
     @Test
     func clueRoundtrips() throws {
-        let grid = sampleGrid
-        let puzzle = Sudoku(grid: grid)
+        let cells = sampleCells
+        let puzzle = try #require(try Sudoku(cells: cells))
         let version = Sudoku.Version.clue
         let rawPuzzle = puzzle.encode(using: version)
-        let (puzzleFromRaw, versionFromRaw) = try #require(Sudoku.decode(rawPuzzle))
+        let (puzzleFromRaw, versionFromRaw) = try #require(try Sudoku.decode(rawPuzzle))
 
         #expect(versionFromRaw == version)
-        let cleanGrid: [CellContent?] = grid.map {
-            switch $0 {
-            case nil, .clue: $0
-            case .solution(let value): .clue(value)
-            case .candidates: nil
+        let cleanCells: [Cell] = cells.map { cell in
+            switch cell.content {
+            case nil, .clue: cell
+            case .solution(let value): Cell(content: .clue(value))
+            case .candidates: Cell()
             }
         }
-        #expect(Array(puzzleFromRaw.grid) == cleanGrid)
+        #expect(Array(puzzleFromRaw.cells) == cleanCells)
 
         let puzzleCount = Double(rawPuzzle.count)
 
@@ -53,16 +53,16 @@ struct SudokuCoderTests {
 
     @Test
     func shiftRoundtrips() throws {
-        let grid = sampleGrid
-        let puzzle = Sudoku(grid: grid)
+        let cells = sampleCells
+        let puzzle = try #require(try Sudoku(cells: cells))
         let version = Sudoku.Version.noNakedSingles
         let rawPuzzle = puzzle.encode(using: version)
-        let (puzzleFromRaw, versionFromRaw) = try #require(Sudoku.decode(rawPuzzle))
+        let (puzzleFromRaw, versionFromRaw) = try #require(try Sudoku.decode(rawPuzzle))
 
         #expect(versionFromRaw == version)
-        if !grid.contains(where: { $0?.candidates?.count == 1 }) {
+        if !cells.contains(where: { $0.content?.candidates?.count == 1 }) {
             // known bug with this algorithm where a naked single comes back as a solved cell
-            #expect(puzzleFromRaw.grid == grid)
+            #expect(puzzleFromRaw.cells == cells)
         }
         let puzzleCount = Double(rawPuzzle.count)
         print("""
@@ -74,13 +74,13 @@ struct SudokuCoderTests {
 
     @Test(arguments: modernVersions)
     func coderRoundtrips(version: Version) async throws {
-        let puzzle = Sudoku(grid: sampleGrid)
+        let puzzle = try #require(try Sudoku(cells: sampleCells))
 
         let rawPuzzle = puzzle.encode(using: version)
-        let decoded = try #require(Sudoku.decode(rawPuzzle))
+        let decoded = try #require(try Sudoku.decode(rawPuzzle))
 
         #expect(decoded.version == version)
-        #expect(decoded.puzzle.grid == puzzle.grid)
+        #expect(decoded.puzzle.cells == puzzle.cells)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
@@ -90,25 +90,26 @@ struct SudokuCoderTests {
             """)
     }
 
-    @Test(arguments: PuzzleType.SudokuType.allCases)
-    func sudokuTypeRoundTrips(_ type: PuzzleType.SudokuType) async throws {
-        let grid = sampleGrid
+    @Test(arguments: [PuzzleType.sudoku, .sudokuX, .windoku])
+    func sudokuTypeRoundTrips(_ type: PuzzleType) async throws {
+        let cells = sampleCells
         switch type {
         case .sudoku:
-            let puzzle = Sudoku(grid: grid)
+            let puzzle = try #require(try Sudoku(cells: cells))
             let raw = puzzle.encode()
             let decoded = try #require(Sudoku.decode(raw))
             #expect(decoded.puzzle == puzzle)
         case .sudokuX:
-            let puzzle = SudokuX(grid: grid)
+            let puzzle = try #require(try SudokuX(cells: cells))
             let raw = puzzle.encode()
             let decoded = try #require(SudokuX.decode(raw))
             #expect(decoded.puzzle == puzzle)
         case .windoku:
-            let puzzle = Windoku(grid: grid)
+            let puzzle = try #require(try Windoku(cells: cells))
             let raw = puzzle.encode()
-            let decoded = try #require(Windoku.decode(raw))
+            let decoded = try #require(try Windoku.decode(raw))
             #expect(decoded.puzzle == puzzle)
+        default: fatalError()
         }
     }
 
@@ -127,13 +128,12 @@ struct SudokuCoderTests {
             .candidates(Set([1, 2, 9])), .candidates(Set([1, 2, 8, 9])), .clue(5), .solution(3), .candidates(Set([1, 8, 9])), .candidates(Set([1, 2, 9])), .clue(6), .clue(7), .solution(4)
         ]
 
-        var expectedGrid = Grid(size: .grid9x9)
-        expectedGrid.indices.forEach { expectedGrid[$0] = content[$0] }
+        let expectedCells = content.map { Cell(content: $0) }
 
-        let decoded = try #require(Sudoku.decode(rawEncoded))
-        #expect(decoded.puzzle.grid == expectedGrid)
+        let decoded = try #require(try Sudoku.decode(rawEncoded))
+        #expect(decoded.puzzle.cells == expectedCells)
 
-        let encoded = Sudoku(grid: expectedGrid).encode(using: .noNakedSingles)
+        let encoded = try #require(try Sudoku(cells: expectedCells).encode(using: .noNakedSingles))
         #expect(encoded == rawEncoded)
     }
 }

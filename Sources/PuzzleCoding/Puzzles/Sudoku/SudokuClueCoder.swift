@@ -8,11 +8,11 @@
 import Foundation
 
 extension Sudoku {
-    struct Clue: VersionCoder {
+    struct Clue: Coder {
         static func encode(_ puzzle: Sudoku) -> String {
-            precondition(puzzle.grid.size == .grid9x9)
-            return puzzle.grid.reduce(into: "") { grid, content in
-                switch content {
+            precondition(puzzle.size == .grid9x9)
+            return puzzle.cells.reduce(into: "") { grid, cell in
+                switch cell.content {
                 case nil, .candidates:
                     grid.append(".")
                 case .solution(let value), .clue(let value):
@@ -21,11 +21,11 @@ extension Sudoku {
             }
         }
 
-        static func decode(_ input: String) -> Sudoku? {
-            var grid = Grid(size: .grid9x9)
+        static func decode(_ input: String, type: PuzzleType) -> Sudoku? {
+            var cells = Array(repeating: Cell(), count: Size.grid9x9.gridCellCount)
             var emptyCharacter: Character? = nil
             var input = input[...]
-            var index = grid.startIndex
+            var index = cells.startIndex
 
             while let character = input.first {
                 input.removeFirst()
@@ -33,7 +33,7 @@ extension Sudoku {
 
                 switch character {
                     case "1"..."9":
-                    grid[index] = .clue(character.wholeNumberValue!)
+                    cells[index].content = .clue(character.wholeNumberValue!)
                 case _ where emptyCharacter == nil:
                     emptyCharacter = character
                     break
@@ -42,12 +42,12 @@ extension Sudoku {
                 default:
                     return nil
                 }
-                index = grid.index(after: index)
-                guard index != grid.endIndex else { break }
+                index = cells.index(after: index)
+                guard index != cells.endIndex else { break }
             }
 
-            guard input.trimmingCharacters(in: .whitespaces).isEmpty && index == grid.endIndex else { return nil }
-            return Sudoku(grid: grid)
+            guard input.trimmingCharacters(in: .whitespaces).isEmpty && index == cells.endIndex else { return nil }
+            return try? Sudoku(cells: cells, type: type)
         }
     }
 }
