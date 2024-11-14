@@ -15,7 +15,7 @@ extension Sudoku {
 
             return """
             \(Header(puzzleType: puzzle.type, size: puzzle.size, version: Self.version).rawValue)\
-            \(puzzle.cells.map { cellTransform.encode($0.content) }.map(fieldCoding.encode).joined())
+            \(puzzle.map { cellTransform.encode($0.content) }.map(fieldCoding.encode).joined())
             """
         }
 

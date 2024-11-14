@@ -11,12 +11,12 @@ extension Sudoku {
     struct Clue: Coder {
         static func encode(_ puzzle: Sudoku) -> String {
             precondition(puzzle.size == .grid9x9)
-            return puzzle.cells.reduce(into: "") { grid, cell in
+            return puzzle.reduce(into: "") { cells, cell in
                 switch cell.content {
                 case nil, .candidates:
-                    grid.append(".")
+                    cells.append(".")
                 case .solution(let value), .clue(let value):
-                    grid.append(String(value))
+                    cells.append(String(value))
                 }
             }
         }

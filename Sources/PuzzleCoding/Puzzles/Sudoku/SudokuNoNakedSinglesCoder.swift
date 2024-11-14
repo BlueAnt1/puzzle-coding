@@ -13,7 +13,7 @@ extension Sudoku {
 
         static func encode(_ puzzle: Sudoku) -> String {
             var result = ""
-            for cell in puzzle.cells {
+            for cell in puzzle {
                 switch cell.content {
                 case nil:
                     encode(0)

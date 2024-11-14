@@ -8,7 +8,7 @@
 /// Sudoku puzzle coder.
 public struct Sudoku: Equatable {
     /// The puzzle content.
-    public let cells: [Cell]
+    private let cells: [Cell]
     let type: PuzzleType
 
     /// Creates an instance.
@@ -28,6 +28,12 @@ public struct Sudoku: Equatable {
     }
 
     public var size: Size { Size(gridCellCount: cells.count)! }
+}
+
+extension Sudoku: RandomAccessCollection {
+    public var startIndex: Int { cells.startIndex }
+    public var endIndex: Int { cells.endIndex }
+    public subscript(_ position: Int) -> Cell { cells[position] }
 }
 
 extension Sudoku: PuzzleCoder {
@@ -85,9 +91,13 @@ public struct Windoku: Equatable {
         self.sudoku = sudoku
     }
 
-    /// The puzzle content.
-    public var cells: [Cell] { sudoku.cells }
     public var size: Size { sudoku.size }
+}
+
+extension Windoku: RandomAccessCollection {
+    public var startIndex: Int { sudoku.startIndex }
+    public var endIndex: Int { sudoku.endIndex }
+    public subscript(_ position: Int) -> Cell { sudoku[position] }
 }
 
 extension Windoku: PuzzleCoder {
@@ -125,9 +135,13 @@ public struct SudokuX: Equatable {
         self.sudoku = sudoku
     }
 
-    /// The puzzle content.
-    public var cells: [Cell] { sudoku.cells }
     public var size: Size { sudoku.size }
+}
+
+extension SudokuX: RandomAccessCollection {
+    public var startIndex: Int { sudoku.startIndex }
+    public var endIndex: Int { sudoku.endIndex }
+    public subscript(_ position: Int) -> Cell { sudoku[position] }
 }
 
 extension SudokuX: PuzzleCoder {
