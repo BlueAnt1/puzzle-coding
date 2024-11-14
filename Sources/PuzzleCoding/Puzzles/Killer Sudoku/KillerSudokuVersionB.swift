@@ -45,8 +45,6 @@ extension KillerSudoku {
             let size = header.output.size
 
             let ranges = KillerSudoku.ranges(for: size)
-            let cageTransform = KillerCageContentTransform(size: size)
-            let cellTransform = CellContentTransform(size: size)
             let pattern = ShiftPattern(size: size,
                                        ranges: [
                                         ranges.cageShape,
@@ -57,9 +55,12 @@ extension KillerSudoku {
             guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
             let values = match.output.values
+
             do {
+                let cageTransform = KillerCageContentTransform(size: size)
+                let cellTransform = CellContentTransform(size: size)
                 let cells = try values.map {
-                    try Cell(cage: ($0[0], cageTransform.decode($0[1])),
+                    try Cell(cage: (shape: $0[0], content: cageTransform.decode($0[1])),
                              content: cellTransform.decode($0[2]))
                 }
 

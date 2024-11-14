@@ -12,24 +12,25 @@ struct Str8tsCoderTests {
 
     @Test(arguments: Str8ts.Version.allCases)
     func coderRoundtrips(version: Str8ts.Version) throws {
+        let colors = "100011001100010001011000110000000100100010001001000000011000110100010001100110001".map(\.wholeNumberValue!)
         let content: [CellContent?] = "006700400000004005090001000015042009000028060000300000001050003670000000000007050".map {
             let number = $0.wholeNumberValue ?? 0
             return number == 0
             ? Bool.random() ? .solution((1...9).randomElement()!) : .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
             : .clue(number)
         }
-        var grid = Grid(size: .grid9x9)
-        grid.indices.forEach { grid[$0] = content[$0] }
+        let cells = colors.indices.map {
+            Cell(box: (shape: colors[$0], 0),
+                 content: content[$0])
+        }
 
-        let colors = "100011001100010001011000110000000100100010001001000000011000110100010001100110001".map(\.wholeNumberValue!)
-        let puzzle = Str8ts(colorShapes: colors, grid: grid)
+        let puzzle = try #require(try Str8ts(cells: cells))
         let rawPuzzle = puzzle.encode(using: version)
 
         let decoded = try #require(Str8ts.decode(rawPuzzle))
 
         #expect(decoded.version == version)
-        #expect(decoded.puzzle.colorShapes == colors)
-        #expect(decoded.puzzle.grid == grid)
+        #expect(decoded.puzzle == puzzle)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""

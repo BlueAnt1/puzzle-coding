@@ -7,33 +7,49 @@
 
 /// Str8ts puzzle coder.
 public struct Str8ts: Equatable {
-    public let colorShapes: [Int]
-    public let grid: Grid
+    private let cells: [Cell]
 
-    public init(colorShapes: [Int], grid: Grid) {
-        precondition(colorShapes.count == grid.count)
-        self.colorShapes = colorShapes
-        self.grid = grid
+    public init(cells: [Cell]) throws {
+        guard let size = Size(gridCellCount: cells.count)
+        else { throw Error.invalidSize }
+        guard cells.allSatisfy({ $0.box?.shape != nil }),
+              cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true })
+        else { throw Error.outOfRange }
+
+        self.cells = cells
     }
 
-    static func colorRange(for size: Size) -> ClosedRange<Int> {
-        0...1
+    var size: Size { Size(gridCellCount: cells.count)! }
+
+    static func ranges(for size: Size) -> (boxShape: ClosedRange<Int>,
+                                           cellContent: ClosedRange<Int>) {
+        return (0...1,
+                CellContentTransform(size: size).range)
     }
+}
+
+extension Str8ts: RandomAccessCollection {
+    public var startIndex: Int { cells.startIndex }
+    public var endIndex: Int { cells.endIndex }
+    public subscript(_ position: Int) -> Cell { cells[position] }
 }
 
 extension Str8ts: PuzzleCoder {
     public enum Version: CodingVersion {
         case versionB
-        case experimental
 
         public static var current: Version { .versionB }
 
-        fileprivate var coder: any VersionCoder<Str8ts>.Type {
+        fileprivate var coder: any Coder.Type {
             switch self {
             case .versionB: VersionB.self
-            case .experimental: Experimental.self
             }
         }
+    }
+
+    protocol Coder {
+        static func encode(_ puzzle: Str8ts) -> String
+        static func decode(_ input: String) -> Str8ts?
     }
 
     public static func decode(_ input: String, using version: Version) -> Str8ts? {
@@ -46,5 +62,5 @@ extension Str8ts: PuzzleCoder {
 }
 
 extension Str8ts: CustomStringConvertible {
-    public var description: String { "\(PuzzleType.str8ts) \(grid.size)" }
+    public var description: String { "\(PuzzleType.str8ts) \(size)" }
 }

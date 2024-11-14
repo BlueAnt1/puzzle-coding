@@ -8,21 +8,30 @@
 import RegexBuilder
 
 extension Str8ts {
-    struct VersionB: VersionCoder {
+    struct VersionB: Coder {
         private static var puzzleType: PuzzleType { .str8ts }
-        private static var version: Character { "B" }
+        private static var version: Character { "X" }
 
         static func encode(_ puzzle: Str8ts) -> String {
-            let grid = puzzle.grid
-            let cellTransform = CellContentTransform(size: grid.size)
-            let gridCoding = FieldCoding(range: cellTransform.range)
-            let colorCoding = FieldCoding(range: 0...1)
+            let size = puzzle.size
+            let ranges = Str8ts.ranges(for: size)
+            let shiftTransform = ShiftTransform(ranges: [
+                ranges.boxShape,
+                ranges.cellContent
+            ])
+
+            let cellTransform = CellContentTransform(size: size)
+            let values = Zipper([
+                puzzle.map(\.box!.shape),
+                puzzle.map(\.content).map(cellTransform.encode)
+            ]).map(shiftTransform.encode)
+
+            let fieldCoding = FieldCoding(range: shiftTransform.range)
 
             return """
-            \(Header(puzzleType: Self.puzzleType, size: puzzle.grid.size, version: Self.version).rawValue)\
-            \(puzzle.colorShapes.map(colorCoding.encode).joined())\
-            \(grid.map(cellTransform.encode).map(gridCoding.encode).joined())
-            """
+                \(Header(puzzleType: Self.puzzleType, size: size, version: Self.version).rawValue)\
+                \(values.map(fieldCoding.encode).joined())
+                """
         }
 
         static func decode(_ input: String) -> Str8ts? {
@@ -32,22 +41,28 @@ extension Str8ts {
             else { return nil }
             let size = header.output.size
 
-            let fieldCoding = FieldCoding(range: 0...1)
-            let colors = Reference<(Substring, elements: [Int])>()
-            let grid = Reference<(Substring, grid: Grid)>()
-            let body = Regex {
-                Capture(as: colors) {
-                    ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
-                }
-                Capture(as: grid) {
-                    GridPattern(size: size)
-                }
-            }
+            let ranges = Str8ts.ranges(for: size)
+            let pattern = ShiftPattern(size: size,
+                                       ranges: [
+                                        ranges.boxShape,
+                                        ranges.cellContent
+                                       ])
 
-            guard let match = try? body.wholeMatch(in: input[header.range.upperBound...])
+            guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
+            let values = match.output.values
 
-            return Str8ts(colorShapes: match[colors].1, grid: match[grid].grid)
+            do {
+                let cellTransform = CellContentTransform(size: size)
+                let cells = try values.map {
+                    try Cell(box: ($0[0], 0),
+                             content: cellTransform.decode($0[1]))
+                }
+
+                return try Str8ts(cells: cells)
+            } catch {
+                return nil
+            }
         }
     }
 }
