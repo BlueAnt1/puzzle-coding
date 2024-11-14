@@ -13,7 +13,7 @@ The fields:
 
 ## Details
 
-The radix is generally 32.
+The radix is generally 36.
 
 ### Set up
 

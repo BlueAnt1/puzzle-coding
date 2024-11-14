@@ -14,11 +14,11 @@ Every encoding starts with a header which is followed by the puzzle data.
 The header's purpose is to describe what comes later. It contains the puzzle type, the size of the puzzle and the version of the encoding.
 As new requirements for the transferred data evolve the version will change.
 
-All numeric values are encoded as base 32 characters. The encodings are not case sensitive.
+All numeric values are encoded as base 36 characters. The encodings are not case sensitive.
 
 A sample header: `S9B`
 - The first character is the puzzle type
-- The second character is the puzzle size (base 32)
+- The second character is the puzzle size (base 36)
 - The third character is the encoding version which is always a letter A...Z
 
 @Row {

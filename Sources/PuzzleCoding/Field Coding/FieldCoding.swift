@@ -8,7 +8,7 @@
 import RegexBuilder
 
 struct FieldCoding {
-    static var radix: Int { 32 }
+    static var radix: Int { 36 }
 
     private let range: ClosedRange<Int>
     private let radix: Int
