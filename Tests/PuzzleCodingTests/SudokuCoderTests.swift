@@ -30,7 +30,7 @@ struct SudokuCoderTests {
         let puzzle = try #require(try Sudoku(cells: cells))
         let version = Sudoku.Version.clue
         let rawPuzzle = puzzle.encode(using: version)
-        let (puzzleFromRaw, versionFromRaw) = try #require(try Sudoku.decode(rawPuzzle))
+        let (puzzleFromRaw, versionFromRaw) = try #require(Sudoku.decode(rawPuzzle))
 
         #expect(versionFromRaw == version)
         let cleanCells: [Cell] = cells.map { cell in
@@ -57,7 +57,7 @@ struct SudokuCoderTests {
         let puzzle = try #require(try Sudoku(cells: cells))
         let version = Sudoku.Version.noNakedSingles
         let rawPuzzle = puzzle.encode(using: version)
-        let (puzzleFromRaw, versionFromRaw) = try #require(try Sudoku.decode(rawPuzzle))
+        let (puzzleFromRaw, versionFromRaw) = try #require(Sudoku.decode(rawPuzzle))
 
         #expect(versionFromRaw == version)
         if !cells.contains(where: { $0.content?.candidates?.count == 1 }) {
@@ -77,7 +77,7 @@ struct SudokuCoderTests {
         let puzzle = try #require(try Sudoku(cells: sampleCells))
 
         let rawPuzzle = puzzle.encode(using: version)
-        let decoded = try #require(try Sudoku.decode(rawPuzzle))
+        let decoded = try #require(Sudoku.decode(rawPuzzle))
 
         #expect(decoded.version == version)
         #expect(decoded.puzzle == puzzle)
@@ -107,7 +107,7 @@ struct SudokuCoderTests {
         case .windoku:
             let puzzle = try #require(try Windoku(cells: cells))
             let raw = puzzle.encode()
-            let decoded = try #require(try Windoku.decode(raw))
+            let decoded = try #require(Windoku.decode(raw))
             #expect(decoded.puzzle == puzzle)
         default: fatalError()
         }
@@ -130,7 +130,7 @@ struct SudokuCoderTests {
 
         let expectedCells = content.map { Cell(content: $0) }
 
-        let decoded = try #require(try Sudoku.decode(rawEncoded))
+        let decoded = try #require(Sudoku.decode(rawEncoded))
         #expect(Array(decoded.puzzle) == expectedCells)
 
         let encoded = try #require(try Sudoku(cells: expectedCells).encode(using: .noNakedSingles))
