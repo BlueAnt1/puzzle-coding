@@ -13,17 +13,6 @@ struct KillerJigsawCoderTests {
     @Test(arguments: KillerJigsaw.Version.allCases)
     func coderRoundtrips(version: KillerJigsaw.Version) throws {
         // Tim Tang puzzle from SudokuWiki
-        let cageShapes = """
-                        111221121
-                        233213321
-                        224413112
-                        114411332
-                        223332211
-                        211142122
-                        212244122
-                        333212133
-                        333212233
-                        """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
         let boxShapes = """
                         112222233
                         112444233
@@ -35,6 +24,17 @@ struct KillerJigsawCoderTests {
                         556777899
                         556678899
                         """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
+        let cageShapes = """
+                        111221121
+                        233213321
+                        224413112
+                        114411332
+                        223332211
+                        211142122
+                        212244122
+                        333212133
+                        333212233
+                        """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
         let cageClues = [
             21,  0,  0, 11,  0,  7,  0,  7, 12,
             17, 10,  0,  0, 12, 21,  0,  0,  0,
@@ -45,22 +45,23 @@ struct KillerJigsawCoderTests {
              0,  0, 19,  0,  0,  0,  0,  0,  0,
             34,  0,  0,  0, 10, 14,  0, 20,  0,
              0,  0,  0,  0,  0,  0,  0,  0,  0
-        ]
+        ].map(CageContent.clue)
+
         let content = Array(repeating: CellContent.candidates(Set(1...9)), count: 81)
 
-        var grid = Grid(size: .grid9x9)
-        grid.indices.forEach { grid[$0] = content[$0] }
+        let cells = boxShapes.indices.map {
+            Cell(box: (boxShapes[$0], 0),
+                 cage: (cageShapes[$0], cageClues[$0]),
+                 content: content[$0])
+        }
 
-        let puzzle = KillerJigsaw(cageClues: cageClues, cageShapes: cageShapes, boxShapes: boxShapes, grid: grid)
+        let puzzle = try #require(try KillerJigsaw(cells: cells))
         let rawPuzzle = puzzle.encode(using: version)
 
         let decoded = try #require(KillerJigsaw.decode(rawPuzzle))
 
         #expect(decoded.version == version)
-        #expect(decoded.puzzle.cageClues == cageClues)
-        #expect(decoded.puzzle.cageShapes == cageShapes)
-        #expect(decoded.puzzle.boxShapes == boxShapes)
-        #expect(decoded.puzzle.grid == grid)
+        #expect(decoded.puzzle == puzzle)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""

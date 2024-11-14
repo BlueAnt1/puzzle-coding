@@ -6,6 +6,8 @@
 //
 
 public struct Cell: Equatable {
+    public var box: (shape: Int, color: Int)? = nil
+    public var cage: (shape: Int, content: CageContent)? = nil
     public var content: CellContent? = nil {
         didSet {
             if case .candidates(let candidates) = content, candidates.isEmpty {
@@ -13,8 +15,6 @@ public struct Cell: Equatable {
             }
         }
     }
-    public var cage: (shape: Int, content: CageContent)? = nil
-    public var box: (shape: Int, color: Int)? = nil
 
     public static func == (left: Cell, right: Cell) -> Bool {
         left.content == right.content

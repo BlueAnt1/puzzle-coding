@@ -7,33 +7,48 @@
 
 /// KillerJigsaw puzzle coder.
 public struct KillerJigsaw: Equatable {
-    public let cageClues: [Int]
-    public let cageShapes: [Int]
-    public let boxShapes: [Int]
-    public let grid: Grid
+    public let cells: [Cell]
 
-    public init(cageClues: [Int], cageShapes: [Int], boxShapes: [Int], grid: Grid) {
-        let ranges = Self.ranges(for: grid.size)
+    public init(cells: [Cell]) throws {
+        guard let size = Size(gridCellCount: cells.count)
+        else { throw Error.invalidSize }
 
-        precondition(cageClues.count == cageShapes.count
-                     && cageClues.count == boxShapes.count
-                     && cageClues.count == grid.size.gridCellCount
-                     && cageClues.allSatisfy(ranges.cageClue.contains)
-                     && cageShapes.allSatisfy(ranges.cageShape.contains)
-                     && boxShapes.allSatisfy(ranges.boxShape.contains))
+        let ranges = KillerJigsaw.ranges(for: size)
 
-        self.cageClues = cageClues
-        self.cageShapes = cageShapes
-        self.boxShapes = boxShapes
-        self.grid = grid
+        for cell in cells {
+            guard let box = cell.box,
+                  let cage = cell.cage
+            else { throw Error.missingData }
+
+            guard ranges.boxShape.contains(box.shape),
+                  ranges.cageShape.contains(cage.shape),
+                  cell.content.map({ $0.isValid(in: size.valueRange) }) ?? true
+            else { throw Error.outOfRange }
+
+            switch cage.content {
+            case .clue(let clue):
+                guard ranges.cageClue.contains(clue) else { throw Error.outOfRange }
+            case .operator(let op):
+                guard op == .add else { throw Error.outOfRange }
+            }
+        }
+
+        self.cells = cells
     }
 
-    static func ranges(for size: Size) -> (cageClue: ClosedRange<Int>, cageShape: ClosedRange<Int>, boxShape: ClosedRange<Int>){
-        let maxClueValue = size.valueRange.reduce(0, +)
-        let cageClueRange = 0...maxClueValue
-        let cageShapeRange = 1...5
-        let boxShapeRange = size.valueRange
-        return (cageClueRange, cageShapeRange, boxShapeRange)
+    var size: Size { Size(gridCellCount: cells.count)! }
+
+    static func ranges(for size: Size) -> (boxShape: ClosedRange<Int>,
+                                           cageShape: ClosedRange<Int>,
+                                           cageContent: ClosedRange<Int>,
+                                           cageClue: ClosedRange<Int>,
+                                           cellContent: ClosedRange<Int>) {
+        let cageTransform = KillerCageContentTransform(size: size)
+        return (size.valueRange,
+                1...5,
+                cageTransform.range,
+                cageTransform.clueRange,
+                CellContentTransform(size: size).range)
     }
 }
 
@@ -41,16 +56,19 @@ public struct KillerJigsaw: Equatable {
 extension KillerJigsaw: PuzzleCoder {
     public enum Version: CodingVersion {
         case versionB
-        case experimental
 
         public static var current: Version { .versionB }
 
-        fileprivate var coder: any VersionCoder<KillerJigsaw>.Type {
+        fileprivate var coder: any Coder.Type {
             switch self {
             case .versionB: VersionB.self
-            case .experimental: Experimental.self
             }
         }
+    }
+
+    protocol Coder {
+        static func encode(_ puzzle: KillerJigsaw) -> String
+        static func decode(_ input: String) -> KillerJigsaw?
     }
 
     public static func decode(_ input: String, using version: Version) -> KillerJigsaw? {
@@ -63,5 +81,5 @@ extension KillerJigsaw: PuzzleCoder {
 }
 
 extension KillerJigsaw: CustomStringConvertible {
-    public var description: String { "\(PuzzleType.killerJigsaw) \(grid.size)" }
+    public var description: String { "\(PuzzleType.killerJigsaw) \(Size(gridCellCount: cells.count)!)" }
 }

@@ -18,7 +18,7 @@ public struct Sudoku: Equatable {
     }
 
     init(cells: [Cell], type: PuzzleType) throws {
-        guard let size = Size(cellCount: cells.count)
+        guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
         guard cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true }),
               [.sudoku, .sudokuX, .windoku].contains(type)
@@ -27,7 +27,7 @@ public struct Sudoku: Equatable {
         self.type = type
     }
 
-    public var size: Size { Size(cellCount: cells.count)! }
+    public var size: Size { Size(gridCellCount: cells.count)! }
 }
 
 extension Sudoku: PuzzleCoder {
@@ -50,17 +50,17 @@ extension Sudoku: PuzzleCoder {
         }
     }
 
+    protocol Coder {
+        static func encode(_ puzzle: Sudoku) -> String
+        static func decode(_ input: String, type: PuzzleType) -> Sudoku?
+    }
+
     public static func decode(_ input: String, using version: Version) -> Sudoku? {
         version.coder.decode(input, type: .sudoku)
     }
 
     public func encode(using version: Version = .current) -> String {
         version.coder.encode(self)
-    }
-
-    protocol Coder {
-        static func encode(_ puzzle: Sudoku) -> String
-        static func decode(_ input: String, type: PuzzleType) -> Sudoku?
     }
 }
 

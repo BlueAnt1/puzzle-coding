@@ -27,3 +27,21 @@ import PuzzleCoding
 //        #expect(raw == encoded)
 //    }
 //}
+
+private extension FixedWidthInteger {
+    var bytes: [UInt8] {
+        withUnsafeBytes(of: bigEndian, Array.init)
+    }
+}
+
+import Foundation
+
+struct Foo {
+    func test() {
+        let value: UInt64 = 123
+        let bytes: [UInt8] = value.bytes
+        var data = Data()
+        data.append(contentsOf: bytes)
+        let b64 = data.base64EncodedString()
+    }
+}

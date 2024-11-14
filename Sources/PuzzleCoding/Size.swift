@@ -27,8 +27,8 @@ public enum Size: Int, Equatable, Hashable, CaseIterable, Sendable, CustomString
 }
 
 extension Size {
-    init?(cellCount: Int) {
-        guard let size = Size.allCases.first(where: { $0.gridCellCount == cellCount }) else { return nil }
+    init?(gridCellCount: Int) {
+        guard let size = Size.allCases.first(where: { $0.gridCellCount == gridCellCount }) else { return nil }
         self = size
     }
 }
