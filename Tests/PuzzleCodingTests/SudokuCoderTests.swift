@@ -40,7 +40,7 @@ struct SudokuCoderTests {
             case .candidates: Cell()
             }
         }
-        #expect(Array(puzzleFromRaw.cells) == cleanCells)
+        #expect(Array(puzzleFromRaw) == cleanCells)
 
         let puzzleCount = Double(rawPuzzle.count)
 
@@ -62,7 +62,7 @@ struct SudokuCoderTests {
         #expect(versionFromRaw == version)
         if !cells.contains(where: { $0.content?.candidates?.count == 1 }) {
             // known bug with this algorithm where a naked single comes back as a solved cell
-            #expect(puzzleFromRaw.cells == cells)
+            #expect(Array(puzzleFromRaw) == cells)
         }
         let puzzleCount = Double(rawPuzzle.count)
         print("""
@@ -80,7 +80,7 @@ struct SudokuCoderTests {
         let decoded = try #require(try Sudoku.decode(rawPuzzle))
 
         #expect(decoded.version == version)
-        #expect(decoded.puzzle.cells == puzzle.cells)
+        #expect(decoded.puzzle == puzzle)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
@@ -131,7 +131,7 @@ struct SudokuCoderTests {
         let expectedCells = content.map { Cell(content: $0) }
 
         let decoded = try #require(try Sudoku.decode(rawEncoded))
-        #expect(decoded.puzzle.cells == expectedCells)
+        #expect(Array(decoded.puzzle) == expectedCells)
 
         let encoded = try #require(try Sudoku(cells: expectedCells).encode(using: .noNakedSingles))
         #expect(encoded == rawEncoded)

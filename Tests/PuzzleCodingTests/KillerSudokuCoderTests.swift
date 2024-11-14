@@ -31,27 +31,27 @@ struct KillerSudokuCoderTests {
                          19,  6,  7,  0,  0,  0,  0, 12,  0,
                           0, 24,  0, 15,  4,  0,  5,  0, 11,
                           0,  0,  0,  0, 12,  0,  0, 25,  0,
-                          0,  0, 13,  0,  0,  0,  0,  0,  0]
+                         0,  0, 13,  0,  0,  0,  0,  0,  0].map(CageContent.clue)
         let content = "000000200000000000080000000000000000000000000060000000000000000000000000000000000"
             .map(\.wholeNumberValue!)
             .map { $0 == 0 ? CellContent.candidates(Set(1...9)) : CellContent.clue($0) }
 
-        var grid = Grid(size: .grid9x9)
-        grid.indices.forEach { grid[$0] = content[$0] }
-
-        let puzzle = KillerSudoku(cageClues: cageClues, cageShapes: cageShapes, grid: grid)
+        let cells = cageShapes.indices.map {
+            Cell(cage: (shape: cageShapes[$0], content: cageClues[$0]),
+                 content: content[$0])
+        }
+        
+        let puzzle = try KillerSudoku(cells: cells)
         let rawPuzzle = puzzle.encode(using: version)
 
         let decoded = try #require(KillerSudoku.decode(rawPuzzle))
 
         #expect(decoded.version == version)
-        #expect(decoded.puzzle.cageClues == cageClues)
-        #expect(decoded.puzzle.cageShapes == cageShapes)
-        #expect(decoded.puzzle.grid == grid)
+        #expect(decoded.puzzle == puzzle)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
-            \(puzzle) \(version) (Gentle Example 1)
+            \(puzzle) \(version)
             \(rawPuzzle)
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)
