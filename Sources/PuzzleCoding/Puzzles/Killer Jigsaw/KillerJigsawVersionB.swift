@@ -25,10 +25,10 @@ extension KillerJigsaw {
             ])
 
             let values = Zipper([
-                puzzle.cells.map(\.box!.shape),
-                puzzle.cells.map(\.cage!.shape),
-                puzzle.cells.map(\.cage!.content).map(cageTransform.encode),
-                puzzle.cells.map(\.content).map(cellTransform.encode)
+                puzzle.map(\.box!.shape),
+                puzzle.map(\.cage!.shape),
+                puzzle.map(\.cage!.content).map(cageTransform.encode),
+                puzzle.map(\.content).map(cellTransform.encode)
             ]).map(shiftTransform.encode)
 
             let fieldCoding = FieldCoding(range: shiftTransform.range)

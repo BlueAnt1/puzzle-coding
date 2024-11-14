@@ -7,7 +7,7 @@
 
 /// KillerJigsaw puzzle coder.
 public struct KillerJigsaw: Equatable {
-    public let cells: [Cell]
+    private let cells: [Cell]
 
     public init(cells: [Cell]) throws {
         guard let size = Size(gridCellCount: cells.count)
@@ -52,6 +52,11 @@ public struct KillerJigsaw: Equatable {
     }
 }
 
+extension KillerJigsaw: RandomAccessCollection {
+    public var startIndex: Int { cells.startIndex }
+    public var endIndex: Int { cells.endIndex }
+    public subscript(_ position: Int) -> Cell { cells[position] }
+}
 
 extension KillerJigsaw: PuzzleCoder {
     public enum Version: CodingVersion {
