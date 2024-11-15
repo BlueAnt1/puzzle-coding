@@ -8,15 +8,16 @@
 
 import Testing
 @testable import PuzzleCoding
+import Foundation
 
 struct Grid: CustomStringConvertible {
-    let cells: any Collection<Cell>
+    private let cells: any Collection<Cell>
 
     init(_ cells: some Collection<Cell>) {
         self.cells = cells
     }
 
-    var description: String {
+    var cellContent: String {
         func describe(_ cells: some Collection<Cell>) -> [String] {
             Array(zip(cells.indices, cells)
                 .map { index, cell in
@@ -28,14 +29,42 @@ struct Grid: CustomStringConvertible {
                     }
                 })
         }
-        guard let size = Size(gridCellCount: cells.count) else { return "" }
-        let padding = String(repeating: " ", count: size.rawValue + 2)  // +2 for "[" and "]"
-        let descriptions = describe(cells)
+
+        return format(describe(cells))
+    }
+
+    var cage: String {
+        func describe(_ cells: some Collection<Cell>) -> [String] {
+            return Array(zip(cells.indices, cells)
+                .map { index, cell in
+                    if let cage = cell.cage {
+                        switch cage.content {
+                        case nil: "\(cage.shape).__"
+                        case .clue(let clue): "\(cage.shape).\(clue.formatted(.number.precision(.integerLength(2))))"
+                        case .operator(let op): "\(cage.shape)._\(op)"
+                        }
+                    } else {
+                        ""
+                    }
+                })
+        }
+
+        return format(describe(cells))
+    }
+
+    private func format(_ descriptions: [String]) -> String {
+        guard let size = Size(gridCellCount: descriptions.count) else { return "" }
+        let maxLength = descriptions.map(\.count).max() ?? 0
+        let padding = String(repeating: " ", count: maxLength)
+
         return zip(0..., descriptions).reduce(into: "") { output, indexContent in
-            let isNewline = indexContent.0.isMultiple(of: size.rawValue) && indexContent.0 != 0
-            let isSpace = !(isNewline || indexContent.0 == 0)
+            let (index, content) = indexContent
+            let isNewline = index.isMultiple(of: size.rawValue) && index != 0
+            let isSpace = !(isNewline || index == 0)
             output.append(isNewline ? "\n" : isSpace ? " " : "")
-            output.append(contentsOf: "\(padding)\(indexContent.1)".suffix(size.rawValue + 2))
+            output.append(contentsOf: "\(padding)\(content)".suffix(maxLength))
         }
     }
+
+    var description: String { cellContent }
 }

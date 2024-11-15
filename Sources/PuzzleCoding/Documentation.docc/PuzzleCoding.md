@@ -25,8 +25,8 @@ You can learn about the <doc:EncodingFormats> or keep reading to use the library
 
 ### Encode a puzzle
 
-1. Create a ``Grid`` and populate it with the clues, solutions & candidates of your model.
-2. Create a puzzle coder with the grid and any other data relevant to the puzzle type.
+1. For every cell in your model create a ``Cell`` and populate it with information about the puzzle.
+2. Create a puzzle coder with the cells.
 3. Call the ``PuzzleCoder/encode(using:)`` method of the coder to generate the encoded string.
 
 @Snippet(path: "PuzzleCoding/Snippets/UsageEncode")
@@ -35,13 +35,14 @@ You can learn about the <doc:EncodingFormats> or keep reading to use the library
 
 ### Essentials
 
-- ``Grid``
+- ``Cell``
 
 ### Puzzle Coders
 
 Coders convert puzzles to text and back.
 
-- ``Jigsaw``
+- ``JigsawSudoku``
+- ``KenKen``
 - ``KillerJigsaw``
 - ``KillerSudoku``
 - ``Str8ts``

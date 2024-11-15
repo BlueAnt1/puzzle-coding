@@ -22,9 +22,9 @@ extension KenKen {
             .clue(24), .operator(.multiply), .clue(20), .clue(15), .clue(48), .clue(8),
             .clue(12), .clue(10), .operator(.multiply), .operator(.multiply), .operator(.multiply), .operator(.add),
             .operator(.multiply), .operator(.add), nil, nil, nil, .clue(30),
-            nil, .clue(6), .operator(.multiply), nil, .operator(.multiply), nil,
+            nil, .clue(6), .operator(.multiply), nil, nil, .operator(.multiply),
             .clue(12), .operator(.add), .clue(18), .operator(.multiply), nil, .clue(7),
-            nil, .clue(72), .operator(.multiply), nil, .operator(.add), nil
+            nil, .clue(72), .operator(.multiply), nil, nil, .operator(.add)
         ]
 
         let cells = cageShapes.indices.map {

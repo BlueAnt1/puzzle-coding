@@ -1,8 +1,8 @@
-# ``Grid``
+# ``Cell``
 
 ## Topics
 
 ### Components
 
 - ``CellContent``
-- ``Size``
+- ``CageContent``

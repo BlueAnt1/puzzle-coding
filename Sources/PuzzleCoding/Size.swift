@@ -6,7 +6,7 @@
 //
 
 /// The size of a grid.
-public enum Size: Int, Equatable, Hashable, CaseIterable, Sendable, CustomStringConvertible {
+enum Size: Int, Equatable, Hashable, CaseIterable, Sendable, CustomStringConvertible {
     /// A grid with 6 cells per house.
     case grid6x6 = 6
     /// A grid with 8 cells per house .

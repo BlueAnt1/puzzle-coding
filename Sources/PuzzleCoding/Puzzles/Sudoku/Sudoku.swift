@@ -27,7 +27,7 @@ public struct Sudoku: Equatable {
         self.type = type
     }
 
-    public var size: Size { Size(gridCellCount: cells.count)! }
+    var size: Size { Size(gridCellCount: cells.count)! }
 }
 
 extension Sudoku: RandomAccessCollection {
@@ -91,7 +91,7 @@ public struct Windoku: Equatable {
         self.sudoku = sudoku
     }
 
-    public var size: Size { sudoku.size }
+    var size: Size { sudoku.size }
 }
 
 extension Windoku: RandomAccessCollection {
@@ -135,7 +135,7 @@ public struct SudokuX: Equatable {
         self.sudoku = sudoku
     }
 
-    public var size: Size { sudoku.size }
+    var size: Size { sudoku.size }
 }
 
 extension SudokuX: RandomAccessCollection {

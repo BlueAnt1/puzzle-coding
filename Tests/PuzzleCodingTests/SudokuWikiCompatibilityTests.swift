@@ -69,10 +69,12 @@ struct SudokuWikiCompatibilityTests {
     }
 
     @Test
-    func testKenKenMyTranslationOfVeryEasy1() throws {
+    func testKenKenMyTranslationOfVeryEasy1Roundtrips() throws {
         let raw = KenKen.veryEasy1.encode(using: .versionB)
         let decoded = try #require(KenKen.decode(raw))
-        print(Grid(decoded.puzzle))
+        let grid = Grid(decoded.puzzle)
+        print(grid.cellContent)
+        print(grid.cage)
         let encoded = decoded.puzzle.encode(using: decoded.version)
         #expect(raw == encoded)
         #expect(decoded.puzzle == KenKen.veryEasy1)
