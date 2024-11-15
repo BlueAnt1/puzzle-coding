@@ -25,7 +25,7 @@ private struct UsageEncode {
             var solution: Int? = nil
             var candidates: Set<Int>? = nil
             init() {}
-            var cellContent: CellContent? = nil
+            var content: CellContent? = nil
         }
     }
 
@@ -33,17 +33,19 @@ private struct UsageEncode {
         let model = Model()
 
 // snippet.show
-        var grid = Grid()
+        var cells: [Cell] = []
 
         // copy your model data into the grid
-        for index in grid.indices {
-            grid[index] = model[index].cellContent
+        for modelCell in model {
+            let cell = Cell(content: modelCell.content)
+            cells.append(cell)
         }
 
-        let coder = Sudoku(grid: grid)
-        // encode the puzzle to text
-        let encoded = coder.encode()
+        if let coder = try? Sudoku(cells: cells) {
+            // encode the puzzle to text
+            let encoded = coder.encode()
+            print(encoded)
+        }
 // snippet.hide
-        let _ = encoded
     }
 }

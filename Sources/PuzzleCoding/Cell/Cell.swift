@@ -16,6 +16,15 @@ public struct Cell: Equatable, Sendable {
         }
     }
 
+    public init(box: (shape: Int, color: Int)? = nil,
+                cage: (shape: Int, content: CageContent?)? = nil,
+                content: CellContent? = nil)
+    {
+        self.box = box
+        self.cage = cage
+        self.content = content
+    }
+
     public static func == (left: Cell, right: Cell) -> Bool {
         left.content == right.content
         && left.cage?.shape == right.cage?.shape
