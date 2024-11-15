@@ -21,21 +21,25 @@ extension KillerSudoku {
                         133244132
                         131113332
                         """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-        let cageClues = [24,  0,  6,  0, 17,  0,  2, 10,  0,
-                         0,  0,  0, 12, 10,  0, 23,  0,  0,
-                         16,  8,  0,  0, 10, 20, 18,  0, 23,
-                         0,  7, 16,  0,  0,  0,  0,  0,  0,
-                         0,  0,  0, 20,  0,  0, 10,  0,  0,
-                         19,  6,  7,  0,  0,  0,  0, 12,  0,
-                         0, 24,  0, 15,  4,  0,  5,  0, 11,
-                         0,  0,  0,  0, 12,  0,  0, 25,  0,
-                         0,  0, 13,  0,  0,  0,  0,  0,  0].map(CageContent.clue)
+        let cageContent = [24,  0,  6,  0, 17,  0,  2, 10,  0,
+                           0,  0,  0, 12, 10,  0, 23,  0,  0,
+                           16,  8,  0,  0, 10, 20, 18,  0, 23,
+                           0,  7, 16,  0,  0,  0,  0,  0,  0,
+                           0,  0,  0, 20,  0,  0, 10,  0,  0,
+                           19,  6,  7,  0,  0,  0,  0, 12,  0,
+                           0, 24,  0, 15,  4,  0,  5,  0, 11,
+                           0,  0,  0,  0, 12,  0,  0, 25,  0,
+                           0,  0, 13,  0,  0,  0,  0,  0,  0].map { $0 == 0 ? nil : CageContent.clue($0) }
         let content = "000000200000000000080000000000000000000000000060000000000000000000000000000000000"
             .map(\.wholeNumberValue!)
-            .map { $0 == 0 ? CellContent.candidates(Set(1...9)) : CellContent.clue($0) }
+            .map { $0 == 0 ? CellContent.candidates(Set(1...9)) : CellContent.solution($0) }
 
-        return try! KillerSudoku(cells: cageShapes.indices.map {
-            Cell(cage: (shape: cageShapes[$0], content: cageClues[$0]),
-                 content: content[$0]) })
+//        let content = Array(repeating: CellContent.candidates(Set(1...9)), count: cageShapes.count)
+        let cells = cageShapes.indices.map {
+            Cell(cage: (shape: cageShapes[$0], content: cageContent[$0]),
+                 content: content[$0])
+        }
+
+        return try! KillerSudoku(cells: cells)
     }
 }

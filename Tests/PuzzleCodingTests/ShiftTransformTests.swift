@@ -62,7 +62,7 @@ struct ShiftTransformTests {
         let transform = ShiftTransform(ranges: [0...9, 1...5, 1...5])
         let expected = [9, 5, 5]
         let encoded = transform.encode(expected)
-        let decoded = try #require(transform.decode(encoded))
+        let decoded = try transform.decode(encoded)
         #expect(decoded == expected)
     }
 }

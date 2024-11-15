@@ -10,7 +10,7 @@ public enum CageContent: Equatable, Sendable {
     case `operator`(Operator)
 
     public enum Operator: Int, CaseIterable, Sendable {
-        case add = 0, subtract, multiply, divide
+        case add = 1, subtract, multiply, divide
     }
 
     var clue: Int? {

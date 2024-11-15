@@ -1,19 +1,19 @@
 //
-//  KillerSudoku.swift
-//  puzzle-coding
+//  KenKen.swift
+//  PuzzleCoding
 //
-//  Created by Quintin May on 10/24/24.
+//  Created by Quintin May on 11/15/24.
 //
 
-/// KillerSudoku puzzle coder.
-public struct KillerSudoku: Equatable, Sendable {
+/// KenKen puzzle coder.
+public struct KenKen: Equatable, Sendable {
     private let cells: [Cell]
 
     public init(cells: [Cell]) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
 
-        let ranges = KillerSudoku.ranges(for: size)
+        let ranges = KenKen.ranges(for: size)
 
         for cell in cells {
             guard let cage = cell.cage
@@ -26,8 +26,7 @@ public struct KillerSudoku: Equatable, Sendable {
             switch cage.content {
             case .clue(let clue):
                 guard ranges.cageClue.contains(clue) else { throw Error.outOfRange }
-            case .operator(let op):
-                guard op == .add else { throw Error.outOfRange }
+            case .operator: break
             case nil: break
             }
         }
@@ -41,7 +40,7 @@ public struct KillerSudoku: Equatable, Sendable {
                                            cageContent: ClosedRange<Int>,
                                            cageClue: ClosedRange<Int>,
                                            cellContent: ClosedRange<Int>) {
-        let cageTransform = KillerCageContentTransform(size: size)
+        let cageTransform = KenCageContentTransform(size: size)
         return (1...5,
                 cageTransform.range,
                 cageTransform.clueRange,
@@ -49,13 +48,13 @@ public struct KillerSudoku: Equatable, Sendable {
     }
 }
 
-extension KillerSudoku: RandomAccessCollection {
+extension KenKen: RandomAccessCollection {
     public var startIndex: Int { cells.startIndex }
     public var endIndex: Int { cells.endIndex }
     public subscript(_ position: Int) -> Cell { cells[position] }
 }
 
-extension KillerSudoku: PuzzleCoder {
+extension KenKen: PuzzleCoder {
     public enum Version: CodingVersion {
         case versionB
 
@@ -69,11 +68,11 @@ extension KillerSudoku: PuzzleCoder {
     }
 
     protocol Coder {
-        static func encode(_ puzzle: KillerSudoku) -> String
-        static func decode(_ input: String) -> KillerSudoku?
+        static func encode(_ puzzle: KenKen) -> String
+        static func decode(_ input: String) -> KenKen?
     }
 
-    public static func decode(_ input: String, using version: Version) -> KillerSudoku? {
+    public static func decode(_ input: String, using version: Version) -> KenKen? {
         version.coder.decode(input)
     }
 
@@ -82,6 +81,6 @@ extension KillerSudoku: PuzzleCoder {
     }
 }
 
-extension KillerSudoku: CustomStringConvertible {
-    public var description: String { "\(PuzzleType.killerSudoku) \(size)" }
+extension KenKen: CustomStringConvertible {
+    public var description: String { "\(PuzzleType.kenken) \(size)" }
 }

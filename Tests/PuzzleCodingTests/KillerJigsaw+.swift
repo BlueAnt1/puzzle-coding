@@ -42,7 +42,7 @@ extension KillerJigsaw {
             0,  0, 19,  0,  0,  0,  0,  0,  0,
             34,  0,  0,  0, 10, 14,  0, 20,  0,
             0,  0,  0,  0,  0,  0,  0,  0,  0
-        ].map(CageContent.clue)
+        ].map { $0 == 0 ? nil : CageContent.clue($0) }
 
         let content = Array(repeating: CellContent.candidates(Set(1...9)), count: 81)
 

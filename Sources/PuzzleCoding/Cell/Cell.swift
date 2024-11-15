@@ -7,7 +7,7 @@
 
 public struct Cell: Equatable, Sendable {
     public var box: (shape: Int, color: Int)? = nil
-    public var cage: (shape: Int, content: CageContent)? = nil
+    public var cage: (shape: Int, content: CageContent?)? = nil
     public var content: CellContent? = nil {
         didSet {
             if case .candidates(let candidates) = content, candidates.isEmpty {

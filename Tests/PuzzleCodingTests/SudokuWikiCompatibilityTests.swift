@@ -8,8 +8,6 @@
 import Testing
 @testable import PuzzleCoding
 
-
-
 struct SudokuWikiCompatibilityTests {
     @Test
     func testSudoku() throws {
@@ -38,10 +36,19 @@ struct SudokuWikiCompatibilityTests {
         #expect(raw == encoded)
     }
 
+    @Test
+    func testKillerSudokuMyTranslationOfGentleExample1() throws {
+        let raw = KillerSudoku.gentleExample1.encode(using: .versionB)
+        let decoded = try #require(KillerSudoku.decode(raw))
+        print(Grid(decoded.puzzle))
+        let encoded = decoded.puzzle.encode(using: decoded.version)
+        #expect(raw == encoded)
+        #expect(decoded.puzzle == KillerSudoku.gentleExample1)
+    }
 
-    @Test //(.disabled("Doesn't decode correctly"))
+    @Test
     func testKillerSudoku() throws {
-        let raw = "L9B00jdd000ep01jpt0cnip0bmdt0b8y90nx8r0mpe90mhht000ep000ep01ez50bifl0cvf50cnip0pssx0pamp0pamp01rm902zgx000ep0b8y90e9zl0bor50oaa90pamp0mzo10z4lt0xvkh0zh8x1brpt1brpt18ykx1llox1llox1k74h0z4lt0xq1d0z4lt1dm351d6a918ykx1n85t1llox1k74h0y51t0z8y70xvkh18ykx1d6a918ykx1n09d1oob51k74h1vfo11yrrl1y8sx28emp29ki929hch2i0pd2m4gh2jk0h1vfo11y8sx1y8sx282s12b5e92avwx2hwr52l9n52jbbl1vfo11y8sx1vpxt26o7l26o7l29hch2kpw12kpw12jbbl"
+        let raw = "L9B0jdd00ep1jpt1ez50du900ep1g5n08b500ep00ep00ep1ez509w11mvl1ez53bpt2tjl2tjl1rm92zgx00ep00ep31g10g7l1t752tjl0ikx1ez505xt1rm92tjl2tjl00ep1ez51ez500ep1ez500ep1ez54nwx484100ep31g11ez500ep0ff51jbj05xt00ep484100ep2tjl4hld00ep00ep3ci92tjl1qtt2wpd2tjl04cx48411no100ep2tjl2tjl1ez54hld484100ep3dap1ez500ep2tjl0aoh00ep00ep2tjl2tjl2tjl1ez5"
         let myRaw = KillerSudoku.gentleExample1.encode(using: .versionB)
         #expect(raw == myRaw)
         let decoded = try #require(KillerSudoku.decode(raw))
@@ -51,10 +58,7 @@ struct SudokuWikiCompatibilityTests {
 
         #expect(decoded.puzzle == KillerSudoku.gentleExample1)
     }
-/*
- #expect(decoded.puzzle == KillerJigsaw.actualPuzzle)
 
- */
     @Test(.disabled("Not implemented at SudokuWiki yet"))
     func testKillerJigsaw() throws {
         let raw = ""
@@ -62,6 +66,29 @@ struct SudokuWikiCompatibilityTests {
         print(Grid(decoded.puzzle))
         let encoded = decoded.puzzle.encode(using: decoded.version)
         #expect(raw == encoded)
+    }
+
+    @Test
+    func testKenKenMyTranslationOfVeryEasy1() throws {
+        let raw = KenKen.veryEasy1.encode(using: .versionB)
+        let decoded = try #require(KenKen.decode(raw))
+        print(Grid(decoded.puzzle))
+        let encoded = decoded.puzzle.encode(using: decoded.version)
+        #expect(raw == encoded)
+        #expect(decoded.puzzle == KenKen.veryEasy1)
+    }
+
+    @Test
+    func testKenKen() throws {
+        let raw = "K6B04sr00nf5qa3030r5vt701mz5op7bakr5mx700nf5mx700975mx7b8srb8ln00235mbvbeiz5mbvgw23gvgrguvfb8lnb96z02ff00975pvv5mx75mbv01fv0023bmtnb96zb8ln00230097"
+        let myRaw = KenKen.veryEasy1.encode(using: .versionB)
+        #expect(raw == myRaw)
+        let decoded = try #require(KenKen.decode(raw))
+        print(Grid(decoded.puzzle))
+        let encoded = decoded.puzzle.encode(using: decoded.version)
+        #expect(raw == encoded)
+
+        #expect(decoded.puzzle == KenKen.veryEasy1)
     }
 }
 

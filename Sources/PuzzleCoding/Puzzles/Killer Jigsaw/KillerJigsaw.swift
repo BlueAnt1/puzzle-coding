@@ -30,6 +30,7 @@ public struct KillerJigsaw: Equatable {
                 guard ranges.cageClue.contains(clue) else { throw Error.outOfRange }
             case .operator(let op):
                 guard op == .add else { throw Error.outOfRange }
+            case nil: break
             }
         }
 

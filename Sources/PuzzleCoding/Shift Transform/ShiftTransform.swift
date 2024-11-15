@@ -37,8 +37,8 @@ struct ShiftTransform {
         }
     }
 
-    func decode(_ value: Int) -> [Int]? {
-        assert(range.contains(value))
+    func decode(_ value: Int) throws -> [Int] {
+        guard range.contains(value) else { throw Error.outOfRange }
         var value = value
         var values = [Int]()
         for (offset, range) in zip(offsets.reversed(), ranges.reversed()) where offset > 0 {
@@ -48,7 +48,7 @@ struct ShiftTransform {
         }
         values.append(value + ranges[0].lowerBound)
         values = values.reversed()
-        guard zip(ranges, values).allSatisfy({ $0.contains($1) }) else { return nil }
+        guard zip(ranges, values).allSatisfy({ $0.contains($1) }) else { throw Error.outOfRange }
         return values
     }
 }

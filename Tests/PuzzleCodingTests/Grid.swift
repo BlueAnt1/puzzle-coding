@@ -33,7 +33,8 @@ struct Grid: CustomStringConvertible {
         let descriptions = describe(cells)
         return zip(0..., descriptions).reduce(into: "") { output, indexContent in
             let isNewline = indexContent.0.isMultiple(of: size.rawValue) && indexContent.0 != 0
-            output.append(isNewline ? "\n" : " ")
+            let isSpace = !(isNewline || indexContent.0 == 0)
+            output.append(isNewline ? "\n" : isSpace ? " " : "")
             output.append(contentsOf: "\(padding)\(indexContent.1)".suffix(size.rawValue + 2))
         }
     }

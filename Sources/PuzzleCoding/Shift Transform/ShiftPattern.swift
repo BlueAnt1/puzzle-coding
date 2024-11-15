@@ -23,14 +23,13 @@ struct ShiftPattern: CustomConsumingRegexComponent {
             Capture {
                 ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
             } transform: {
-                let decoded = $0.elements.compactMap(shiftTransform.decode)
-                guard decoded.count == size.gridCellCount else { return nil as Self.RegexOutput? }
+                let decoded = try $0.elements.map(shiftTransform.decode)
                 return ($0.0, decoded)
             }
         }
 
-        guard let match = try? values.prefixMatch(in: input[index ..< bounds.upperBound]),
-              let output = match.output.1 else { return nil }
-        return (match.range.upperBound, output)
+        guard let match = try? values.prefixMatch(in: input[index ..< bounds.upperBound])
+        else { return nil }
+        return (match.range.upperBound, match.output.1)
     }
 }
