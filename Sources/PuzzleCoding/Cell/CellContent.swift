@@ -6,7 +6,7 @@
 //
 
 /// The information stored in a cell.
-public enum CellContent: Equatable {
+public enum CellContent: Equatable, Sendable {
     /// A puzzle clue.
     case clue(Int)
     /// A solved value.

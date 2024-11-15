@@ -5,11 +5,11 @@
 //  Created by Quintin May on 11/11/24.
 //
 
-public enum CageContent: Equatable {
+public enum CageContent: Equatable, Sendable {
     case clue(Int)
     case `operator`(Operator)
 
-    public enum Operator: Int, CaseIterable {
+    public enum Operator: Int, CaseIterable, Sendable {
         case add = 0, subtract, multiply, divide
     }
 

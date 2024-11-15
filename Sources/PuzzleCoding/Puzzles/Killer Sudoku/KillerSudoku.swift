@@ -6,7 +6,7 @@
 //
 
 /// KillerSudoku puzzle coder.
-public struct KillerSudoku: Equatable {
+public struct KillerSudoku: Equatable, Sendable {
     private let cells: [Cell]
 
     public init(cells: [Cell]) throws {

@@ -1,5 +1,5 @@
 //
-//  OffsetGridTransformTests.swift
+//  CellContentTransformTests.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 10/26/24.
@@ -8,7 +8,7 @@
 @testable import PuzzleCoding
 import Testing
 
-struct OffsetGridTransformTests {
+struct CellContentTransformTransformTests {
     @Test
     func encode() {
         let size = Size.grid9x9
