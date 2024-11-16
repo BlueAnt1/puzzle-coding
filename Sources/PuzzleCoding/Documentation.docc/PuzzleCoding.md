@@ -12,7 +12,7 @@ The encodings are:
 - relatively easy to decode without this library.
 - compatible with [SudokuWiki](https://sudokuwiki.org).
 
-You can learn about the <doc:EncodingFormats> or keep reading to use the library.
+You can learn about the <doc:EncodingFormats> or keep reading for an overview of the library.
 
 ## Usage
 

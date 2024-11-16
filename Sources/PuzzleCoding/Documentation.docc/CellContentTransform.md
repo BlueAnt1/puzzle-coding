@@ -4,7 +4,15 @@ Transform cell content into an integer.
 
 ## Overview
 
-This algorithm represents each type of content as a unique range of values.
+This is an <doc:OffsetTransform> that represents cell content as an integer.
+
+Size      | Solution offset | Candidates offset | Max value
+:----:    | :-------------: | :---------------: | :---------:
+**6×6**   |  6              | 12                | 75
+**8×8**   |  8              | 16                | 271
+**9×9**   |  9              | 18                | 529
+**16×16** | 16              | 32                | 65,567
+**25×25** | 25              | 50                | 33,554,481
 
 ## Details
 
@@ -22,8 +30,6 @@ Learn how to <doc:PackCandidates>.
 
 ### Encode
 
-Use <doc:FieldCoding> with `maxValue` to write the output.
-
 ```
 if the cell is empty
     output = 0
@@ -36,8 +42,6 @@ else
 ```
 
 ### Decode
-
-Use <doc:FieldCoding> with `maxValue` to read the input.
 
 ```
 if input > maxValue

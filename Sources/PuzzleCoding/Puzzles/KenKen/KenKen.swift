@@ -6,6 +6,8 @@
 //
 
 /// KenKen puzzle coder.
+///
+/// > Note: KenKen® is a registered trademark of Nextoy, LLC.
 public struct KenKen: Equatable, Sendable {
     private let cells: [Cell]
 

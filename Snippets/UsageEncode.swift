@@ -35,7 +35,7 @@ private struct UsageEncode {
 // snippet.show
         var cells: [Cell] = []
 
-        // copy your model data into the grid
+        // copy your model data into cells
         for modelCell in model {
             let cell = Cell(content: modelCell.content)
             cells.append(cell)

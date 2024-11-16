@@ -27,14 +27,14 @@ A sample header: `S9B`
 
         Puzzle Type   | Code
         :----------   | :----:
-        Jigsaw        |   J
-        Str8ts        |   T
-        KenKen        |   K
+        Jigsaw Sudoku |   J
         KenDoku       |   D
-        Killer Sudoku |   L
+        KenKen        |   K
         Killer Jigsaw |   M
+        Killer Sudoku |   L
         Sudoku        |   S
         SudokuX       |   X
+        Str8ts        |   T
         Windoku       |   W       
     }
     
@@ -53,71 +53,60 @@ A sample header: `S9B`
 
 ## Puzzle data
 
-Every puzzle type has its own data requirements. We'll start with the simplest & build up from there.
+Every puzzle type has its own data requirements. These are shown in the following table.
 
-### Sudoku, SudokuX & Windoku
+![Puzzle requirements table](PuzzleRequirements)
 
-@TabNavigator {
-    @Tab("Version B") {
-        - Transform the grid using <doc:CellContentTransform>.
-        - Encode the transformed grid using <doc:FieldCoding>.
-    }
-}
+To read the table, find the row with the puzzle type in which you're interested. Then read across.
 
-### Str8ts
+Green cells indicate the data that is required for the puzzle type and the range of values permitted for the data. Many of the ranges are described as `1…size`. This means that the range is based on the size of the puzzle. For a 9×9 Sudoku the *Cell Content Candidates* must be a set of values in the range 1…9. For a 6×6 KenKen the *Cell Content Solution* must be a value in the range 1…6.
 
-@TabNavigator {
-    @Tab("Version B") {
-        - Encode colorShapes using <doc:FieldCoding>.
-        - Transform the grid using <doc:CellContentTransform>.
-        - Encode the transformed grid using <doc:FieldCoding>.
-    }
-    @Tab("Experimental") {
-        For every cell in the grid:
-        - <doc:ShiftTransform>
-            - colorShape
-            - Transform cell content using <doc:CellContentTransform>.
-        - Encode the transform using <doc:FieldCoding>
-    }
-}
+## Data types
 
-### Jigsaw
+There are three general types of data to encode.
 
-@TabNavigator {
-    @Tab("Version B") {
-        - Encode boxShapes using <doc:FieldCoding>.
-        - Transform the grid using <doc:CellContentTransform>.
-        - Encode the transformed grid using <doc:FieldCoding>.
-    }
-}
+- term Shapes: <doc:Shapes> describe groupings of cells; the cells of a Jigsaw piece or the outline of a cage for example.
+- term Cage Content: <doc:Cages> contain additional clues about a group of cells such as the sum of their content.
+- term Cell Content: Cell content is what we typically consider the data *in* a cell. It is the clues, solutions and candidates (the *progress*) of the puzzle.
 
-### Killer Sudoku
+> Note: The `∅` column under Cage Content and Cell Content indicates that *nothing* is a valid value; the cage or cell content may be empty. Emptiness is denoted by the value `0`.
+
+## Version B coding
+
+All puzzles are currently using Version B coding. Version B uses 3 data transformations to produce encoded output.
+
+- term Pack: [Transform a set of *candidates*](<doc:PackCandidates>) into a single value.
+- term Offset: [Transform a set of *mutually exclusive* values](doc:OffsetTransform) into a single value. This is used for both cell and cage content. For example, a cell has multiple types of content: clues, solutions and candidates that need to be described, but only one of these types of data is present at a time.
+- term Shift: [Transform a group of values](<doc:ShiftTransform>) into a single value. This is the final transformation that combines all values into a single integer representation for the data describing a cell.
+
+Some types of data go through multiple transformations as shown in the table. For example *Cell Content Candidates* are first packed and then offset. If we're coding a Jigsaw Sudoku the *Shapes Box* values are shifted along with the offset candidates to produce a new value.
+
+Once all of the data for a cell has been transformed into a single value use <doc:FieldCoding> to output the value.
+
+## Puzzles
 
 @TabNavigator {
-    @Tab("Version B") {
-        - Transform cage clues & cage shapes using <doc:ShiftTransform>.
-        - Encode the transform using <doc:FieldCoding>.
-        - Transform the grid using <doc:CellContentTransform>.
-        - Encode the transformed grid using <doc:FieldCoding>.
+    @Tab("Jigsaw") {
+        TODO: Jigsaw
     }
-}
-
-### Killer Jigsaw
-
-@TabNavigator {
-    @Tab("Version B") {
-        - Transform cage clues, cage shapes & box shapes using <doc:ShiftTransform>.
-        - Encode the transform using <doc:FieldCoding>.
-        - Transform the grid using <doc:CellContentTransform>.
-        - Encode the transformed grid using <doc:FieldCoding>.
+    @Tab("KenDoku") {
+        TODO: KenDoku
     }
-    @Tab("Experimental") {
-        For every cell in the grid:
-        - <doc:ShiftTransform>
-            - cageClues
-            - cageShapes
-            - boxShapes
-            - Transform cell content using <doc:CellContentTransform>.
-        - Encode the transform using <doc:FieldCoding>.
+    @Tab("KenKen") {
+        TODO: KenKen
+    }
+    @Tab("Killer Jigsaw") {
+        TODO: Killer Jigsaw
+    }
+    @Tab("Killer Sudoku") {
+        TODO: Killer Sudoku
+    }
+    @Tab("Str8ts") {
+        TODO: Str8ts
+    }
+    @Tab("Sudoku+") {
+        Sudoku, SudokuX and Windoku use the same encoding.
+        
+        - Use <doc:CellContentTransform> to produce a value for the cell content.
     }
 }
