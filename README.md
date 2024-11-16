@@ -13,7 +13,7 @@ guard let (puzzle, version) = Sudoku.decode(input)
 else { return }
 
 // copy the decoded data into your model
-for (index, content) in zip(model.indices, puzzle.grid) {
+for (index, content) in zip(model.indices, puzzle) {
     switch content {
     case nil:
         model[index] = "empty"

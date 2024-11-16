@@ -15,11 +15,7 @@ extension KillerSudoku {
         static func encode(_ puzzle: KillerSudoku) -> String {
             let size = puzzle.size
             let ranges = KillerSudoku.ranges(for: size)
-            let shiftTransform = ShiftTransform(ranges: [
-                ranges.cageShape,
-                ranges.cageContent,
-                ranges.cellContent
-            ])
+            let shiftTransform = ShiftTransform(ranges: ranges.cageShape, ranges.cageContent, ranges.cellContent)
 
             let cageTransform = KillerCageContentTransform(size: size)
             let cellTransform = CellContentTransform(size: size)
@@ -45,12 +41,8 @@ extension KillerSudoku {
             let size = header.output.size
 
             let ranges = KillerSudoku.ranges(for: size)
-            let pattern = ShiftPattern(size: size,
-                                       ranges: [
-                                        ranges.cageShape,
-                                        ranges.cageContent,
-                                        ranges.cellContent
-                                       ])
+            let transform = ShiftTransform(ranges: ranges.cageShape, ranges.cageContent, ranges.cellContent)
+            let pattern = ShiftPattern(size: size, transform: transform)
 
             guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }

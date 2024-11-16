@@ -15,11 +15,7 @@ extension KenKen {
         static func encode(_ puzzle: KenKen) -> String {
             let size = puzzle.size
             let ranges = KenKen.ranges(for: size)
-            let shiftTransform = ShiftTransform(ranges: [
-                ranges.cageShape,
-                ranges.cageContent,
-                ranges.cellContent
-            ])
+            let shiftTransform = ShiftTransform(ranges: ranges.cageShape, ranges.cageContent, ranges.cellContent)
 
             let cageTransform = KenCageContentTransform(size: size)
             let cellTransform = CellContentTransform(size: size)
@@ -45,12 +41,8 @@ extension KenKen {
             let size = header.output.size
 
             let ranges = KenKen.ranges(for: size)
-            let pattern = ShiftPattern(size: size,
-                                       ranges: [
-                                        ranges.cageShape,
-                                        ranges.cageContent,
-                                        ranges.cellContent
-                                       ])
+            let transform = ShiftTransform(ranges: ranges.cageShape, ranges.cageContent, ranges.cellContent)
+            let pattern = ShiftPattern(size: size, transform: transform)
 
             guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }

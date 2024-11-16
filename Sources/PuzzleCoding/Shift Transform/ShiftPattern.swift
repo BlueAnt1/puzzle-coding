@@ -11,19 +11,18 @@ struct ShiftPattern: CustomConsumingRegexComponent {
     typealias RegexOutput = (Substring, values: [[Int]])
 
     let size: Size
-    let ranges: [ClosedRange<Int>]
+    let transform: ShiftTransform
 
     func consuming(_ input: String,
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
-        let shiftTransform = ShiftTransform(ranges: ranges)
-        let fieldCoding = FieldCoding(range: shiftTransform.range)
+        let fieldCoding = FieldCoding(range: transform.range)
         let values = Regex {
             Capture {
                 ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
             } transform: {
-                let decoded = try $0.elements.map(shiftTransform.decode)
+                let decoded = try $0.elements.map(transform.decode)
                 return ($0.0, decoded)
             }
         }

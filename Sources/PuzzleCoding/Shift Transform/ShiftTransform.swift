@@ -11,6 +11,10 @@ struct ShiftTransform {
     private let offsets: [Int]
     let range: ClosedRange<Int>
 
+    init(ranges first: ClosedRange<Int>, _ rest: ClosedRange<Int>...) {
+        self.init(ranges: [first] + rest)
+    }
+
     init(ranges: [ClosedRange<Int>]) {
         assert(!ranges.isEmpty && ranges.allSatisfy { $0.lowerBound >= 0 })
         self.ranges = ranges

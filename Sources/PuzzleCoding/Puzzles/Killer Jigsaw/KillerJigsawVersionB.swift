@@ -17,12 +17,11 @@ extension KillerJigsaw {
             let jigsawRanges = KillerJigsaw.ranges(for: size)
             let cageTransform = KillerCageContentTransform(size: size)
             let cellTransform = CellContentTransform(size: size)
-            let shiftTransform = ShiftTransform(ranges: [
-                jigsawRanges.boxShape,
-                jigsawRanges.cageShape,
-                jigsawRanges.cageContent,
-                jigsawRanges.cellContent
-            ])
+            let shiftTransform = ShiftTransform(ranges: jigsawRanges.boxShape,
+                                                jigsawRanges.cageShape,
+                                                jigsawRanges.cageContent,
+                                                jigsawRanges.cellContent
+            )
 
             let values = Zipper([
                 puzzle.map(\.box!.shape),
@@ -47,18 +46,17 @@ extension KillerJigsaw {
             let size = header.output.size
 
             let jigsawRanges = KillerJigsaw.ranges(for: size)
-            let cageTransform = KillerCageContentTransform(size: size)
-            let cellTransform = CellContentTransform(size: size)
-            let pattern = ShiftPattern(size: size,
-                                       ranges: [jigsawRanges.boxShape,
+            let shiftTransform = ShiftTransform(ranges: jigsawRanges.boxShape,
                                                 jigsawRanges.cageShape,
                                                 jigsawRanges.cageContent,
-                                                jigsawRanges.cellContent
-                                               ])
+                                                jigsawRanges.cellContent)
+            let pattern = ShiftPattern(size: size, transform: shiftTransform)
             guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
             let values = match.output.values
             do {
+                let cageTransform = KillerCageContentTransform(size: size)
+                let cellTransform = CellContentTransform(size: size)
                 let cells = try values.map {
                     try Cell(box: ($0[0], 0),   // TODO: color
                              cage: ($0[1], cageTransform.decode($0[2])),

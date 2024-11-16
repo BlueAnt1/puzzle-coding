@@ -15,10 +15,7 @@ extension Str8ts {
         static func encode(_ puzzle: Str8ts) -> String {
             let size = puzzle.size
             let ranges = Str8ts.ranges(for: size)
-            let shiftTransform = ShiftTransform(ranges: [
-                ranges.boxShape,
-                ranges.cellContent
-            ])
+            let shiftTransform = ShiftTransform(ranges: ranges.boxShape, ranges.cellContent)
 
             let cellTransform = CellContentTransform(size: size)
             let values = Zipper([
@@ -42,11 +39,8 @@ extension Str8ts {
             let size = header.output.size
 
             let ranges = Str8ts.ranges(for: size)
-            let pattern = ShiftPattern(size: size,
-                                       ranges: [
-                                        ranges.boxShape,
-                                        ranges.cellContent
-                                       ])
+            let shiftTransform = ShiftTransform(ranges: ranges.boxShape, ranges.cellContent)
+            let pattern = ShiftPattern(size: size, transform: shiftTransform)
 
             guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }

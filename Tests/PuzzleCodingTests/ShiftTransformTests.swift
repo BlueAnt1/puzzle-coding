@@ -12,7 +12,7 @@ struct ShiftTransformTests {
 
     @Test
     func oneRangeCodes() throws {
-        let transform = ShiftTransform(ranges: [0...5])
+        let transform = ShiftTransform(ranges: 0...5)
         #expect(transform.isEncodable([0]))
         #expect(transform.isEncodable([2]))
         #expect(transform.isEncodable([5]))
@@ -23,21 +23,21 @@ struct ShiftTransformTests {
 
     @Test
     func zeroLowerBound() throws {
-        let transform = ShiftTransform(ranges: [0...5])
+        let transform = ShiftTransform(ranges: 0...5)
         #expect(transform.encode([0]) == 0)
         #expect(transform.encode([5]) == 5)
     }
 
     @Test
     func nonzeroLowerBoundShifts() throws {
-        let transform = ShiftTransform(ranges: [2...5])
+        let transform = ShiftTransform(ranges: 2...5)
         #expect(transform.encode([2]) == 0)
         #expect(transform.encode([5]) == 3)
     }
 
     @Test
     func twoValuesShift() throws {
-        let transform = ShiftTransform(ranges: [0...9, 1...5])
+        let transform = ShiftTransform(ranges: 0...9, 1...5)
         #expect(transform.encode([0, 1]) == 0)
         #expect(transform.encode([0, 2]) == 1)
         #expect(transform.encode([1, 1]) == 8)
@@ -46,7 +46,7 @@ struct ShiftTransformTests {
 
     @Test
     func threeValuesShift() throws {
-        let transform = ShiftTransform(ranges: [0...9, 1...5, 1...5])
+        let transform = ShiftTransform(ranges: 0...9, 1...5, 1...5)
         #expect(transform.encode([0, 1, 1]) == 0)
         #expect(transform.encode([0, 1, 2]) == 1)
         #expect(transform.encode([0, 1, 5]) == 4)
@@ -59,7 +59,7 @@ struct ShiftTransformTests {
 
     @Test
     func roundTrip() throws {
-        let transform = ShiftTransform(ranges: [0...9, 1...5, 1...5])
+        let transform = ShiftTransform(ranges: 0...9, 1...5, 1...5)
         let expected = [9, 5, 5]
         let encoded = transform.encode(expected)
         let decoded = try transform.decode(encoded)

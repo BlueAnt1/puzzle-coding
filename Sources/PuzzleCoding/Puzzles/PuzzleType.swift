@@ -20,7 +20,7 @@ enum PuzzleType: Character, CaseIterable {
 extension PuzzleType: CustomStringConvertible {
     var description: String {
         switch self {
-        case .jigsawSudoku: String(localized: "Jigsaw")
+        case .jigsawSudoku: String(localized: "Jigsaw Sudoku")
         case .str8ts: String(localized: "Str8ts")
         case .kenken: String(localized: "Kenken")
         case .kendoku: String(localized: "Kendoku")
