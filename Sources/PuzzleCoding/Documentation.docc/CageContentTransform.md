@@ -1,11 +1,12 @@
-# Cell Content Transform
+# Cage Content Transform
 
-Transform cell content into an integer.
+Transform cage content into an integer.
 
 ## Overview
 
-This is an <doc:OffsetTransform> that transforms cell content to an integer.
-
+This is an <doc:OffsetTransform> that transforms cage content to an integer.
+ 
+TODO:
 ## Details
 
 Size      | Solution offset | Candidates offset | Max value

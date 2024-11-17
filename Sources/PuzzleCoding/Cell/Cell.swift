@@ -5,19 +5,32 @@
 //  Created by Quintin May on 11/12/24.
 //
 
+/// A puzzle cell.
+///
+/// Cell describes everything there is to know about a puzzle cell.
 public struct Cell: Equatable, Sendable {
-    public var box: (shape: Int, color: Int)? = nil
-    public var cage: (shape: Int, content: CageContent?)? = nil
-    public var content: CellContent? = nil {
+    /// A shape used to describe a region of a puzzle.
+    public typealias Box = (shape: Int, color: Int)
+    /// A shape that provides clues about a region of a puzzle.
+    public typealias Cage = (shape: Int, content: CageContent?)
+
+    /// The box in which the cell is located.
+    public var box: Box?
+    /// The cage in which the cell is located and clue information.
+    public var cage: Cage?
+    /// The clue or progress.
+    public var content: CellContent? {
         didSet {
-            if case .candidates(let candidates) = content, candidates.isEmpty {
+            if case .candidates(let candidates) = content, candidates.isEmpty
+            {
                 content = nil
             }
         }
     }
 
-    public init(box: (shape: Int, color: Int)? = nil,
-                cage: (shape: Int, content: CageContent?)? = nil,
+    /// Creates an instance.
+    public init(box: Box? = nil,
+                cage: Cage? = nil,
                 content: CellContent? = nil)
     {
         self.box = box
