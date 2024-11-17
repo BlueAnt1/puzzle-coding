@@ -9,7 +9,7 @@
 
 extension JigsawSudoku {
     static var andrewStuart1: JigsawSudoku {
-        let boxShapes = """
+        let shapes = """
                     111222233
                     111222233
                     114452333
@@ -33,8 +33,8 @@ extension JigsawSudoku {
                 """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
             .map { $0 == 0 ? .candidates(Set(1...9)) : .clue($0) }
 
-        let cells = boxShapes.indices.map {
-            Cell(box: (boxShapes[$0], 0),
+        let cells = shapes.indices.map {
+            Cell(group: shapes[$0],
                  content: content[$0])
         }
 

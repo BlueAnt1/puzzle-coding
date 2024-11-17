@@ -16,11 +16,11 @@ public struct KillerJigsaw: Equatable {
         let ranges = KillerJigsaw.ranges(for: size)
 
         for cell in cells {
-            guard let box = cell.box,
+            guard let group = cell.group,
                   let cage = cell.cage
             else { throw Error.missingData }
 
-            guard ranges.boxShape.contains(box.shape),
+            guard ranges.shape.contains(group),
                   ranges.cageShape.contains(cage.shape),
                   cell.content.map({ $0.isValid(in: size.valueRange) }) ?? true
             else { throw Error.outOfRange }
@@ -39,7 +39,7 @@ public struct KillerJigsaw: Equatable {
 
     var size: Size { Size(gridCellCount: cells.count)! }
 
-    static func ranges(for size: Size) -> (boxShape: ClosedRange<Int>,
+    static func ranges(for size: Size) -> (shape: ClosedRange<Int>,
                                            cageShape: ClosedRange<Int>,
                                            cageContent: ClosedRange<Int>,
                                            cageClue: ClosedRange<Int>,

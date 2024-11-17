@@ -10,7 +10,7 @@
 extension KillerJigsaw {
     static var timTang: KillerJigsaw {
         // Tim Tang puzzle from SudokuWiki
-        let boxShapes = """
+        let shapes = """
                     112222233
                     112444233
                     112444233
@@ -46,8 +46,8 @@ extension KillerJigsaw {
 
         let content = Array(repeating: CellContent.candidates(Set(1...9)), count: 81)
 
-        let cells = boxShapes.indices.map {
-            Cell(box: (boxShapes[$0], 0),
+        let cells = shapes.indices.map {
+            Cell(group: shapes[$0],
                  cage: (cageShapes[$0], cageClues[$0]),
                  content: content[$0])
         }

@@ -12,7 +12,7 @@ struct JigsawSudokuCoderTests {
 
     @Test(arguments: JigsawSudoku.Version.allCases)
     func coderRoundtrips(version: JigsawSudoku.Version) throws {
-        let boxShapes = "111112222113345522133444552134444452637777752633777559638878859668888899666699999".map(\.wholeNumberValue!)
+        let shapes = "111112222113345522133444552134444452637777752633777559638878859668888899666699999".map(\.wholeNumberValue!)
         let content: [CellContent?] = "9..21.....6......1.8......95...34..7..31.29..2..78...47......4.8......1.....96..2"
             .map { character in
                 switch character.wholeNumberValue {
@@ -25,7 +25,7 @@ struct JigsawSudokuCoderTests {
                     }
                 }
             }
-        let cells = boxShapes.indices.map { Cell(box: (boxShapes[$0], 0), content: content[$0]) }
+        let cells = shapes.indices.map { Cell(group: shapes[$0], content: content[$0]) }
         let puzzle = try JigsawSudoku(cells: cells)
         let rawPuzzle = puzzle.encode(using: version)
 

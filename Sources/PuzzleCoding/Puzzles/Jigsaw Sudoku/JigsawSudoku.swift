@@ -12,7 +12,7 @@ public struct JigsawSudoku: Equatable {
     public init(cells: [Cell]) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
-        guard cells.allSatisfy({ $0.box?.shape != nil }),
+        guard cells.allSatisfy({ $0.group != nil }),
               cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true })
         else { throw Error.outOfRange }
 
@@ -25,7 +25,7 @@ public struct JigsawSudoku: Equatable {
 
     var size: Size { Size(gridCellCount: cells.count)! }
 
-    static func ranges(for size: Size) -> (boxShape: ClosedRange<Int>,
+    static func ranges(for size: Size) -> (shape: ClosedRange<Int>,
                                            cellContent: ClosedRange<Int>) {
         return (size.valueRange,
                 CellContentTransform(size: size).range)

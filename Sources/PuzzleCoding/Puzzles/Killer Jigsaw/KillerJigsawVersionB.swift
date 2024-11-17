@@ -14,17 +14,17 @@ extension KillerJigsaw {
 
         static func encode(_ puzzle: KillerJigsaw) -> String {
             let size = puzzle.size
-            let jigsawRanges = KillerJigsaw.ranges(for: size)
+            let ranges = KillerJigsaw.ranges(for: size)
             let cageTransform = KillerCageContentTransform(size: size)
             let cellTransform = CellContentTransform(size: size)
-            let shiftTransform = ShiftTransform(ranges: jigsawRanges.boxShape,
-                                                jigsawRanges.cageShape,
-                                                jigsawRanges.cageContent,
-                                                jigsawRanges.cellContent
+            let shiftTransform = ShiftTransform(ranges: ranges.shape,
+                                                ranges.cageShape,
+                                                ranges.cageContent,
+                                                ranges.cellContent
             )
 
             let values = Zipper([
-                puzzle.map(\.box!.shape),
+                puzzle.map(\.group!),
                 puzzle.map(\.cage!.shape),
                 puzzle.map(\.cage!.content).map(cageTransform.encode),
                 puzzle.map(\.content).map(cellTransform.encode)
@@ -45,11 +45,11 @@ extension KillerJigsaw {
             else { return nil }
             let size = header.output.size
 
-            let jigsawRanges = KillerJigsaw.ranges(for: size)
-            let shiftTransform = ShiftTransform(ranges: jigsawRanges.boxShape,
-                                                jigsawRanges.cageShape,
-                                                jigsawRanges.cageContent,
-                                                jigsawRanges.cellContent)
+            let ranges = KillerJigsaw.ranges(for: size)
+            let shiftTransform = ShiftTransform(ranges: ranges.shape,
+                                                ranges.cageShape,
+                                                ranges.cageContent,
+                                                ranges.cellContent)
             let pattern = ShiftPattern(size: size, transform: shiftTransform)
             guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
@@ -58,7 +58,7 @@ extension KillerJigsaw {
                 let cageTransform = KillerCageContentTransform(size: size)
                 let cellTransform = CellContentTransform(size: size)
                 let cells = try values.map {
-                    try Cell(box: ($0[0], 0),   // TODO: color
+                    try Cell(group: $0[0],
                              cage: ($0[1], cageTransform.decode($0[2])),
                              content: cellTransform.decode($0[3]))
                 }

@@ -9,13 +9,11 @@
 ///
 /// Cell describes everything there is to know about a puzzle cell.
 public struct Cell: Equatable, Sendable {
-    /// A shape used to describe a region of a puzzle.
-    public typealias Box = (shape: Int, color: Int)
     /// A shape that provides clues about a region of a puzzle.
     public typealias Cage = (shape: Int, content: CageContent?)
 
-    /// The box in which the cell is located.
-    public var box: Box?
+    /// The identifier for the group in which the cell is located.
+    public var group: Int?
     /// The cage in which the cell is located and clue information.
     public var cage: Cage?
     /// The clue or progress.
@@ -29,11 +27,11 @@ public struct Cell: Equatable, Sendable {
     }
 
     /// Creates an instance.
-    public init(box: Box? = nil,
+    public init(group: Int? = nil,
                 cage: Cage? = nil,
                 content: CellContent? = nil)
     {
-        self.box = box
+        self.group = group
         self.cage = cage
         self.content = content
     }
@@ -42,7 +40,6 @@ public struct Cell: Equatable, Sendable {
         left.content == right.content
         && left.cage?.shape == right.cage?.shape
         && left.cage?.content == right.cage?.content
-        && left.box?.shape == right.box?.shape
-        && left.box?.color == right.box?.color
+        && left.group == right.group
     }
 }

@@ -12,7 +12,7 @@ public struct Str8ts: Equatable {
     public init(cells: [Cell]) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
-        guard cells.allSatisfy({ $0.box?.shape != nil }),
+        guard cells.allSatisfy({ $0.group != nil }),
               cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true })
         else { throw Error.outOfRange }
 
@@ -21,7 +21,7 @@ public struct Str8ts: Equatable {
 
     var size: Size { Size(gridCellCount: cells.count)! }
 
-    static func ranges(for size: Size) -> (boxShape: ClosedRange<Int>,
+    static func ranges(for size: Size) -> (color: ClosedRange<Int>,
                                            cellContent: ClosedRange<Int>) {
         return (0...1,
                 CellContentTransform(size: size).range)

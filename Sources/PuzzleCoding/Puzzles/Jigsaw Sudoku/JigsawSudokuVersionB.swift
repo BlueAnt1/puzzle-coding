@@ -16,10 +16,10 @@ extension JigsawSudoku {
             let size = puzzle.size
             let ranges = JigsawSudoku.ranges(for: size)
             let cellTransform = CellContentTransform(size: size)
-            let shiftTransform = ShiftTransform(ranges: ranges.boxShape, ranges.cellContent)
+            let shiftTransform = ShiftTransform(ranges: ranges.shape, ranges.cellContent)
 
             let values = Zipper([
-                puzzle.map(\.box!.shape),
+                puzzle.map(\.group!),
                 puzzle.map(\.content).map(cellTransform.encode)
             ]).map(shiftTransform.encode)
 
@@ -39,7 +39,7 @@ extension JigsawSudoku {
             let size = header.output.size
 
             let ranges = JigsawSudoku.ranges(for: size)
-            let shiftTransform = ShiftTransform(ranges: ranges.boxShape, ranges.cellContent)
+            let shiftTransform = ShiftTransform(ranges: ranges.shape, ranges.cellContent)
             let cellTransform = CellContentTransform(size: size)
 
             let pattern = ShiftPattern(size: size, transform: shiftTransform)
@@ -49,7 +49,7 @@ extension JigsawSudoku {
             let values = match.output.values
             do {
                 let cells = try values.map {
-                    try Cell(box: ($0[0], 0),   // TODO: color
+                    try Cell(group: $0[0],
                              content: cellTransform.decode($0[1]))
                 }
 
