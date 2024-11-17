@@ -36,7 +36,7 @@ extension Sudoku: RandomAccessCollection {
     public subscript(_ position: Int) -> Cell { cells[position] }
 }
 
-extension Sudoku: PuzzleCoder {
+extension Sudoku: PuzzleCodable {
     public enum Version: CodingVersion {
         /// Converts solutions to clues & removes candidates.
         case clue
@@ -100,7 +100,7 @@ extension Windoku: RandomAccessCollection {
     public subscript(_ position: Int) -> Cell { sudoku[position] }
 }
 
-extension Windoku: PuzzleCoder {
+extension Windoku: PuzzleCodable {
     public typealias Version = Sudoku.Version
     private static var type: PuzzleType { .windoku }
 
@@ -144,7 +144,7 @@ extension SudokuX: RandomAccessCollection {
     public subscript(_ position: Int) -> Cell { sudoku[position] }
 }
 
-extension SudokuX: PuzzleCoder {
+extension SudokuX: PuzzleCodable {
     public typealias Version = Sudoku.Version
     private static var type: PuzzleType { .sudokuX }
 

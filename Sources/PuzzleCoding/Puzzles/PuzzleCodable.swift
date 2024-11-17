@@ -1,12 +1,12 @@
 //
-//  PuzzleCoder.swift
+//  PuzzleCodable.swift
 //  puzzle-coding
 //
 //  Created by Quintin May on 11/3/24.
 //
 
-/// A puzzle coder converts a puzzle to and from text.
-public protocol PuzzleCoder {
+/// A codable puzzle can be converted to and from a string.
+public protocol PuzzleCodable {
     /// The coding version.
     associatedtype Version: CodingVersion
 
@@ -17,13 +17,13 @@ public protocol PuzzleCoder {
     /// - Returns: the decoded puzzle or `nil` if the input is not recognized.
     static func decode(_ input: String, using version: Version) -> Self?
 
-    /// Creates a textual representation of the puzzle using the specified coding version.
+    /// Creates a string representation of the puzzle using the specified coding version.
     /// - Parameter version: the format in which to encode the puzzle.
     /// - Returns: the textual representation.
     func encode(using version: Version) -> String
 }
 
-extension PuzzleCoder {
+extension PuzzleCodable {
     /// Decode the puzzle from the provided input by attempting all coding versions.
     /// - Parameter input: The raw input to decode.
     /// - Returns: The puzzle & coding version if the input is recognized, `nil` otherwise.

@@ -34,7 +34,7 @@ extension Str8ts: RandomAccessCollection {
     public subscript(_ position: Int) -> Cell { cells[position] }
 }
 
-extension Str8ts: PuzzleCoder {
+extension Str8ts: PuzzleCodable {
     public enum Version: CodingVersion {
         case versionB
 

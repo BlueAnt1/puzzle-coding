@@ -55,7 +55,7 @@ extension KillerSudoku: RandomAccessCollection {
     public subscript(_ position: Int) -> Cell { cells[position] }
 }
 
-extension KillerSudoku: PuzzleCoder {
+extension KillerSudoku: PuzzleCodable {
     public enum Version: CodingVersion {
         case versionB
 

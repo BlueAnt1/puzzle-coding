@@ -56,7 +56,7 @@ extension KenKen: RandomAccessCollection {
     public subscript(_ position: Int) -> Cell { cells[position] }
 }
 
-extension KenKen: PuzzleCoder {
+extension KenKen: PuzzleCodable {
     public enum Version: CodingVersion {
         case versionB
 

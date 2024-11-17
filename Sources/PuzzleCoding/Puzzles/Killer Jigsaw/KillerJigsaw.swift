@@ -59,7 +59,7 @@ extension KillerJigsaw: RandomAccessCollection {
     public subscript(_ position: Int) -> Cell { cells[position] }
 }
 
-extension KillerJigsaw: PuzzleCoder {
+extension KillerJigsaw: PuzzleCodable {
     public enum Version: CodingVersion {
         case versionB
 

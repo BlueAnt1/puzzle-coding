@@ -18,7 +18,7 @@ You can learn about the <doc:EncodingFormats> or keep reading for an overview of
 
 ### Decode a puzzle
 
-1. Pass the encoded puzzle string to the ``PuzzleCoder/decode(_:)`` method of a puzzle coder.
+1. Pass the encoded puzzle string to the ``PuzzleCodable/decode(_:)`` method of a puzzle coder.
 2. Copy the decoded data into your puzzle model.
 
 @Snippet(path: "PuzzleCoding/Snippets/UsageDecode")
@@ -27,7 +27,7 @@ You can learn about the <doc:EncodingFormats> or keep reading for an overview of
 
 1. For every cell in your model create a ``Cell`` and populate it with information about the puzzle.
 2. Create a puzzle coder with the cells.
-3. Call the ``PuzzleCoder/encode(using:)`` method of the coder to generate the encoded string.
+3. Call the ``PuzzleCodable/encode(using:)`` method of the coder to generate the encoded string.
 
 @Snippet(path: "PuzzleCoding/Snippets/UsageEncode")
 
@@ -37,9 +37,7 @@ You can learn about the <doc:EncodingFormats> or keep reading for an overview of
 
 - ``Cell``
 
-### Puzzle Coders
-
-Coders convert puzzles to text and back.
+### Puzzles
 
 - ``JigsawSudoku``
 - ``KenKen``
@@ -49,3 +47,8 @@ Coders convert puzzles to text and back.
 - ``Sudoku``
 - ``SudokuX``
 - ``Windoku``
+
+### Protocols
+
+- ``CodingVersion``
+- ``PuzzleCodable``

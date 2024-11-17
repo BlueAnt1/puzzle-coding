@@ -38,7 +38,7 @@ extension JigsawSudoku: RandomAccessCollection {
     public subscript(_ position: Int) -> Cell { cells[position] }
 }
 
-extension JigsawSudoku: PuzzleCoder {
+extension JigsawSudoku: PuzzleCodable {
     public enum Version: CodingVersion {
         case versionB
 
