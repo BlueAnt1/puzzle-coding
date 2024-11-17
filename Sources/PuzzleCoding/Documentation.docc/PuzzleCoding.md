@@ -37,7 +37,9 @@ You can learn about the <doc:EncodingFormats> or keep reading for an overview of
 
 - ``Cell``
 
-### Puzzles
+### Puzzle Coders
+
+Puzzle coders convert puzzles to strings and back.
 
 - ``JigsawSudoku``
 - ``KenKen``
