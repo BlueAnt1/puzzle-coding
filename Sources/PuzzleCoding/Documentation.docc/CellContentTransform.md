@@ -4,7 +4,7 @@ Transform cell content into an integer.
 
 ## Overview
 
-This is an <doc:OffsetTransform> that transforms cell content to an integer.
+This is an <doc:OffsetTransform> that transforms cell content into an integer.
 
 ## Details
 

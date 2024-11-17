@@ -6,7 +6,7 @@ Transform mutually exclusive values into an integer.
 
 This transform allows us to store multiple types of data using the same set of bits since only one of the types of data is ever present at a time. We represent the different data types using different ranges of values.
 
-> Note: Offset transform is not used directly, rather it is a transform style that is implemented by transforms tuned to the data requirements.
+>Note: Offset transform is not used directly, rather it is a transform style that is implemented by transforms tuned to the data requirements.
 
 The offset transform is implemented by <doc:CellContentTransform>, <doc:KenCageContentTransform> and <doc:KillerCageContentTransform>.
 

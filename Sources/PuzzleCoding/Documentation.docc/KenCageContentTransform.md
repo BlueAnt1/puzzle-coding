@@ -4,9 +4,8 @@ Transform cage content into an integer.
 
 ## Overview
 
-This is an <doc:OffsetTransform> that transforms KenKen or KenDoku cage content to an integer.
+This is an <doc:OffsetTransform> that transforms KenKen or KenDoku cage content into an integer.
  
-TODO:
 ## Details
 
 Size      | Operator offset | Max value 
@@ -21,7 +20,7 @@ Size      | Operator offset | Max value
 
 ```
 size = number of cells in a puzzle row or column
-operatorOffset = min(1023, size!)
+operatorOffset = min(1023, size!)   // "!" is the factorial operator
 operators: 1 = add, 2 = subtract, 3 = multiply, 4 = divide
 maxValue = operatorOffset + 4
 ```

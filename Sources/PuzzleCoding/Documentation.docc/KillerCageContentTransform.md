@@ -4,7 +4,9 @@ Transform cage content into an integer.
 
 ## Overview
 
-This is an <doc:OffsetTransform> that transforms Killer Jigsaw or Killer Sudoku cage content to an integer. This is a degenerate case of the offset transform since there's only one value to represent.
+This is an <doc:OffsetTransform> that transforms Killer Jigsaw or Killer Sudoku cage content into an integer.
+
+>Note: This is a degenerate case of the offset transform since there's only one value type to represent.
  
 ## Details
 
