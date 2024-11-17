@@ -17,19 +17,10 @@ struct Grid: CustomStringConvertible {
         self.cells = cells
     }
 
-    var cellContent: String {
+    var group: String {
         func describe(_ cells: some Collection<Cell>) -> [String] {
-            Array(zip(cells.indices, cells)
-                .map { index, cell in
-                    switch cell.content {
-                    case .clue(let clue): "=\(clue)"
-                    case .solution(let solution): "\(solution)"
-                    case .candidates(let candidates): "[\(candidates.sorted().map(String.init).joined())]"
-                    case nil: "."
-                    }
-                })
+            cells.map { if let group = $0.group { "\(group)" } else { " " }}
         }
-
         return format(describe(cells))
     }
 
@@ -45,6 +36,22 @@ struct Grid: CustomStringConvertible {
                         }
                     } else {
                         ""
+                    }
+                })
+        }
+
+        return format(describe(cells))
+    }
+
+    var cellContent: String {
+        func describe(_ cells: some Collection<Cell>) -> [String] {
+            Array(zip(cells.indices, cells)
+                .map { index, cell in
+                    switch cell.content {
+                    case .clue(let clue): "=\(clue)"
+                    case .solution(let solution): "\(solution)"
+                    case .candidates(let candidates): "[\(candidates.sorted().map(String.init).joined())]"
+                    case nil: "."
                     }
                 })
         }

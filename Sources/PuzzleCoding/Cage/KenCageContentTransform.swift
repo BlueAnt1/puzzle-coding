@@ -8,15 +8,16 @@
 struct KenCageContentTransform {
     let size: Size
 
-    var clueRange: ClosedRange<Int> { 0...min(1023, size.valueRange.reduce(1, *)) }
-    var range: ClosedRange<Int> { clueRange.lowerBound ... operatorRange.upperBound }
-
+    private var empty: Int { 0 }
+    var clueRange: ClosedRange<Int> { 1...min(1023, size.valueRange.reduce(1, *)) }
     private var operatorOffset: Int { clueRange.upperBound }
 
     private var operatorRange: ClosedRange<Int> {
         operatorOffset + 1 ... operatorOffset
         + CageContent.Operator.allCases.map(\.rawValue).max()!
     }
+
+    var range: ClosedRange<Int> { empty ... operatorRange.upperBound }
 
     func encode(_ content: CageContent?) -> Int {
         switch content {

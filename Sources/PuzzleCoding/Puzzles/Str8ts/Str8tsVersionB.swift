@@ -10,7 +10,7 @@ import RegexBuilder
 extension Str8ts {
     struct VersionB: Coder {
         private static var puzzleType: PuzzleType { .str8ts }
-        private static var version: Character { "X" }
+        private static var version: Character { "B" }
 
         static func encode(_ puzzle: Str8ts) -> String {
             let size = puzzle.size

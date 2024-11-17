@@ -47,14 +47,14 @@ struct SudokuWikiCompatibilityTests {
     @Test
     func jigsawSudoku() throws {
         let raw = "J9B0040ep0ep0sn1750sp1751ky1zl0ep0ep0ep1750si1751751zl1zl0ep0092s12s13kh0so1zl1zl1zl0012s12dg2s13kh3kh3yb1zl1zl2dj2s12s135w3kh35t4cx4cx3ya55d55d2de3kh3kh4cx3y94cx6bn55d55d55d5ja3kh4cx4cx6bl6q955d55d5xt5xt5j85xt6q96q96q955d4qp5xt5j65xt5jb6q96bo6bp"
-        let myRaw = JigsawSudoku.andrewStuart1.encode(using: .versionB)
+        let myRaw = JigsawSudoku.andrewStuart1Example1.encode(using: .versionB)
         #expect(raw == myRaw)
         let decoded = try #require(JigsawSudoku.decode(raw))
 //        print(Grid(decoded.puzzle))
         let encoded = decoded.puzzle.encode(using: decoded.version)
         #expect(raw == encoded)
 
-        #expect(decoded.puzzle == JigsawSudoku.andrewStuart1)
+        #expect(decoded.puzzle == JigsawSudoku.andrewStuart1Example1)
     }
 
     @Test

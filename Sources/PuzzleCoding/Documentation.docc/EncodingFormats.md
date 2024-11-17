@@ -59,14 +59,14 @@ Every puzzle type has its own data requirements.
 
 To read the table, find the row with the puzzle type in which you're interested. Then read across.
 
-Green cells indicate the data that is required for the puzzle type and the range of permitted values. Many of the ranges are described as `1…size`. This means that the range is based on the size of the puzzle. For a 9×9 Sudoku the *Cell Content Candidates* must be a set of values in the range 1…9. For a 6×6 KenKen the *Cell Content Solution* must be a value in the range 1…6.
+Green cells indicate the data that is required for the puzzle type and the range of permitted values. Many of the ranges are described as *1…size*. This means that the range is based on the size of the puzzle. For a 9×9 Sudoku the *Cell Content Candidates* must be a set of values in the range 1…9. For a 6×6 KenKen the *Cell Content Solution* must be a value in the range 1…6.
 
 ## Data types
 
 There are three general types of data to encode.
 
 - term Shapes: <doc:Shapes> describe groupings of cells; the cells of a Jigsaw piece or the outline of a cage for example.
-- term Cage Content: <doc:Cages> contain additional clues about a group of cells such as the sum of their content.
+- term Cage Content: <doc:Cages> contain clues about a group of cells such as the sum of their content.
 - term Cell Content: Cell content is what we typically consider the data *in* a cell. It is the clue, solution or candidates (the *progress*) of the puzzle.
 
 > Note: The `∅` column under Cage Content and Cell Content indicates that *empty* is a valid value. Emptiness is denoted by the value `0`.
@@ -95,26 +95,26 @@ Choose your puzzle type and encode each cell using the transforms
     @Tab("KenDoku") {
         - <doc:ShiftTransform>
             - cage number
-            - <doc:CageContentTransform>
+            - <doc:KenCageContentTransform>
             - <doc:CellContentTransform>
     }
     @Tab("KenKen") {
         - <doc:ShiftTransform>
             - cage number
-            - <doc:CageContentTransform>
+            - <doc:KenCageContentTransform>
             - <doc:CellContentTransform>
     }
     @Tab("Killer Jigsaw") {
         - <doc:ShiftTransform>
             - box number
             - cage number
-            - <doc:CageContentTransform>
+            - <doc:KillerCageContentTransform>
             - <doc:CellContentTransform>
     }
     @Tab("Killer Sudoku") {
         - <doc:ShiftTransform>
             - cage number
-            - <doc:CageContentTransform>
+            - <doc:KillerCageContentTransform>
             - <doc:CellContentTransform>
     }
     @Tab("Str8ts") {

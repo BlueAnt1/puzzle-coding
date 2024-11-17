@@ -8,7 +8,7 @@
 @testable import PuzzleCoding
 
 extension JigsawSudoku {
-    static var andrewStuart1: JigsawSudoku {
+    static var andrewStuart1Example1: JigsawSudoku {
         let shapes = """
                     111222233
                     111222233
