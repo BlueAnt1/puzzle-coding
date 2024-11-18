@@ -1,6 +1,6 @@
 # Shapes
 
-Shapes are... summary.
+Shapes are...summary.
 
 ## Overview
 
