@@ -25,7 +25,7 @@ extension KillerJigsaw {
 
             let values = Zipper([
                 puzzle.map(\.group!),
-                puzzle.map(\.cage!.shape),
+                puzzle.map(\.cage!.cage),
                 puzzle.map(\.cage!.content).map(cageTransform.encode),
                 puzzle.map(\.content).map(cellTransform.encode)
             ]).map(shiftTransform.encode)
@@ -59,7 +59,7 @@ extension KillerJigsaw {
                 let cellTransform = CellContentTransform(size: size)
                 let cells = try values.map {
                     try Cell(group: $0[0],
-                             cage: ($0[1], cageTransform.decode($0[2])),
+                             cage: CageCell(cage: $0[1], content: cageTransform.decode($0[2])),
                              content: cellTransform.decode($0[3]))
                 }
 

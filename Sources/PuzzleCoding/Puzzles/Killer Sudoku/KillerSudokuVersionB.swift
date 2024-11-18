@@ -20,7 +20,7 @@ extension KillerSudoku {
             let cageTransform = KillerCageContentTransform(size: size)
             let cellTransform = CellContentTransform(size: size)
             let values = Zipper([
-                puzzle.map(\.cage!.shape),
+                puzzle.map(\.cage!.cage),
                 puzzle.map(\.cage!.content).map(cageTransform.encode),
                 puzzle.map(\.content).map(cellTransform.encode)
             ]).map(shiftTransform.encode)
@@ -52,7 +52,7 @@ extension KillerSudoku {
                 let cageTransform = KillerCageContentTransform(size: size)
                 let cellTransform = CellContentTransform(size: size)
                 let cells = try values.map {
-                    try Cell(cage: (shape: $0[0], content: cageTransform.decode($0[1])),
+                    try Cell(cage: CageCell(cage: $0[0], content: cageTransform.decode($0[1])),
                              content: cellTransform.decode($0[2]))
                 }
 

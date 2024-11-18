@@ -21,7 +21,7 @@ public struct KillerJigsaw: Equatable {
             else { throw Error.missingData }
 
             guard ranges.shape.contains(group),
-                  ranges.cageShape.contains(cage.shape),
+                  ranges.cageShape.contains(cage.cage),
                   cell.content.map({ $0.isValid(in: size.valueRange) }) ?? true
             else { throw Error.outOfRange }
 

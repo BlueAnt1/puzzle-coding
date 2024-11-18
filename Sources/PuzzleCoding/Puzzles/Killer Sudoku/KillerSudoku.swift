@@ -19,7 +19,7 @@ public struct KillerSudoku: Equatable, Sendable {
             guard let cage = cell.cage
             else { throw Error.missingData }
 
-            guard ranges.cageShape.contains(cage.shape),
+            guard ranges.cageShape.contains(cage.cage),
                   cell.content.map({ $0.isValid(in: size.valueRange) }) ?? true
             else { throw Error.outOfRange }
 

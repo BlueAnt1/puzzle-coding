@@ -30,9 +30,9 @@ struct Grid: CustomStringConvertible {
                 .map { index, cell in
                     if let cage = cell.cage {
                         switch cage.content {
-                        case nil: "\(cage.shape).__"
-                        case .clue(let clue): "\(cage.shape).\(clue.formatted(.number.precision(.integerLength(2))))"
-                        case .operator(let op): "\(cage.shape)._\(op)"
+                        case nil: "\(cage.cage).__"
+                        case .clue(let clue): "\(cage.cage).\(clue.formatted(.number.precision(.integerLength(2))))"
+                        case .operator(let op): "\(cage.cage)._\(op)"
                         }
                     } else {
                         ""
