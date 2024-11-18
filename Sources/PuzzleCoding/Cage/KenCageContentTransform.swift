@@ -17,7 +17,7 @@ struct KenCageContentTransform {
         + CageContent.Operator.allCases.map(\.rawValue).max()!
     }
 
-    var range: ClosedRange<Int> { empty ... operatorRange.upperBound }
+    var range: ClosedRange<Int> { empty...operatorRange.upperBound }
 
     func encode(_ content: CageContent?) -> Int {
         switch content {

@@ -4,7 +4,7 @@ Transform mutually exclusive values into an integer.
 
 ## Overview
 
-This transform allows us to store multiple types of data using the same set of bits since only one of the types of data is ever present at a time. We represent the different data types using different ranges of values.
+This transform allows us to store multiple types of data using the *same set of bits* since only one of the types of data is ever present at a time. We represent the different data types using different ranges of values.
 
 >Note: Offset transform is not used directly, rather it is a transform style that is implemented by transforms tuned to the data requirements.
 
@@ -16,7 +16,7 @@ The concept is that we force the values we need to represent into distinct value
 
 ### Example
 
-We need to represent 3 distinct value types: appetizer, entree and dessert. We have 10 appetizers, 4 entrées and 7 desserts to represent. A person may select at most one of the menu items.
+We need to describe 3 distinct value types: appetizer, entrée and dessert. We have 10 appetizers, 4 entrées and 7 desserts to represent. A person may select at most one of the menu items.
 
 To represent these values we use offsets. Let's represent appetizers with the values `1…10`.
 
