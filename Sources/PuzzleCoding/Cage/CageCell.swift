@@ -5,14 +5,23 @@
 //  Created by Quintin May on 11/11/24.
 //
 
+/// Cage related information about a cell.
+///
+/// >Important: Be sure you understand how to store information for <doc:Cages> and <doc:Shapes>.
 public struct CageCell: Equatable, Sendable {
+    /// The cage containing the cell.
     public var cage: Int
+    /// The cage content such as a clue or operator.
     public var content: Content?
 
+    /// The content a cell stores relating to the cage.
     public enum Content: Equatable, Sendable {
+        /// A clue.
         case clue(Int)
+        /// An operator.
         case `operator`(Operator)
 
+        /// A cage operator
         public enum Operator: Int, Sendable {
             case add = 1, subtract, multiply, divide
 

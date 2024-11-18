@@ -7,13 +7,13 @@
 
 /// A puzzle cell.
 ///
-/// Cell describes everything there is to know about a puzzle cell.
+/// Cell includes everything there is to know about a puzzle cell including its content and group & cage membership.
 public struct Cell: Equatable, Sendable {
-    /// The the group in which the cell is located.
+    /// The group of which the cell is a member.
     public var group: Int?
-    /// The cage in which the cell is located and clue information.
+    /// The cage in which the cell is located and its clue information.
     public var cage: CageCell?
-    /// The clue or progress.
+    /// The clue, solution or candidates (progress).
     public var content: Content? {
         didSet {
             if case .candidates(let candidates) = content, candidates.isEmpty
@@ -24,10 +24,7 @@ public struct Cell: Equatable, Sendable {
     }
 
     /// Creates an instance.
-    public init(group: Int? = nil,
-                cage: CageCell? = nil,
-                content: Content? = nil)
-    {
+    public init(group: Int? = nil, cage: CageCell? = nil, content: Content? = nil) {
         self.group = group
         self.cage = cage
         self.content = content
