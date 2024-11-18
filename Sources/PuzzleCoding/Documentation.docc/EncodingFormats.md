@@ -69,7 +69,7 @@ There are three general types of data to encode.
 - term Cage Content: <doc:Cages> contain clues about a group of cells such as the sum of their content.
 - term Cell Content: Cell content is what we typically consider the data *in* a cell. It is the clue, solution or candidates (the *progress*) of the puzzle.
 
-> ImportantShape: The `∅` column under Cage Content and Cell Content indicates that *empty* is a valid value. Emptiness is denoted by the value `0`.
+> Important: The `∅` column under Cage Content and Cell Content indicates that *empty* is a valid value. Emptiness is denoted by the value `0`.
 
 ## Version B coding
 

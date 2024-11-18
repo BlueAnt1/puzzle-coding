@@ -59,6 +59,8 @@ the ranges of values permitted for each data type.
             maxValue = (maxValue << shifts[index]) + maxValues[index]
         // maxValue = 12247
         ```
+        
+        `maxValue` is used by <doc:FieldCoding> to determine the output field width. For this example it results in a field width of 3 characters.
     }
 }
 

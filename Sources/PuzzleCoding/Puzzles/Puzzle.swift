@@ -14,6 +14,9 @@ public protocol Puzzle: RawRepresentable, RandomAccessCollection<Cell> {
     var version: Version { get set }
 
     /// Creates an instance.
+    /// - Parameters:
+    ///     - cells: the puzzle content.
+    ///     - version: the encoding version
     init(cells: some Collection<Cell>, version: Version) throws
 
     /// The encoded puzzle.

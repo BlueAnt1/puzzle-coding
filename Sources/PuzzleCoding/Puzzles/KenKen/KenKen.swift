@@ -11,8 +11,9 @@
 public struct KenKen: Equatable, Sendable {
     private let cells: [Cell]
     public var version: Version
-    
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    let type: PuzzleType
+
+    init(cells: some Collection<Cell>, version: Version, type: PuzzleType) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
 
@@ -36,6 +37,7 @@ public struct KenKen: Equatable, Sendable {
 
         self.cells = cells as? Array ?? Array(cells)
         self.version = version
+        self.type = type
     }
 
     var size: Size { Size(gridCellCount: cells.count)! }
@@ -53,6 +55,10 @@ public struct KenKen: Equatable, Sendable {
 }
 
 extension KenKen: Puzzle {
+    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+        try self.init(cells: cells, version: version, type: .kenken)
+    }
+
     public enum Version: CodingVersion {
         case versionB
 
@@ -67,7 +73,7 @@ extension KenKen: Puzzle {
 
     protocol Coder {
         static func encode(_ puzzle: KenKen) -> String
-        static func decode(_ input: String) -> KenKen?
+        static func decode(_ input: String, type: PuzzleType) -> KenKen?
     }
 }
 
@@ -82,7 +88,7 @@ extension KenKen: RawRepresentable {
 
     public init?(rawValue: String) {
         for version in Version.allCases {
-            if let puzzle = version.coder.decode(rawValue) {
+            if let puzzle = version.coder.decode(rawValue, type: .kenken) {
                 self = puzzle
                 return
             }
@@ -93,4 +99,57 @@ extension KenKen: RawRepresentable {
 
 extension KenKen: CustomStringConvertible {
     public var description: String { "\(PuzzleType.kenken) \(size)" }
+}
+
+// MARK: - KenDoku
+
+/// KenDoku puzzle coder.
+///
+/// > Note: KenDoku® is a registered trademark of Nextoy, LLC.
+public struct KenDoku: Equatable {
+    private static var type: PuzzleType { .kendoku }
+    private var kenKen: KenKen
+
+    init(kenKen: KenKen) {
+        assert(kenKen.type == Self.type)
+        self.kenKen = kenKen
+    }
+
+    var size: Size { kenKen.size }
+}
+
+extension KenDoku: Puzzle {
+    public typealias Version = KenKen.Version
+    public var version: Version {
+        get { kenKen.version }
+        set { kenKen.version = newValue }
+    }
+
+    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+        self.kenKen = try KenKen(cells: cells, version: version, type: Self.type)
+    }
+}
+
+extension KenDoku: RandomAccessCollection {
+    public var startIndex: Int { kenKen.startIndex }
+    public var endIndex: Int { kenKen.endIndex }
+    public subscript(_ position: Int) -> Cell { kenKen[position] }
+}
+
+extension KenDoku: RawRepresentable {
+    public var rawValue: String { kenKen.rawValue }
+
+    public init?(rawValue: String) {
+        for version in Version.allCases {
+            if let puzzle = version.coder.decode(rawValue, type: Self.type) {
+                self.kenKen = puzzle
+                return
+            }
+        }
+        return nil
+    }
+}
+
+extension KenDoku: CustomStringConvertible {
+    public var description: String { "\(Self.type) \(size)" }
 }

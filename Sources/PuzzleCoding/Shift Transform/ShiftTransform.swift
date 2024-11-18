@@ -20,7 +20,8 @@ struct ShiftTransform {
         self.ranges = ranges
 
         let maxValues = ranges.map { $0.upperBound - $0.lowerBound }
-        let shifts = [0] + maxValues.dropFirst().map { String($0, radix: 2).count }
+        let bitCounts = maxValues.map { String($0, radix: 2).count }
+        let shifts = [0] + bitCounts.dropFirst()
         self.shifts = shifts
         let maxValue = zip(shifts, maxValues).reduce(0) { maxValue, offsetMax in
             (maxValue << offsetMax.0) + offsetMax.1

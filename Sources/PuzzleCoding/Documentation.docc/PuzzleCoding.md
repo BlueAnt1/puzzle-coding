@@ -42,6 +42,7 @@ You can learn about the <doc:EncodingFormats> or keep reading for an overview of
 Puzzle coders convert puzzles to strings and back.
 
 - ``JigsawSudoku``
+- ``KenDoku``
 - ``KenKen``
 - ``KillerJigsaw``
 - ``KillerSudoku``

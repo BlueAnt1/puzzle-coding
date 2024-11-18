@@ -9,7 +9,6 @@ import RegexBuilder
 
 extension KenKen {
     struct VersionB: Coder {
-        private static var puzzleType: PuzzleType { .kenken }
         private static var version: Character { "B" }
 
         static func encode(_ puzzle: KenKen) -> String {
@@ -28,14 +27,14 @@ extension KenKen {
             let fieldCoding = FieldCoding(range: shiftTransform.range)
 
             return """
-                \(Header(puzzleType: Self.puzzleType, size: size, version: Self.version).rawValue)\
+                \(Header(puzzleType: puzzle.type, size: size, version: Self.version).rawValue)\
                 \(values.map(fieldCoding.encode).joined())
                 """
         }
 
-        static func decode(_ input: String) -> KenKen? {
+        static func decode(_ input: String, type: PuzzleType) -> KenKen? {
             guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
-                  header.output.puzzleType == Self.puzzleType,
+                  case type = header.output.puzzleType,
                   header.output.version == Self.version
             else { return nil }
             let size = header.output.size
@@ -56,7 +55,7 @@ extension KenKen {
                              content: cellTransform.decode($0[2]))
                 }
 
-                return try KenKen(cells: cells)
+                return try KenKen(cells: cells, version: .versionB, type: type)
             } catch {
                 return nil
             }

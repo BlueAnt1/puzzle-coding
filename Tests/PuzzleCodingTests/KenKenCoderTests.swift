@@ -28,4 +28,22 @@ struct KenKenCoderTests {
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)
     }
+
+    @Test(arguments: [PuzzleType.kenken, .kendoku])
+    func kenTypeRoundTrips(_ type: PuzzleType) async throws {
+        let cells = KenKen.veryEasy1
+        switch type {
+        case .kenken:
+            let puzzle = try #require(try KenKen(cells: cells))
+            let raw = puzzle.rawValue
+            let decoded = try #require(KenKen(rawValue: raw))
+            #expect(decoded == puzzle)
+        case .kendoku:
+            let puzzle = try #require(try KenDoku(cells: cells))
+            let raw = puzzle.rawValue
+            let decoded = try #require(KenDoku(rawValue: raw))
+            #expect(decoded == puzzle)
+        default: fatalError()
+        }
+    }
 }

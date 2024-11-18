@@ -27,10 +27,10 @@ In order to describe a shape:
 The shape numbering for the cage diagram shown on the right is: 
 
 ```
-112121
-232121
-233123
-244433
-112221
-133311
+1 1 2 1 2 1
+2 3 2 1 2 1
+2 3 3 1 2 3
+2 4 4 4 3 3
+1 1 2 2 2 1
+1 3 3 3 1 1
 ```

@@ -27,10 +27,6 @@ public struct Sudoku: Equatable {
 }
 
 extension Sudoku: Puzzle {
-    /// Creates an instance.
-    /// - Parameters:
-    ///     - cells: the puzzle content.
-    ///     - version: the encoding version
     public init(cells: some Collection<Cell>, version: Version = .current) throws {
         try self.init(cells: cells, version: version, type: .sudoku)
     }
@@ -106,10 +102,6 @@ extension Windoku: Puzzle {
         set { sudoku.version = newValue }
     }
 
-    /// Creates an instance.
-    /// - Parameters:
-    ///     - cells: the puzzle content.
-    ///     - version: the encoding version
     public init(cells: some Collection<Cell>, version: Version = .current) throws {
         self.sudoku = try Sudoku(cells: cells, version: version, type: Self.type)
     }
@@ -167,10 +159,6 @@ extension SudokuX: Puzzle {
         set { sudoku.version = newValue }
     }
 
-    /// Creates an instance.
-    /// - Parameters:
-    ///     - cells: the puzzle content.
-    ///     - version: the encoding version
     public init(cells: some Collection<Cell>, version: Version = .current) throws {
         self.sudoku = try Sudoku(cells: cells, version: version, type: Self.type)
     }
