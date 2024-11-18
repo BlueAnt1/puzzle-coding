@@ -9,7 +9,7 @@
 ///
 /// Cell includes everything there is to know about a puzzle cell including its content and group & cage membership.
 public struct Cell: Equatable, Sendable {
-    /// The group of which the cell is a member.
+    /// The group of which the cell is a member. This is used to store a Jigsaw shape or Str8ts color.
     public var group: Int?
     /// The cage in which the cell is located and its clue information.
     public var cage: CageInfo?
