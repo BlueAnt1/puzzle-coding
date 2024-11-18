@@ -11,47 +11,47 @@ import Testing
 struct ManualTranslationTests {
     @Test
     func kenKen() throws {
-        let raw = KenKen.veryEasy1.encode(using: .versionB)
+        let raw = KenKen.veryEasy1.rawValue
         print(raw)
-        let decoded = try #require(KenKen.decode(raw))
+        let decoded = try #require(KenKen(rawValue: raw))
         //        let grid = Grid(decoded.puzzle)
         //        print(grid.cellContent)
         //        print(grid.cage)
-        let encoded = decoded.puzzle.encode(using: decoded.version)
+        let encoded = decoded.rawValue
         #expect(raw == encoded)
-        #expect(decoded.puzzle == KenKen.veryEasy1)
+        #expect(decoded == KenKen.veryEasy1)
     }
 
     @Test
     func killerSudoku() throws {
-        let raw = KillerSudoku.gentleExample1.encode(using: .versionB)
-        let decoded = try #require(KillerSudoku.decode(raw))
+        let raw = KillerSudoku.gentleExample1.rawValue
+        let decoded = try #require(KillerSudoku(rawValue: raw))
         //        print(Grid(decoded.puzzle))
-        let encoded = decoded.puzzle.encode(using: decoded.version)
+        let encoded = decoded.rawValue
         #expect(raw == encoded)
-        #expect(decoded.puzzle == KillerSudoku.gentleExample1)
+        #expect(decoded == KillerSudoku.gentleExample1)
     }
 
     @Test
     func jigsawSudoku() throws {
-        let raw = JigsawSudoku.andrewStuart1Example1.encode(using: .versionB)
-        let decoded = try #require(JigsawSudoku.decode(raw))
+        let raw = JigsawSudoku.andrewStuart1Example1.rawValue
+        let decoded = try #require(JigsawSudoku(rawValue: raw))
         //        print(Grid(decoded.puzzle))
-        let encoded = decoded.puzzle.encode(using: decoded.version)
+        let encoded = decoded.rawValue
         #expect(raw == encoded)
-        #expect(decoded.puzzle == JigsawSudoku.andrewStuart1Example1)
+        #expect(decoded == JigsawSudoku.andrewStuart1Example1)
     }
 
     @Test
     func str8ts() throws {
-        let raw = Str8ts.easy1.encode(using: .versionB)
-        let decoded = try #require(Str8ts.decode(raw))
-        let grid = Grid(decoded.puzzle)
+        let raw = Str8ts.easy1.rawValue
+        let decoded = try #require(Str8ts(rawValue: raw))
+        let grid = Grid(decoded)
         print(raw)
         print(grid.group)
         print(grid.cellContent)
-        let encoded = decoded.puzzle.encode(using: decoded.version)
+        let encoded = decoded.rawValue
         #expect(raw == encoded)
-        #expect(decoded.puzzle == Str8ts.easy1)
+        #expect(decoded == Str8ts.easy1)
     }
 }

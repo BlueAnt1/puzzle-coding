@@ -24,13 +24,12 @@ struct Str8tsCoderTests {
                  content: content[$0])
         }
 
-        let puzzle = try #require(try Str8ts(cells: cells))
-        let rawPuzzle = puzzle.encode(using: version)
+        let puzzle = try #require(try Str8ts(cells: cells, version: version))
+        let rawPuzzle = puzzle.rawValue
 
-        let decoded = try #require(Str8ts.decode(rawPuzzle))
+        let decoded = try #require(Str8ts(rawValue: rawPuzzle))
 
-        #expect(decoded.version == version)
-        #expect(decoded.puzzle == puzzle)
+        #expect(decoded == puzzle)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""

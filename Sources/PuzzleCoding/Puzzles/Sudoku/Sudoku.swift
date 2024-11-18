@@ -9,34 +9,32 @@
 public struct Sudoku: Equatable {
     /// The puzzle content.
     private let cells: [Cell]
+    public var version: Version
     let type: PuzzleType
 
-    /// Creates an instance.
-    /// - Parameter cells: the puzzle content.
-    public init(cells: [Cell]) throws {
-        try self.init(cells: cells, type: .sudoku)
-    }
-
-    init(cells: [Cell], type: PuzzleType) throws {
+    init(cells: some Collection<Cell>, version: Version, type: PuzzleType) throws {
+        assert([.sudoku, .sudokuX, .windoku].contains(type))
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
-        guard cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true }),
-              [.sudoku, .sudokuX, .windoku].contains(type)
+        guard cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true })
         else { throw Error.outOfRange }
-        self.cells = cells
+        self.cells = cells as? Array ?? Array(cells)
+        self.version = version
         self.type = type
     }
 
     var size: Size { Size(gridCellCount: cells.count)! }
 }
 
-extension Sudoku: RandomAccessCollection {
-    public var startIndex: Int { cells.startIndex }
-    public var endIndex: Int { cells.endIndex }
-    public subscript(_ position: Int) -> Cell { cells[position] }
-}
+extension Sudoku: Puzzle {
+    /// Creates an instance.
+    /// - Parameters:
+    ///     - cells: the puzzle content.
+    ///     - version: the encoding version
+    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+        try self.init(cells: cells, version: version, type: .sudoku)
+    }
 
-extension Sudoku: PuzzleCodable {
     public enum Version: CodingVersion {
         /// Converts solutions to clues & removes candidates.
         case clue
@@ -60,13 +58,25 @@ extension Sudoku: PuzzleCodable {
         static func encode(_ puzzle: Sudoku) -> String
         static func decode(_ input: String, type: PuzzleType) -> Sudoku?
     }
+}
 
-    public static func decode(_ input: String, using version: Version) -> Sudoku? {
-        version.coder.decode(input, type: .sudoku)
-    }
+extension Sudoku: RandomAccessCollection {
+    public var startIndex: Int { cells.startIndex }
+    public var endIndex: Int { cells.endIndex }
+    public subscript(_ position: Int) -> Cell { cells[position] }
+}
 
-    public func encode(using version: Version = .current) -> String {
-        version.coder.encode(self)
+extension Sudoku: RawRepresentable {
+    public var rawValue: String { version.coder.encode(self) }
+
+    public init?(rawValue: String) {
+        for version in Version.allCases {
+            if let puzzle = version.coder.decode(rawValue, type: .sudoku) {
+                self = puzzle
+                return
+            }
+        }
+        return nil
     }
 }
 
@@ -78,13 +88,8 @@ extension Sudoku: CustomStringConvertible {
 
 /// Windoku puzzle coder.
 public struct Windoku: Equatable {
-    private let sudoku: Sudoku
-
-    /// Creates an instance.
-    /// - Parameter cells: the puzzle content.
-    public init(cells: [Cell]) throws {
-        self.sudoku = try Sudoku(cells: cells, type: Self.type)
-    }
+    private static var type: PuzzleType { .windoku }
+    private var sudoku: Sudoku
 
     init(sudoku: Sudoku) {
         assert(sudoku.type == Self.type)
@@ -94,23 +99,39 @@ public struct Windoku: Equatable {
     var size: Size { sudoku.size }
 }
 
+extension Windoku: Puzzle {
+    public typealias Version = Sudoku.Version
+    public var version: Version {
+        get { sudoku.version }
+        set { sudoku.version = newValue }
+    }
+
+    /// Creates an instance.
+    /// - Parameters:
+    ///     - cells: the puzzle content.
+    ///     - version: the encoding version
+    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+        self.sudoku = try Sudoku(cells: cells, version: version, type: Self.type)
+    }
+}
+
 extension Windoku: RandomAccessCollection {
     public var startIndex: Int { sudoku.startIndex }
     public var endIndex: Int { sudoku.endIndex }
     public subscript(_ position: Int) -> Cell { sudoku[position] }
 }
 
-extension Windoku: PuzzleCodable {
-    public typealias Version = Sudoku.Version
-    private static var type: PuzzleType { .windoku }
+extension Windoku: RawRepresentable {
+    public var rawValue: String { sudoku.rawValue }
 
-    public static func decode(_ input: String, using version: Version) -> Windoku? {
-        guard let sudoku = version.coder.decode(input, type: Self.type) else { return nil }
-        return Windoku(sudoku: sudoku)
-    }
-
-    public func encode(using version: Version = .current) -> String {
-        sudoku.encode(using: version)
+    public init?(rawValue: String) {
+        for version in Version.allCases {
+            if let puzzle = version.coder.decode(rawValue, type: Self.type) {
+                self.sudoku = puzzle
+                return
+            }
+        }
+        return nil
     }
 }
 
@@ -122,13 +143,8 @@ extension Windoku: CustomStringConvertible {
 
 /// SudokuX puzzle coder.
 public struct SudokuX: Equatable {
-    private let sudoku: Sudoku
-
-    /// Creates an instance.
-    /// - Parameter cells: the puzzle content.
-    public init(cells: [Cell]) throws {
-        self.sudoku = try Sudoku(cells: cells, type: Self.type)
-    }
+    private static var type: PuzzleType { .sudokuX }
+    private var sudoku: Sudoku
 
     init(sudoku: Sudoku) {
         assert(sudoku.type == Self.type)
@@ -144,17 +160,33 @@ extension SudokuX: RandomAccessCollection {
     public subscript(_ position: Int) -> Cell { sudoku[position] }
 }
 
-extension SudokuX: PuzzleCodable {
+extension SudokuX: Puzzle {
     public typealias Version = Sudoku.Version
-    private static var type: PuzzleType { .sudokuX }
-
-    public static func decode(_ input: String, using version: Version) -> SudokuX? {
-        guard let sudoku = version.coder.decode(input, type: Self.type) else { return nil }
-        return SudokuX(sudoku: sudoku)
+    public var version: Version {
+        get { sudoku.version }
+        set { sudoku.version = newValue }
     }
 
-    public func encode(using version: Version = .current) -> String {
-        sudoku.encode(using: version)
+    /// Creates an instance.
+    /// - Parameters:
+    ///     - cells: the puzzle content.
+    ///     - version: the encoding version
+    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+        self.sudoku = try Sudoku(cells: cells, version: version, type: Self.type)
+    }
+}
+
+extension SudokuX: RawRepresentable {
+    public var rawValue: String { sudoku.rawValue }
+
+    public init?(rawValue: String) {
+        for version in Version.allCases {
+            if let puzzle = version.coder.decode(rawValue, type: Self.type) {
+                self.sudoku = puzzle
+                return
+            }
+        }
+        return nil
     }
 }
 

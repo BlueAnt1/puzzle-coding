@@ -41,9 +41,9 @@ private struct UsageEncode {
             cells.append(cell)
         }
 
-        if let coder = try? Sudoku(cells: cells) {
+        if let puzzle = try? Sudoku(cells: cells) {
             // encode the puzzle to text
-            let encoded = coder.encode()
+            let encoded = puzzle.rawValue
             print(encoded)
         }
 // snippet.hide

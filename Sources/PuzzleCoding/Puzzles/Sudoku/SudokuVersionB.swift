@@ -31,7 +31,7 @@ extension Sudoku {
             let pattern = ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
             guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...]),
                   let content = try? match.output.elements.map(cellTransform.decode),
-                  let sudoku = try? Sudoku(cells: content.map { Cell(content: $0) }, type: type)
+                  let sudoku = try? Sudoku(cells: content.map { Cell(content: $0) }, version: .versionB, type: type)
             else { return nil }
             return sudoku
         }

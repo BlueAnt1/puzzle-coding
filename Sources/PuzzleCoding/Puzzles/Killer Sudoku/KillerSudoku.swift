@@ -8,8 +8,9 @@
 /// KillerSudoku puzzle coder.
 public struct KillerSudoku: Equatable, Sendable {
     private let cells: [Cell]
+    public var version: Version
 
-    public init(cells: [Cell]) throws {
+    public init(cells: some Collection<Cell>, version: Version = .current) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
 
@@ -32,7 +33,8 @@ public struct KillerSudoku: Equatable, Sendable {
             }
         }
 
-        self.cells = cells
+        self.cells = cells as? Array ?? Array(cells)
+        self.version = version
     }
 
     var size: Size { Size(gridCellCount: cells.count)! }
@@ -49,13 +51,7 @@ public struct KillerSudoku: Equatable, Sendable {
     }
 }
 
-extension KillerSudoku: RandomAccessCollection {
-    public var startIndex: Int { cells.startIndex }
-    public var endIndex: Int { cells.endIndex }
-    public subscript(_ position: Int) -> Cell { cells[position] }
-}
-
-extension KillerSudoku: PuzzleCodable {
+extension KillerSudoku: Puzzle {
     public enum Version: CodingVersion {
         case versionB
 
@@ -72,13 +68,26 @@ extension KillerSudoku: PuzzleCodable {
         static func encode(_ puzzle: KillerSudoku) -> String
         static func decode(_ input: String) -> KillerSudoku?
     }
+}
 
-    public static func decode(_ input: String, using version: Version) -> KillerSudoku? {
-        version.coder.decode(input)
-    }
 
-    public func encode(using version: Version = .current) -> String {
-        version.coder.encode(self)
+extension KillerSudoku: RandomAccessCollection {
+    public var startIndex: Int { cells.startIndex }
+    public var endIndex: Int { cells.endIndex }
+    public subscript(_ position: Int) -> Cell { cells[position] }
+}
+
+extension KillerSudoku: RawRepresentable {
+    public var rawValue: String { version.coder.encode(self) }
+
+    public init?(rawValue: String) {
+        for version in Version.allCases {
+            if let puzzle = version.coder.decode(rawValue) {
+                self = puzzle
+                return
+            }
+        }
+        return nil
     }
 }
 

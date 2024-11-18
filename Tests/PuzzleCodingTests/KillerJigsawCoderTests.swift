@@ -12,13 +12,12 @@ struct KillerJigsawCoderTests {
 
     @Test(arguments: KillerJigsaw.Version.allCases)
     func coderRoundtrips(version: KillerJigsaw.Version) throws {
-        let puzzle = KillerJigsaw.timTang
-        let rawPuzzle = puzzle.encode(using: version)
+        let puzzle = try KillerJigsaw(cells: KillerJigsaw.timTang, version: version)
+        let rawPuzzle = puzzle.rawValue
 
-        let decoded = try #require(KillerJigsaw.decode(rawPuzzle))
+        let decoded = try #require(KillerJigsaw(rawValue: rawPuzzle))
 
-        #expect(decoded.version == version)
-        #expect(decoded.puzzle == puzzle)
+        #expect(decoded == puzzle)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""

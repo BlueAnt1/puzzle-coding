@@ -8,8 +8,9 @@
 /// KillerJigsaw puzzle coder.
 public struct KillerJigsaw: Equatable {
     private let cells: [Cell]
+    public var version: Version
 
-    public init(cells: [Cell]) throws {
+    public init(cells: some Collection<Cell>, version: Version = .current) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
 
@@ -34,7 +35,8 @@ public struct KillerJigsaw: Equatable {
             }
         }
 
-        self.cells = cells
+        self.cells = cells as? Array ?? Array(cells)
+        self.version = version
     }
 
     var size: Size { Size(gridCellCount: cells.count)! }
@@ -53,13 +55,7 @@ public struct KillerJigsaw: Equatable {
     }
 }
 
-extension KillerJigsaw: RandomAccessCollection {
-    public var startIndex: Int { cells.startIndex }
-    public var endIndex: Int { cells.endIndex }
-    public subscript(_ position: Int) -> Cell { cells[position] }
-}
-
-extension KillerJigsaw: PuzzleCodable {
+extension KillerJigsaw: Puzzle {
     public enum Version: CodingVersion {
         case versionB
 
@@ -76,13 +72,25 @@ extension KillerJigsaw: PuzzleCodable {
         static func encode(_ puzzle: KillerJigsaw) -> String
         static func decode(_ input: String) -> KillerJigsaw?
     }
+}
 
-    public static func decode(_ input: String, using version: Version) -> KillerJigsaw? {
-        version.coder.decode(input)
-    }
+extension KillerJigsaw: RandomAccessCollection {
+    public var startIndex: Int { cells.startIndex }
+    public var endIndex: Int { cells.endIndex }
+    public subscript(_ position: Int) -> Cell { cells[position] }
+}
 
-    public func encode(using version: Version = .current) -> String {
-        version.coder.encode(self)
+extension KillerJigsaw: RawRepresentable {
+    public var rawValue: String { version.coder.encode(self) }
+
+    public init?(rawValue: String) {
+        for version in Version.allCases {
+            if let puzzle = version.coder.decode(rawValue) {
+                self = puzzle
+                return
+            }
+        }
+        return nil
     }
 }
 

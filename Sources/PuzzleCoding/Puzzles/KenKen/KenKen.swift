@@ -10,8 +10,9 @@
 /// > Note: KenKen® is a registered trademark of Nextoy, LLC.
 public struct KenKen: Equatable, Sendable {
     private let cells: [Cell]
-
-    public init(cells: [Cell]) throws {
+    public var version: Version
+    
+    public init(cells: some Collection<Cell>, version: Version = .current) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
 
@@ -33,7 +34,8 @@ public struct KenKen: Equatable, Sendable {
             }
         }
 
-        self.cells = cells
+        self.cells = cells as? Array ?? Array(cells)
+        self.version = version
     }
 
     var size: Size { Size(gridCellCount: cells.count)! }
@@ -50,13 +52,7 @@ public struct KenKen: Equatable, Sendable {
     }
 }
 
-extension KenKen: RandomAccessCollection {
-    public var startIndex: Int { cells.startIndex }
-    public var endIndex: Int { cells.endIndex }
-    public subscript(_ position: Int) -> Cell { cells[position] }
-}
-
-extension KenKen: PuzzleCodable {
+extension KenKen: Puzzle {
     public enum Version: CodingVersion {
         case versionB
 
@@ -73,13 +69,25 @@ extension KenKen: PuzzleCodable {
         static func encode(_ puzzle: KenKen) -> String
         static func decode(_ input: String) -> KenKen?
     }
+}
 
-    public static func decode(_ input: String, using version: Version) -> KenKen? {
-        version.coder.decode(input)
-    }
+extension KenKen: RandomAccessCollection {
+    public var startIndex: Int { cells.startIndex }
+    public var endIndex: Int { cells.endIndex }
+    public subscript(_ position: Int) -> Cell { cells[position] }
+}
 
-    public func encode(using version: Version = .current) -> String {
-        version.coder.encode(self)
+extension KenKen: RawRepresentable {
+    public var rawValue: String { version.coder.encode(self) }
+
+    public init?(rawValue: String) {
+        for version in Version.allCases {
+            if let puzzle = version.coder.decode(rawValue) {
+                self = puzzle
+                return
+            }
+        }
+        return nil
     }
 }
 

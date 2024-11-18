@@ -42,7 +42,7 @@ extension Sudoku {
                   let match = try? NoNakedSinglesPattern().regex.wholeMatch(in: input)
             else { return nil }
 
-            return try? Sudoku(cells: match.output.map { Cell(content: $0) }, type: type)
+            return try? Sudoku(cells: match.output.map { Cell(content: $0) }, version: .noNakedSingles, type: type)
         }
     }
 }

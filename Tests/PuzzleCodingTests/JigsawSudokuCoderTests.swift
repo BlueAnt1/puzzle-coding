@@ -26,13 +26,12 @@ struct JigsawSudokuCoderTests {
                 }
             }
         let cells = shapes.indices.map { Cell(group: shapes[$0], content: content[$0]) }
-        let puzzle = try JigsawSudoku(cells: cells)
-        let rawPuzzle = puzzle.encode(using: version)
+        let puzzle = try JigsawSudoku(cells: cells, version: version)
+        let rawPuzzle = puzzle.rawValue
 
-        let decoded = try #require(JigsawSudoku.decode(rawPuzzle))
+        let decoded = try #require(JigsawSudoku(rawValue: rawPuzzle))
 
-        #expect(decoded.version == version)
-        #expect(decoded.puzzle == puzzle)
+        #expect(decoded == puzzle)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""

@@ -18,7 +18,7 @@ You can learn about the <doc:EncodingFormats> or keep reading for an overview of
 
 ### Decode a puzzle
 
-1. Pass the encoded puzzle string to the ``PuzzleCodable/decode(_:)`` method of a puzzle coder.
+1. Pass the encoded puzzle string to the ``Puzzle/init(rawValue:)`` initializer of a puzzle type.
 2. Copy the decoded data into your puzzle model.
 
 @Snippet(path: "PuzzleCoding/Snippets/UsageDecode")
@@ -26,8 +26,8 @@ You can learn about the <doc:EncodingFormats> or keep reading for an overview of
 ### Encode a puzzle
 
 1. For every cell in your model create a ``Cell`` and populate it with information about the puzzle.
-2. Create a puzzle coder with the cells.
-3. Call the ``PuzzleCodable/encode(using:)`` method of the coder to generate the encoded string.
+2. Create a puzzle with the cells.
+3. Read the ``Puzzle/rawValue`` property of the puzzle to get the encoded string.
 
 @Snippet(path: "PuzzleCoding/Snippets/UsageEncode")
 
@@ -53,4 +53,4 @@ Puzzle coders convert puzzles to strings and back.
 ### Protocols
 
 - ``CodingVersion``
-- ``PuzzleCodable``
+- ``Puzzle``

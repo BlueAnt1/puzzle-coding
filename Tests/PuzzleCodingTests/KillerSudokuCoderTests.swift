@@ -13,13 +13,12 @@ struct KillerSudokuCoderTests {
 
     @Test(arguments: KillerSudoku.Version.allCases)
     func coderRoundtrips(version: KillerSudoku.Version) throws {
-        let puzzle = KillerSudoku.gentleExample1
-        let rawPuzzle = puzzle.encode(using: version)
+        let puzzle = try KillerSudoku(cells: KillerSudoku.gentleExample1, version: version)
+        let rawPuzzle = puzzle.rawValue
 
-        let decoded = try #require(KillerSudoku.decode(rawPuzzle))
+        let decoded = try #require(KillerSudoku(rawValue: rawPuzzle))
 
-        #expect(decoded.version == version)
-        #expect(decoded.puzzle == puzzle)
+        #expect(decoded == puzzle)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""

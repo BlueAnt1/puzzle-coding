@@ -35,7 +35,7 @@ private struct UsageDecode {
 // snippet.show
         let input = "S9Bel0fbd01ep050eel9u…"
         // decode the input
-        guard let (puzzle, version) = Sudoku.decode(input)
+        guard let puzzle = Sudoku(rawValue: input)
         else { return }
 
         // copy the decoded data into your model
@@ -52,6 +52,5 @@ private struct UsageDecode {
             }
         }
 // snippet.hide
-        let _ = version
     }
 }

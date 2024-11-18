@@ -47,7 +47,7 @@ extension Sudoku {
             }
 
             guard input.trimmingCharacters(in: .whitespaces).isEmpty && index == cells.endIndex else { return nil }
-            return try? Sudoku(cells: cells, type: type)
+            return try? Sudoku(cells: cells, version: .clue, type: type)
         }
     }
 }

@@ -9,7 +9,7 @@ Please see the [Puzzle Coding documentation](https://blueant1.github.io/puzzle-c
 ```swift
 let input = "S9Bel0fbd01ep050eel9u…"
 // decode the input
-guard let (puzzle, version) = Sudoku.decode(input)
+guard let puzzle = Sudoku(rawValue: input)
 else { return }
 
 // copy the decoded data into your model

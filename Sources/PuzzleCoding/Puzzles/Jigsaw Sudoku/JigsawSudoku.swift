@@ -8,15 +8,17 @@
 /// JigsawSudoku puzzle coder.
 public struct JigsawSudoku: Equatable {
     private let cells: [Cell]
+    public var version: Version
 
-    public init(cells: [Cell]) throws {
+    public init(cells: some Collection<Cell>, version: Version = .current) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
         guard cells.allSatisfy({ $0.group != nil }),
               cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true })
         else { throw Error.outOfRange }
 
-        self.cells = cells
+        self.cells = cells as? Array ?? Array(cells)
+        self.version = version
     }
 
     static func boxRange(in size: Size) -> ClosedRange<Int> {
@@ -32,13 +34,7 @@ public struct JigsawSudoku: Equatable {
     }
 }
 
-extension JigsawSudoku: RandomAccessCollection {
-    public var startIndex: Int { cells.startIndex }
-    public var endIndex: Int { cells.endIndex }
-    public subscript(_ position: Int) -> Cell { cells[position] }
-}
-
-extension JigsawSudoku: PuzzleCodable {
+extension JigsawSudoku: Puzzle {
     public enum Version: CodingVersion {
         case versionB
 
@@ -55,13 +51,25 @@ extension JigsawSudoku: PuzzleCodable {
         static func encode(_ puzzle: JigsawSudoku) -> String
         static func decode(_ input: String) -> JigsawSudoku?
     }
+}
 
-    public static func decode(_ input: String, using version: Version) -> JigsawSudoku? {
-        version.coder.decode(input)
-    }
+extension JigsawSudoku: RandomAccessCollection {
+    public var startIndex: Int { cells.startIndex }
+    public var endIndex: Int { cells.endIndex }
+    public subscript(_ position: Int) -> Cell { cells[position] }
+}
 
-    public func encode(using version: Version = .current) -> String {
-        version.coder.encode(self)
+extension JigsawSudoku: RawRepresentable {
+    public var rawValue: String { version.coder.encode(self) }
+
+    public init?(rawValue: String) {
+        for version in Version.allCases {
+            if let puzzle = version.coder.decode(rawValue) {
+                self = puzzle
+                return
+            }
+        }
+        return nil
     }
 }
 

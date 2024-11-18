@@ -13,13 +13,13 @@ struct KenKenCoderTests {
 
     @Test(arguments: KenKen.Version.allCases)
     func coderRoundtrips(version: KenKen.Version) throws {
-        let puzzle = KenKen.veryEasy1
-        let rawPuzzle = puzzle.encode(using: version)
+        var puzzle = KenKen.veryEasy1
+        puzzle.version = version
+        let rawPuzzle = puzzle.rawValue
 
-        let decoded = try #require(KenKen.decode(rawPuzzle))
+        let decoded = try #require(KenKen(rawValue: rawPuzzle))
 
-        #expect(decoded.version == version)
-        #expect(decoded.puzzle == puzzle)
+        #expect(decoded == puzzle)
 
         let puzzleCount = Double(rawPuzzle.count)
         print("""
