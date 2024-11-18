@@ -5,4 +5,4 @@
 ### Components
 
 - ``Content``
-- ``CageCell``
+- ``CageInfo``
