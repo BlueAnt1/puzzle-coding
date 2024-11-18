@@ -59,7 +59,7 @@ extension KillerJigsaw {
                 let cellTransform = CellContentTransform(size: size)
                 let cells = try values.map {
                     try Cell(group: $0[0],
-                             cage: CageCell(cage: $0[1], content: cageTransform.decode($0[2])),
+                             cage: CageInfo(cage: $0[1], content: cageTransform.decode($0[2])),
                              content: cellTransform.decode($0[3]))
                 }
 

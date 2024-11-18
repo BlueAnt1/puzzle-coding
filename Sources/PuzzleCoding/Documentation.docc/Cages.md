@@ -8,7 +8,7 @@ A cage is a group of cells for which the puzzle provides a clue.
 
 The cages in the image are outlined and colored.
 
-## How to describe a cage
+## How to describe cages
 
 To describe cages we need to describe the <doc:Shapes> of the cages as well as the clues & operators.
 

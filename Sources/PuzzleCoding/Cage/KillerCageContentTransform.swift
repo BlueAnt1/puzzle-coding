@@ -11,7 +11,7 @@ struct KillerCageContentTransform {
     var clueRange: ClosedRange<Int> { 0...size.valueRange.reduce(0, +) }
     var range: ClosedRange<Int> { clueRange }
 
-    func encode(_ content: CageCell.Content?) -> Int {
+    func encode(_ content: CageInfo.Content?) -> Int {
         switch content {
         case nil: 0
         case .clue(let clue) where range.contains(clue): clue
@@ -19,7 +19,7 @@ struct KillerCageContentTransform {
         }
     }
 
-    func decode(_ value: Int) throws -> CageCell.Content? {
+    func decode(_ value: Int) throws -> CageInfo.Content? {
         if value == 0 {
             nil
         } else if range.contains(value) {

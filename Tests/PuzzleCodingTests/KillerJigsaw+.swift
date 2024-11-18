@@ -42,13 +42,13 @@ extension KillerJigsaw {
             0,  0, 19,  0,  0,  0,  0,  0,  0,
             34,  0,  0,  0, 10, 14,  0, 20,  0,
             0,  0,  0,  0,  0,  0,  0,  0,  0
-        ].map { $0 == 0 ? nil : CageCell.Content.clue($0) }
+        ].map { $0 == 0 ? nil : CageInfo.Content.clue($0) }
 
         let content = Array(repeating: Cell.Content.candidates(Set(1...9)), count: 81)
 
         let cells = shapes.indices.map {
             Cell(group: shapes[$0],
-                 cage: CageCell(cage: cageShapes[$0], content: cageClues[$0]),
+                 cage: CageInfo(cage: cageShapes[$0], content: cageClues[$0]),
                  content: content[$0])
         }
 

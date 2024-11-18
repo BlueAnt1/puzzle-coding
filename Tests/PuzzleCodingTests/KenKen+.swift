@@ -18,7 +18,7 @@ extension KenKen {
                         112221
                         133311
                         """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-        let cageContent: [CageCell.Content?] = [
+        let cageContent: [CageInfo.Content?] = [
             .clue(24), .operator(.multiply), .clue(20), .clue(15), .clue(48), .clue(8),
             .clue(12), .clue(10), .operator(.multiply), .operator(.multiply), .operator(.multiply), .operator(.add),
             .operator(.multiply), .operator(.add), nil, nil, nil, .clue(30),
@@ -28,7 +28,7 @@ extension KenKen {
         ]
 
         let cells = cageShapes.indices.map {
-            Cell(cage: CageCell(cage: cageShapes[$0], content: cageContent[$0]),
+            Cell(cage: CageInfo(cage: cageShapes[$0], content: cageContent[$0]),
                  content: .candidates(Set(1...6)))
         }
 

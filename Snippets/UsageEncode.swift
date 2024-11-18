@@ -42,7 +42,7 @@ private struct UsageEncode {
         }
 
         if let puzzle = try? Sudoku(cells: cells) {
-            // encode the puzzle to text
+            // rawValue is the encoded puzzle
             let encoded = puzzle.rawValue
             print(encoded)
         }

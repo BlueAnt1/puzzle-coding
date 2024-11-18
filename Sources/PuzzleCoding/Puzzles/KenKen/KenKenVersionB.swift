@@ -51,7 +51,7 @@ extension KenKen {
                 let cageTransform = KenCageContentTransform(size: size)
                 let cellTransform = CellContentTransform(size: size)
                 let cells = try values.map {
-                    try Cell(cage: CageCell(cage: $0[0], content: cageTransform.decode($0[1])),
+                    try Cell(cage: CageInfo(cage: $0[0], content: cageTransform.decode($0[1])),
                              content: cellTransform.decode($0[2]))
                 }
 

@@ -12,7 +12,7 @@ public struct Cell: Equatable, Sendable {
     /// The group of which the cell is a member.
     public var group: Int?
     /// The cage in which the cell is located and its clue information.
-    public var cage: CageCell?
+    public var cage: CageInfo?
     /// The clue, solution or candidates (progress).
     public var content: Content? {
         didSet {
@@ -24,7 +24,7 @@ public struct Cell: Equatable, Sendable {
     }
 
     /// Creates an instance.
-    public init(group: Int? = nil, cage: CageCell? = nil, content: Content? = nil) {
+    public init(group: Int? = nil, cage: CageInfo? = nil, content: Content? = nil) {
         self.group = group
         self.cage = cage
         self.content = content
