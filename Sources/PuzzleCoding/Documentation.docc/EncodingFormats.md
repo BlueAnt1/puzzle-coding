@@ -92,13 +92,7 @@ Choose your puzzle type and encode each cell using the transforms
             - box number
             - <doc:CellContentTransform>
     }
-    @Tab("KenDoku") {
-        - <doc:ShiftTransform>
-            - cage number
-            - <doc:KenCageContentTransform>
-            - <doc:CellContentTransform>
-    }
-    @Tab("KenKen") {
+    @Tab("KenDoku & KenKen") {
         - <doc:ShiftTransform>
             - cage number
             - <doc:KenCageContentTransform>

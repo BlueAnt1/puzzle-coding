@@ -7,7 +7,7 @@ struct SudokuCoderTests {
     private static var legacyVersions: [Version] { [.clue, .noNakedSingles] }
     private static var modernVersions: [Version] { Version.allCases.filter { !legacyVersions.contains($0) }}
 
-    private var sampleContent: [CellContent?] {
+    private var sampleContent: [Cell.Content?] {
         "000105000140000670080002400063070010900000003010090520007200080026000035000409000".map {
             let number = $0.wholeNumberValue!
             return if number == 0 {
@@ -115,7 +115,7 @@ struct SudokuCoderTests {
     @Test
     func knownShiftCodingDecodes() throws {
         let rawEncoded = "0m4e4cog1121k084g41k544403o0ggs409208121g1400409020g10g4o4a4110hg6082240h4hc28g4g2400h2281410g03200980g411g409k04ggg201184840321868k8k410m10g109g6o61108o2g621410g"
-        let content: [CellContent?] = [
+        let content: [Cell.Content?] = [
             .candidates(Set([1, 2, 4])), .candidates(Set([1, 2, 3, 7])), .candidates(Set([2, 3, 7])), .candidates(Set([4, 8, 9])), .clue(5), .clue(6), .candidates(Set([7, 9])), .candidates(Set([2, 8])), .candidates(Set([2, 9])),
             .candidates(Set([2, 4, 5])), .candidates(Set([2, 5, 7])), .candidates(Set([2, 7])), .clue(1), .candidates(Set([8, 9])), .candidates(Set([4, 9])), .candidates(Set([2, 7, 8, 9])), .clue(3), .solution(6),
             .clue(8), .clue(6), .clue(9), .solution(7), .solution(2), .clue(3), .solution(1), .solution(4), .solution(5),
@@ -143,7 +143,7 @@ extension ClosedRange<Int> {
     }
 }
 
-private extension CellContent {
+private extension Cell.Content {
     var candidates: Set<Int>? {
         if case .candidates(let candidates) = self { candidates } else { nil }
     }

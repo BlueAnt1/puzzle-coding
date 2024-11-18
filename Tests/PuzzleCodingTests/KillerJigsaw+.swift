@@ -44,7 +44,7 @@ extension KillerJigsaw {
             0,  0,  0,  0,  0,  0,  0,  0,  0
         ].map { $0 == 0 ? nil : CageCell.Content.clue($0) }
 
-        let content = Array(repeating: CellContent.candidates(Set(1...9)), count: 81)
+        let content = Array(repeating: Cell.Content.candidates(Set(1...9)), count: 81)
 
         let cells = shapes.indices.map {
             Cell(group: shapes[$0],

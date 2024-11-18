@@ -13,7 +13,7 @@ struct Str8tsCoderTests {
     @Test(arguments: Str8ts.Version.allCases)
     func coderRoundtrips(version: Str8ts.Version) throws {
         let colors = "100011001100010001011000110000000100100010001001000000011000110100010001100110001".map(\.wholeNumberValue!)
-        let content: [CellContent?] = "006700400000004005090001000015042009000028060000300000001050003670000000000007050".map {
+        let content: [Cell.Content?] = "006700400000004005090001000015042009000028060000300000001050003670000000000007050".map {
             let number = $0.wholeNumberValue ?? 0
             return number == 0
             ? Bool.random() ? .solution((1...9).randomElement()!) : .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))

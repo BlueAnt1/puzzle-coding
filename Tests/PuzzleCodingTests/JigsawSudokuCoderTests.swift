@@ -13,7 +13,7 @@ struct JigsawSudokuCoderTests {
     @Test(arguments: JigsawSudoku.Version.allCases)
     func coderRoundtrips(version: JigsawSudoku.Version) throws {
         let shapes = "111112222113345522133444552134444452637777752633777559638878859668888899666699999".map(\.wholeNumberValue!)
-        let content: [CellContent?] = "9..21.....6......1.8......95...34..7..31.29..2..78...47......4.8......1.....96..2"
+        let content: [Cell.Content?] = "9..21.....6......1.8......95...34..7..31.29..2..78...47......4.8......1.....96..2"
             .map { character in
                 switch character.wholeNumberValue {
                 case let value?: .clue(value)

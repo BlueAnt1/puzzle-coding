@@ -14,7 +14,7 @@ public struct Cell: Equatable, Sendable {
     /// The cage in which the cell is located and clue information.
     public var cage: CageCell?
     /// The clue or progress.
-    public var content: CellContent? {
+    public var content: Content? {
         didSet {
             if case .candidates(let candidates) = content, candidates.isEmpty
             {
@@ -26,7 +26,7 @@ public struct Cell: Equatable, Sendable {
     /// Creates an instance.
     public init(group: Int? = nil,
                 cage: CageCell? = nil,
-                content: CellContent? = nil)
+                content: Content? = nil)
     {
         self.group = group
         self.cage = cage

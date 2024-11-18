@@ -48,7 +48,7 @@ extension Sudoku {
 }
 
 private struct NoNakedSinglesPattern: CustomConsumingRegexComponent {
-    typealias RegexOutput = [CellContent?]
+    typealias RegexOutput = [Cell.Content?]
 
     var radix: Int { Sudoku.NoNakedSingles.radix }
     var fieldWidth: Int { Sudoku.NoNakedSingles.fieldWidth }
@@ -58,7 +58,7 @@ private struct NoNakedSinglesPattern: CustomConsumingRegexComponent {
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
-        var content: [CellContent?] = Array(repeating: nil, count: size.gridCellCount)
+        var content: [Cell.Content?] = Array(repeating: nil, count: size.gridCellCount)
         var encoded = input[index ..< bounds.upperBound]
 
         for cell in content.indices {

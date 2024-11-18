@@ -17,7 +17,7 @@ struct CellContentTransform {
     private var candidatesRange: ClosedRange<Int> { candidatesOffset + 1 ... candidatesOffset + clueRange.bitValue }
     var range: ClosedRange<Int> { empty ... candidatesRange.upperBound }
 
-    func encode(_ content: CellContent?) -> Int {
+    func encode(_ content: Cell.Content?) -> Int {
         switch content {
         case nil: empty
         case .clue(let clue): clue
@@ -26,7 +26,7 @@ struct CellContentTransform {
         }
     }
 
-    func decode(_ value: Int) throws -> CellContent? {
+    func decode(_ value: Int) throws -> Cell.Content? {
         switch value {
         case empty: nil
         case clueRange: .clue(value)

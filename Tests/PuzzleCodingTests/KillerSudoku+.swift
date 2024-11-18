@@ -32,7 +32,7 @@ extension KillerSudoku {
                            0,  0, 13,  0,  0,  0,  0,  0,  0].map { $0 == 0 ? nil : CageCell.Content.clue($0) }
         let content = "000000200000000000080000000000000000000000000060000000000000000000000000000000000"
             .map(\.wholeNumberValue!)
-            .map { $0 == 0 ? CellContent.candidates(Set(1...9)) : CellContent.solution($0) }
+            .map { $0 == 0 ? Cell.Content.candidates(Set(1...9)) : Cell.Content.solution($0) }
 
 //        let content = Array(repeating: CellContent.candidates(Set(1...9)), count: cageShapes.count)
         let cells = cageShapes.indices.map {

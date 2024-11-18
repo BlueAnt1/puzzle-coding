@@ -20,7 +20,7 @@ extension JigsawSudoku {
                     779999888
                     779999888
                     """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-        let content: [CellContent?] = """
+        let content: [Cell.Content?] = """
                 400709020
                 000020000
                 090008000

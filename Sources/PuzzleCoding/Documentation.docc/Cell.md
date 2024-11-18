@@ -4,5 +4,5 @@
 
 ### Components
 
-- ``CellContent``
+- ``Content``
 - ``CageCell``

@@ -31,7 +31,7 @@ extension Str8ts {
                 009012000
                 005604200
                 """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-        let filledContent: [CellContent?] = shapes.indices
+        let filledContent: [Cell.Content?] = shapes.indices
             .map {
                 if content[$0] == 0 && shapes[$0] == 0 {
                     .candidates(Set(1...9))
