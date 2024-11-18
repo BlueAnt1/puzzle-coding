@@ -12,7 +12,7 @@ public struct Cell: Equatable, Sendable {
     /// A shape that provides clues about a region of a puzzle.
     public typealias Cage = (shape: Int, content: CageContent?)
 
-    /// The identifier for the group in which the cell is located.
+    /// The the group in which the cell is located.
     public var group: Int?
     /// The cage in which the cell is located and clue information.
     public var cage: Cage?

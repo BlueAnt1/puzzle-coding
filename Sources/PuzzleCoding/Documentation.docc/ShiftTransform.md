@@ -57,6 +57,7 @@ the ranges of values permitted for each data type.
         maxValue = 0
         for index in shifts.indices
             maxValue = (maxValue << shifts[index]) + maxValues[index]
+        // maxValue = 12247
         ```
     }
 }
@@ -99,7 +100,7 @@ Decoding produces one value for each data type. We do this in reverse to take th
         ```
         output = []
         // shift values out of the end of the input
-        for index in reversed(shifts.indices)
+        for index in reverse(shifts.indices)
             if shifts[index] == 0
                 value = input + ranges[index].lowerBound
             else

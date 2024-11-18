@@ -19,7 +19,7 @@ As new requirements for the transferred data evolve the version will change.
 A sample header: `S9B`
 - The first character is the puzzle type
 - The second character is the puzzle size (base 36)
-- The third character is the encoding version which is always a letter A...Z
+- The third character is the encoding version, a letter A...Z
 
 @Row {
     @Column {
@@ -65,11 +65,11 @@ Green cells indicate the data that is required for the puzzle type and the range
 
 There are three general types of data to encode.
 
-- term Shapes: <doc:Shapes> describe groupings of cells; the cells of a Jigsaw piece or the outline of a cage for example.
+- term Shapes: <doc:Shapes> describe groupings of cells. The cells of a Jigsaw piece or a cage are examples.
 - term Cage Content: <doc:Cages> contain clues about a group of cells such as the sum of their content.
 - term Cell Content: Cell content is what we typically consider the data *in* a cell. It is the clue, solution or candidates (the *progress*) of the puzzle.
 
-> Note: The `∅` column under Cage Content and Cell Content indicates that *empty* is a valid value. Emptiness is denoted by the value `0`.
+> ImportantShape: The `∅` column under Cage Content and Cell Content indicates that *empty* is a valid value. Emptiness is denoted by the value `0`.
 
 ## Version B coding
 
@@ -79,7 +79,7 @@ All puzzles are currently using Version B coding. Version B uses 3 types of tran
 - term Offset: [Transform a set of *mutually exclusive* values](doc:OffsetTransform) into a single value. This is used for both cell and cage content. For example, a cell has multiple types of content: clue, solution or candidates that need to be described, but only one of these types of data is present at a time.
 - term Shift: [Transform a group of values](<doc:ShiftTransform>) into a single value. This is the final transformation that combines all values into a single integer representation for the data describing a cell.
 
-Some types of data go through multiple transformations as shown in the table. For example *Cell Content Candidates* are first packed and then offset. If we're coding a Jigsaw Sudoku the *Shapes Box* values are shifted along with the offset candidates to produce a new value.
+Some types of data go through multiple transformations as shown in the table. For example *Cell Content Candidates* are first packed and then offset. If we're coding a Jigsaw Sudoku the *Shapes Group* values are shifted along with the offset candidates to produce a new value.
 
 Once all of the data for a cell has been transformed into a single value use <doc:FieldCoding> to output the value.
 
