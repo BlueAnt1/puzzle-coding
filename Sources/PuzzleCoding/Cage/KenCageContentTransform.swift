@@ -7,17 +7,17 @@
 
 struct KenCageContentTransform {
     let size: Size
-
+    
     private var empty: Int { 0 }
     var clueRange: ClosedRange<Int> { 1...min(1023, size.valueRange.reduce(1, *)) }
     private var operatorOffset: Int { clueRange.upperBound }
-
+    
     private var operatorRange: ClosedRange<Int> {
         operatorOffset + 1 ... operatorOffset + CageInfo.Content.Operator.maxValue
     }
-
+    
     var range: ClosedRange<Int> { empty...operatorRange.upperBound }
-
+    
     func encode(_ content: CageInfo.Content?) -> Int {
         switch content {
         case nil: 0
@@ -26,7 +26,7 @@ struct KenCageContentTransform {
         default: fatalError()
         }
     }
-
+    
     func decode(_ value: Int) throws -> CageInfo.Content? {
         if value == 0 {
             nil

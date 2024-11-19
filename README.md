@@ -16,13 +16,13 @@ else { return }
 for (index, content) in zip(model.indices, puzzle) {
     switch content {
     case nil:
-        model[index] = "empty"
+        model[index].empty = true
     case .clue(let clue):
-        model[index] = clue
+        model[index].clue = clue
     case .solution(let solution):
-        model[index] = solution
+        model[index].solution = solution
     case .candidates(let candidates):
-        model[index] = candidates
+        model[index].candidates = candidates
     }
 }
 ```
