@@ -17,9 +17,9 @@ The header's purpose is to describe what comes later. It contains the puzzle typ
 As new requirements for the transferred data evolve the version will change.
 
 A sample header: `S9B`
-- The first character is the puzzle type
-- The second character is the puzzle size (base 36)
-- The third character is the encoding version, a letter A...Z
+- The first character is the puzzle type.
+- The second character is the puzzle size (base 36).
+- The third character is the encoding version, a letter A...Z.
 
 @Row {
     @Column {
@@ -32,9 +32,9 @@ A sample header: `S9B`
         KenKen        |   K
         Killer Jigsaw |   M
         Killer Sudoku |   L
+        Str8ts        |   T
         Sudoku        |   S
         SudokuX       |   X
-        Str8ts        |   T
         Windoku       |   W       
     }
     

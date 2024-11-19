@@ -36,10 +36,10 @@ You can learn about the <doc:EncodingFormats> or keep reading for an overview of
 ### Essentials
 
 - ``Cell``
+- ``Puzzle``
+- ``CodingVersion``
 
-### Puzzle Coders
-
-Puzzle coders convert puzzles to strings and back.
+### Puzzles
 
 - ``JigsawSudoku``
 - ``KenDoku``
@@ -51,7 +51,15 @@ Puzzle coders convert puzzles to strings and back.
 - ``SudokuX``
 - ``Windoku``
 
-### Protocols
+### Encoding
 
-- ``CodingVersion``
-- ``Puzzle``
+- <doc:EncodingFormats>
+- <doc:PackCandidates>
+- <doc:OffsetTransform>
+- <doc:CellContentTransform>
+- <doc:KenCageContentTransform>
+- <doc:KillerCageContentTransform>
+- <doc:ShiftTransform>
+- <doc:FieldCoding>
+- <doc:Shapes>
+- <doc:Cages>
