@@ -34,7 +34,6 @@ extension KillerSudoku {
             .map(\.wholeNumberValue!)
             .map { $0 == 0 ? Cell.Content.candidates(Set(1...9)) : Cell.Content.solution($0) }
 
-//        let content = Array(repeating: CellContent.candidates(Set(1...9)), count: cageShapes.count)
         let cells = cageShapes.indices.map {
             Cell(cage: CageInfo(cage: cageShapes[$0], content: cageContent[$0]),
                  content: content[$0])
