@@ -8,7 +8,6 @@
 @testable import PuzzleCoding
 
 extension KillerSudoku {
-    // This is the actual data, manually coded, for Gentle Example 1 at http://sudokuwiki.com/KillerSudoku.aspx
     static var gentleExample1: KillerSudoku {
         let cageShapes = """
                         112211211
