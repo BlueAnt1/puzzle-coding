@@ -24,7 +24,7 @@ private struct UsageDecode {
             var clue: Int? = nil
             var solution: Int? = nil
             var candidates: Set<Int>? = nil
-            init() {}
+            init() { }
             var cellContent: CellContent? = nil
         }
     }
