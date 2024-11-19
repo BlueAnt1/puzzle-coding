@@ -16,7 +16,7 @@ private struct UsageDecode {
         var endIndex: Int { 0 }
         subscript(_ position: Int) -> Content {
             get { Content() }
-            set {}
+            set { }
         }
 
         struct Content {
