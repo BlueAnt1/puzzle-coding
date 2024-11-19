@@ -34,7 +34,6 @@ struct ShiftTransform {
         && zip(ranges, values).allSatisfy { $0.contains($1) }
     }
 
-    /// Pack values into a single value
     func encode(_ values: [Int]) -> Int {
         assert(isEncodable(values))
         return values.indices.reduce(0) { encoded, index in
