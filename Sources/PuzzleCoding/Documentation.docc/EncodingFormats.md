@@ -73,7 +73,12 @@ There are three general types of data to encode.
 
 ## Version B coding
 
-All puzzles are currently using Version B coding. Version B uses 3 types of transformations to produce encoded output.
+All puzzles are currently using Version B coding. 
+
+This encoding transforms all of the information about each cell of a puzzle into an integer and appends
+that value to the encoding being constructed. 
+
+Version B uses 3 types of transformations to produce encoded output.
 
 - term Pack: [Transform a set of *candidates*](<doc:PackCandidates>) into a single value.
 - term Offset: [Transform a set of *mutually exclusive* values](doc:OffsetTransform) into a single value. This is used for both cell and cage content. For example, a cell has multiple types of content: clue, solution or candidates that need to be described, but only one of these types of data is present at a time.

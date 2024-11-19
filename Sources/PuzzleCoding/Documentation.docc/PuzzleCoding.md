@@ -7,12 +7,14 @@ Encode Sudoku and related puzzles as text.
 Share puzzles with others by converting them to text & back.
 
 The encodings are:
-- an interchange format.
 - web friendly so they can appear in a URL.
 - relatively easy to decode without this library.
 - compatible with [SudokuWiki](https://sudokuwiki.org).
 
 You can learn about the <doc:EncodingFormats> or keep reading for an overview of the library.
+
+>Note: I'd like to thank Andrew Stuart of [Syndicated Puzzles](http://www.syndicatedpuzzles.com) for his input in the development of
+these encodings. They are the evolution of encodings he's been using to transport puzzles on his websites for many years.
 
 ## Usage
 
