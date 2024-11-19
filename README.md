@@ -13,8 +13,8 @@ guard let puzzle = Sudoku(rawValue: input)
 else { return }
 
 // copy the decoded data into your model
-for (index, content) in zip(model.indices, puzzle) {
-    switch content {
+for (index, cell) in zip(model.indices, puzzle) {
+    switch cell.content {
     case nil:
         model[index].empty = true
     case .clue(let clue):
