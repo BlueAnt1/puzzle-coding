@@ -90,40 +90,118 @@ Once all of the data for a cell has been transformed into a single value use <do
 
 ## Puzzles
 
-Choose your puzzle type and encode each cell using the transforms
+Choose your puzzle type and encode each cell using the transforms.
+
 @TabNavigator {
     @Tab("Jigsaw Sudoku") {
-        - <doc:ShiftTransform>
-            - box number
-            - <doc:CellContentTransform>
+        @Row {
+            @Column {
+                - <doc:ShiftTransform>
+                    - box number (a)
+                    - <doc:CellContentTransform> (b)
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("9×9") {
+                        `aaaa bbbbbbbbbb`
+                        
+                        14 bits in a 3 character field
+                    }
+                }
+            }
+        }
     }
     @Tab("KenDoku & KenKen") {
-        - <doc:ShiftTransform>
-            - cage number
-            - <doc:KenCageContentTransform>
-            - <doc:CellContentTransform>
+        @Row {
+            @Column {
+                - <doc:ShiftTransform>
+                    - cage number (a)
+                    - <doc:KenCageContentTransform> (b)
+                    - <doc:CellContentTransform> (c)
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("6×6") {
+                        `aaa bbbbbbbbbb ccccccc`
+                        
+                        20 bits in a 4 character field
+                    }
+                }
+            }
+        }
     }
     @Tab("Killer Jigsaw") {
-        - <doc:ShiftTransform>
-            - box number
-            - cage number
-            - <doc:KillerCageContentTransform>
-            - <doc:CellContentTransform>
+        @Row {
+            @Column {
+                - <doc:ShiftTransform>
+                    - box number (a)
+                    - cage number (b)
+                    - <doc:KillerCageContentTransform> (c)
+                    - <doc:CellContentTransform> (d)
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("9×9") {
+                        `aaaa bbb cccccc dddddddddd`
+                        
+                        19 bits in a 5 character field
+                    }
+                }
+            }
+        }
     }
     @Tab("Killer Sudoku") {
-        - <doc:ShiftTransform>
-            - cage number
-            - <doc:KillerCageContentTransform>
-            - <doc:CellContentTransform>
+        @Row {
+            @Column {
+                - <doc:ShiftTransform>
+                    - cage number (a)
+                    - <doc:KillerCageContentTransform> (b)
+                    - <doc:CellContentTransform> (c)
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("9×9") {
+                        `aaa bbbbbb cccccccccc`
+                        
+                        19 bits in a 4 character field
+                    }
+                }
+            }
+        }
     }
     @Tab("Str8ts") {
-        - <doc:ShiftTransform>
-            - box number
-            - <doc:CellContentTransform>
+        @Row {
+            @Column {
+                - <doc:ShiftTransform>
+                    - box number (a)
+                    - <doc:CellContentTransform> (b)
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("9×9") {
+                        `a bbbbbbbbbb`
+                        
+                        11 bits in a 3 character field
+                    }
+                }
+            }
+        }
     }
     @Tab("Sudoku+") {
-        Sudoku, SudokuX and Windoku use the same encoding.
-        
-        - <doc:CellContentTransform>
+        @Row {
+            @Column {
+                - <doc:CellContentTransform> (a)
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("9×9") {
+                        `aaaaaaaaaa`
+                        
+                        10 bits in a 2 character field
+                    }
+                }
+            }
+        }
+        Sudoku, SudokuX and Windoku use the same encoding.        
     }
 }

@@ -21,10 +21,6 @@ public struct JigsawSudoku: Equatable {
         self.version = version
     }
 
-    static func boxRange(in size: Size) -> ClosedRange<Int> {
-        size.valueRange
-    }
-
     var size: Size { Size(gridCellCount: cells.count)! }
 
     static func ranges(for size: Size) -> (shape: ClosedRange<Int>,
