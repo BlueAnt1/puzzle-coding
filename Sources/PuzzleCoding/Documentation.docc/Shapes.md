@@ -4,7 +4,7 @@ A shape is a group of puzzle cells.
 
 ## Overview
 
-Shapes are used to describe irregular groups of cells such as Jigsaw pieces or cages.
+Shapes are used to describe groups of cells such as Jigsaw pieces or cages.
 
 @Row {
     @Column {
