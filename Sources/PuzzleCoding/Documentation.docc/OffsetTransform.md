@@ -16,28 +16,28 @@ The concept is that we force the values we need to represent into distinct value
 
 ### Example
 
-We need to describe 3 distinct value types: appetizer, entrée and dessert. We have 10 appetizers, 4 entrées and 7 desserts to represent. A person may select at most one of the menu items.
+We need to describe 3 distinct value types: bicycles, cars and trucks. We have 10 bicycles, 4 cars and 7 trucks to represent. A person can drive at most one of the vehicles at a time.
 
-To represent these values we use offsets. Let's represent appetizers with the values `1…10`.
+To represent these values we use offsets. Let's represent bicycles with the values `1…10`.
 
-We'll then define the entrée offset as the maximum appetizer value: 10.
-The range of entrées is `(entrée offset + 1)…(entrée offset + 4)` or `11…14`.
+We'll then define the cars offset as the maximum bicycle value: 10.
+The range of cars is (car offset + 1)…(car offset + 4) or `11…14`.
 
-The dessert offset is the maximum entrée value: 14. The dessert range is `(dessert offset + 1)…(dessert Offset + 7)` or `15…21`. 
+The truck offset is the maximum car value: 14. The truck range is (truck offset + 1)…(truck offset + 7) or `15…21`. 
 
-No menu selection is represented as 0. The maximum value we represent is 21.
+No vehicle selection is represented as 0. The maximum value we represent is 21.
 
 ### Encode
 
 ```
-if there is no menu selection
+if there is no vehicle selection
     output = 0
-else if the selection is an appetizer
-    output = appetizer value
-else if the selection is an entrée
-    output = entrée value + entrée offset
-else if the selection is a dessert
-    output = dessert value + dessert offset
+else if the selection is a bicycle
+    output = bicycle value
+else if the selection is a car
+    output = car value + car offset
+else if the selection is a truck
+    output = truck value + truck offset
 ```
 
 ### Decode
@@ -45,12 +45,12 @@ else if the selection is a dessert
 ```
 if input > maximum value
     error
-else if input > dessert offset
-    dessert = input - dessert offset
-else if input > entrée offset
-    entrée = input - entrée offset
+else if input > truck offset
+    truck = input - truck offset
+else if input > car offset
+    car = input - car offset
 else if input > 0
-    appetizer = input
+    bicycle = input
 else
-    no menu selection
+    no vehicle selection
 ```
