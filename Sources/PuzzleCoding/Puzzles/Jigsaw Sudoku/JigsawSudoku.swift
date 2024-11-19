@@ -31,7 +31,7 @@ public struct JigsawSudoku: Equatable {
 }
 
 extension JigsawSudoku: Puzzle {
-    public enum Version: CodingVersion {
+    public enum Version: CaseIterable, Sendable {
         case versionB
 
         public static var current: Version { .versionB }

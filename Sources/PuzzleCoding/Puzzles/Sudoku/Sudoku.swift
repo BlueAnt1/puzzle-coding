@@ -31,7 +31,7 @@ extension Sudoku: Puzzle {
         try self.init(cells: cells, version: version, type: .sudoku)
     }
 
-    public enum Version: CodingVersion {
+    public enum Version: CaseIterable, Sendable {
         /// Converts solutions to clues & removes candidates.
         case clue
         /// Includes puzzle progress. This encoding solves _naked singles_.

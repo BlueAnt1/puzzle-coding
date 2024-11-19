@@ -7,9 +7,8 @@
 
 /// A puzzle can be converted to and from a string.
 public protocol Puzzle: RawRepresentable, RandomAccessCollection<Cell> {
-    /// The type of coding version.
-    associatedtype Version: CodingVersion
-    
+    associatedtype Version
+
     /// The coding version.
     var version: Version { get set }
     

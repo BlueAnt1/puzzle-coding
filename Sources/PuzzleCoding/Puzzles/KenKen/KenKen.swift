@@ -6,8 +6,6 @@
 //
 
 /// KenKen puzzle coder.
-///
-/// > Note: KenKen® is a registered trademark of Nextoy, LLC.
 public struct KenKen: Equatable, Sendable {
     private let cells: [Cell]
     public var version: Version
@@ -59,7 +57,7 @@ extension KenKen: Puzzle {
         try self.init(cells: cells, version: version, type: .kenken)
     }
 
-    public enum Version: CodingVersion {
+    public enum Version: CaseIterable, Sendable {
         case versionB
 
         public static var current: Version { .versionB }
@@ -104,8 +102,6 @@ extension KenKen: CustomStringConvertible {
 // MARK: - KenDoku
 
 /// KenDoku puzzle coder.
-///
-/// > Note: KenDoku® is a registered trademark of Nextoy, LLC.
 public struct KenDoku: Equatable {
     private static var type: PuzzleType { .kendoku }
     private var kenKen: KenKen

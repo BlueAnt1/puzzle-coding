@@ -52,7 +52,7 @@ public struct KillerSudoku: Equatable, Sendable {
 }
 
 extension KillerSudoku: Puzzle {
-    public enum Version: CodingVersion {
+    public enum Version: CaseIterable, Sendable {
         case versionB
 
         public static var current: Version { .versionB }

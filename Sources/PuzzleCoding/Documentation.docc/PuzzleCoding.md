@@ -1,5 +1,9 @@
 # ``PuzzleCoding``
 
+@Metadata {
+    @DisplayName("Puzzle Coding")
+}
+
 Encode Sudoku and related puzzles as text.
 
 ## Overview
@@ -39,7 +43,6 @@ these encodings. They are the evolution of encodings he's been using to transpor
 
 - ``Cell``
 - ``Puzzle``
-- ``CodingVersion``
 
 ### Puzzles
 
