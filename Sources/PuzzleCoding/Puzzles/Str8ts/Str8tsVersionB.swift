@@ -18,10 +18,10 @@ extension Str8ts {
             let shiftTransform = ShiftTransform(ranges: ranges.color, ranges.cellContent)
 
             let cellTransform = CellContentTransform(size: size)
-            let values = Zipper([
+            let values = Zipper(
                 puzzle.map(\.group!),
                 puzzle.map(\.content).map(cellTransform.encode)
-            ]).map(shiftTransform.encode)
+            ).map(shiftTransform.encode)
 
             let fieldCoding = FieldCoding(range: shiftTransform.range)
 

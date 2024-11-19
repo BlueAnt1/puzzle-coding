@@ -8,7 +8,7 @@
 struct Zipper: RandomAccessCollection {
     var collections: [[Int]]
 
-    init(_ collections: [[Int]]) {
+    init(_ collections: [Int]...) {
         precondition(collections.allSatisfy { $0.count == collections[0].count })
         self.collections = collections
     }
