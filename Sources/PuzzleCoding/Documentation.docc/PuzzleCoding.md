@@ -29,7 +29,7 @@ these encodings. They are the evolution of encodings he's been using to transpor
 
 1. For every cell in your model create a ``Cell`` and populate it with information about the puzzle.
 2. Create a puzzle with the cells.
-3. Read the ``Puzzle/rawValue`` property of the puzzle to get the encoded string.
+3. The ``Puzzle/rawValue`` property of the puzzle contains the encoded string.
 
 @Snippet(path: "PuzzleCoding/Snippets/UsageEncode")
 

@@ -97,13 +97,13 @@ Choose your puzzle type and encode each cell using the transforms.
         @Row {
             @Column {
                 - <doc:ShiftTransform>
-                    - box number (a)
-                    - <doc:CellContentTransform> (b)
+                    - box number ①
+                    - <doc:CellContentTransform> ②
             }
             @Column {
                 @TabNavigator {
                     @Tab("9×9") {
-                        `aaaa bbbbbbbbbb`
+                        `11 1122 2222 2222`
                         
                         14 bits in a 3 character field
                     }
@@ -111,40 +111,42 @@ Choose your puzzle type and encode each cell using the transforms.
             }
         }
     }
-    @Tab("KenDoku & KenKen") {
+    @Tab("KenKen+") {
         @Row {
             @Column {
                 - <doc:ShiftTransform>
-                    - cage number (a)
-                    - <doc:KenCageContentTransform> (b)
-                    - <doc:CellContentTransform> (c)
+                    - cage number ①
+                    - <doc:KenCageContentTransform> ②
+                    - <doc:CellContentTransform> ③
             }
             @Column {
                 @TabNavigator {
                     @Tab("6×6") {
-                        `aaa bbbbbbbbbb ccccccc`
+                        `1112 2222 2222 2333 3333`
                         
                         20 bits in a 4 character field
                     }
                 }
             }
         }
+        
+        KenKen and KenDoku use the same encoding.
     }
     @Tab("Killer Jigsaw") {
         @Row {
             @Column {
                 - <doc:ShiftTransform>
-                    - box number (a)
-                    - cage number (b)
-                    - <doc:KillerCageContentTransform> (c)
-                    - <doc:CellContentTransform> (d)
+                    - box number ①
+                    - cage number ②
+                    - <doc:KillerCageContentTransform> ③
+                    - <doc:CellContentTransform> ④
             }
             @Column {
                 @TabNavigator {
                     @Tab("9×9") {
-                        `aaaa bbb cccccc dddddddddd`
+                        `111 1222 3333 3344 4444 4444`
                         
-                        19 bits in a 5 character field
+                        23 bits in a 5 character field
                     }
                 }
             }
@@ -154,14 +156,14 @@ Choose your puzzle type and encode each cell using the transforms.
         @Row {
             @Column {
                 - <doc:ShiftTransform>
-                    - cage number (a)
-                    - <doc:KillerCageContentTransform> (b)
-                    - <doc:CellContentTransform> (c)
+                    - cage number ①
+                    - <doc:KillerCageContentTransform> ②
+                    - <doc:CellContentTransform> ③
             }
             @Column {
                 @TabNavigator {
                     @Tab("9×9") {
-                        `aaa bbbbbb cccccccccc`
+                        `111 2222 2233 3333 3333`
                         
                         19 bits in a 4 character field
                     }
@@ -173,13 +175,13 @@ Choose your puzzle type and encode each cell using the transforms.
         @Row {
             @Column {
                 - <doc:ShiftTransform>
-                    - box number (a)
-                    - <doc:CellContentTransform> (b)
+                    - box number ①
+                    - <doc:CellContentTransform> ②
             }
             @Column {
                 @TabNavigator {
                     @Tab("9×9") {
-                        `a bbbbbbbbbb`
+                        `122 2222 2222`
                         
                         11 bits in a 3 character field
                     }
@@ -190,18 +192,19 @@ Choose your puzzle type and encode each cell using the transforms.
     @Tab("Sudoku+") {
         @Row {
             @Column {
-                - <doc:CellContentTransform> (a)
+                - <doc:CellContentTransform> ①
             }
             @Column {
                 @TabNavigator {
                     @Tab("9×9") {
-                        `aaaaaaaaaa`
+                        `11 1111 1111`
                         
                         10 bits in a 2 character field
                     }
                 }
             }
         }
+        
         Sudoku, SudokuX and Windoku use the same encoding.        
     }
 }
