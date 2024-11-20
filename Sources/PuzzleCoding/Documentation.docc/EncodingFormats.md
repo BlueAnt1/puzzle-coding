@@ -139,7 +139,7 @@ Choose your puzzle type and encode each cell using the transforms.
             }
         }
         
-        KenKen and KenDoku use the same encoding.
+        KenDoku uses the same encoding.
     }
     @Tab("Killer Jigsaw") {
         @Row {
@@ -214,6 +214,6 @@ Choose your puzzle type and encode each cell using the transforms.
             }
         }
         
-        Sudoku, SudokuX and Windoku use the same encoding.        
+        SudokuX and Windoku use the same encoding.        
     }
 }
