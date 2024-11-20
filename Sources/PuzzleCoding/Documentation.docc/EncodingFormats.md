@@ -59,7 +59,7 @@ Every puzzle type has its own data requirements.
 
 To read the table, find the row with the puzzle type in which you're interested. Then read across.
 
-Green cells indicate the data that is required for the puzzle type and the range of permitted values. Many of the ranges are described as *1…size*. This means that the range is based on the size of the puzzle. For a 9×9 Sudoku the *Cell Content Candidates* must be a set of values in the range 1…9. For a 6×6 KenKen the *Cell Content Solution* must be a value in the range 1…6.
+Green cells indicate the data that is required for the puzzle type and the range of permitted values. Many of the ranges are described as *1…size*. This means that the range is based on the size of the puzzle. For a 9×9 Sudoku the range is 1…9. For a 6×6 KenKen the range is 1…6.
 
 ## Data types
 
