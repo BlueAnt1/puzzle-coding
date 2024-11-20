@@ -96,9 +96,9 @@ Choose your puzzle type and encode each cell using the transforms.
     @Tab("Jigsaw Sudoku") {
         @Row {
             @Column {
-                - <doc:ShiftTransform>
-                    - box number ①
-                    - <doc:CellContentTransform> ②
+                - <doc:ShiftTransform>                
+                    1. box number
+                    2. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -115,9 +115,9 @@ Choose your puzzle type and encode each cell using the transforms.
         @Row {
             @Column {
                 - <doc:ShiftTransform>
-                    - cage number ①
-                    - <doc:KenCageContentTransform> ②
-                    - <doc:CellContentTransform> ③
+                    1. cage number
+                    2. <doc:KenCageContentTransform>
+                    3. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -136,10 +136,10 @@ Choose your puzzle type and encode each cell using the transforms.
         @Row {
             @Column {
                 - <doc:ShiftTransform>
-                    - box number ①
-                    - cage number ②
-                    - <doc:KillerCageContentTransform> ③
-                    - <doc:CellContentTransform> ④
+                    1. box number
+                    2. cage number
+                    3. <doc:KillerCageContentTransform>
+                    4. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -156,9 +156,9 @@ Choose your puzzle type and encode each cell using the transforms.
         @Row {
             @Column {
                 - <doc:ShiftTransform>
-                    - cage number ①
-                    - <doc:KillerCageContentTransform> ②
-                    - <doc:CellContentTransform> ③
+                    1. cage number
+                    2. <doc:KillerCageContentTransform>
+                    3. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -175,8 +175,8 @@ Choose your puzzle type and encode each cell using the transforms.
         @Row {
             @Column {
                 - <doc:ShiftTransform>
-                    - box number ①
-                    - <doc:CellContentTransform> ②
+                    1. box number
+                    2. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -192,7 +192,7 @@ Choose your puzzle type and encode each cell using the transforms.
     @Tab("Sudoku+") {
         @Row {
             @Column {
-                - <doc:CellContentTransform> ①
+                1. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
