@@ -6,17 +6,20 @@
 //
 
 /// The size of a grid.
-enum Size: Int, Equatable, Hashable, CaseIterable, Sendable, CustomStringConvertible {
-    /// A grid with 6 cells per house.
-    case grid6x6 = 6
-    /// A grid with 8 cells per house .
-    case grid8x8 = 8
-    /// A grid with 9 cells per house.
-    case grid9x9 = 9
-    /// A grid with 16 cells per house.
-    case grid16x16 = 16
-    /// A grid with 25 cells per house.
-    case grid25x25 = 25
+struct Size: RawRepresentable, Equatable, Hashable, CaseIterable, Sendable, CustomStringConvertible {
+    private static let allValues = Array(3...9) + [16, 25]
+    static var allCases: [Size] { allValues.map(Size.init) }
+
+    let rawValue: Int
+
+    private init(_ rawValue: Int) {
+        self.rawValue = rawValue
+    }
+
+    init?(rawValue: Int) {
+        guard Self.allValues.contains(rawValue) else { return nil }
+        self.rawValue = rawValue
+    }
 
     /// The number of cells in the grid.
     public var gridCellCount: Int { rawValue * rawValue }
@@ -31,4 +34,6 @@ extension Size {
         guard let size = Size.allCases.first(where: { $0.gridCellCount == gridCellCount }) else { return nil }
         self = size
     }
+
+    static var grid9x9: Size { .init(9) }
 }
