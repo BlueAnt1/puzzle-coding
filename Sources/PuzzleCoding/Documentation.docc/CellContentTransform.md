@@ -10,7 +10,11 @@ This is an <doc:OffsetTransform> that transforms cell content into an integer.
 
 Size      | Solution offset | Candidates offset | Max value
 :----:    | :-------------: | :---------------: | :---------:
+**3×3**   |  3              | 6                 | 13
+**4×4**   |  4              | 8                 | 23
+**5×5**   |  5              | 10                | 41
 **6×6**   |  6              | 12                | 75
+**7×7**   |  7              | 14                | 141
 **8×8**   |  8              | 16                | 271
 **9×9**   |  9              | 18                | 529
 **16×16** | 16              | 32                | 65,567
