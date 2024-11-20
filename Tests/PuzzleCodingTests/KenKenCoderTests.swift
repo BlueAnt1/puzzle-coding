@@ -46,4 +46,21 @@ struct KenKenCoderTests {
         default: fatalError()
         }
     }
+
+//    @Test
+//    func sizes() {
+//        for size in Size.allCases {
+//            let ranges = KenKen.ranges(for: size)
+//            let shiftTransform = ShiftTransform(ranges: ranges.cageShape, ranges.cageContent, ranges.cellContent)
+//            let fieldCoding = FieldCoding(range: shiftTransform.range)
+//        }
+//    }
+//    @Test
+//    func maximums() {
+//        for size in Size.allCases {
+//            let s = size.rawValue
+//            let maxValue = s * s * s * (s - 1) * (s - 2)
+//            print("\(size) \(maxValue)")
+//        }
+//    }
 }

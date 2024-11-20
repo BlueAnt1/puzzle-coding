@@ -35,18 +35,18 @@ struct ManualTranslationTests {
         #expect(decoded == KenKen.small3)
     }
 
-//    @Test
-//    func kenKenSmall4() throws {
-//        let raw = KenKen.small4.rawValue
-//        print(raw)
-//        let decoded = try #require(KenKen(rawValue: raw))
-//        let grid = Grid(decoded)
+    @Test
+    func kenKenSmall4() throws {
+        let raw = KenKen.small4.rawValue
+        print(raw)
+        let decoded = try #require(KenKen(rawValue: raw))
+        let grid = Grid(decoded)
 //        print(grid.cellContent)
 //        print(grid.cage)
-//        let encoded = decoded.rawValue
-//        #expect(raw == encoded)
-//        #expect(decoded == KenKen.small4)
-//    }
+        let encoded = decoded.rawValue
+        #expect(raw == encoded)
+        #expect(decoded == KenKen.small4)
+    }
 
     @Test
     func killerSudoku() throws {

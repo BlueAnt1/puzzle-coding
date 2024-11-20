@@ -9,7 +9,8 @@ struct KenCageContentTransform {
     let size: Size
     
     private var empty: Int { 0 }
-    var clueRange: ClosedRange<Int> { 1...min(1023, size.valueRange.reduce(1, *)) }
+    private var maximumClue: Int { size.rawValue * size.rawValue * size.rawValue * (size.rawValue - 1) * (size.rawValue - 2) }
+    var clueRange: ClosedRange<Int> { 1...min(1023, maximumClue) }
     private var operatorOffset: Int { clueRange.upperBound }
     
     private var operatorRange: ClosedRange<Int> {
