@@ -32,7 +32,7 @@ extension JigsawSudoku {
         }
 
         static func decode(_ input: String) -> JigsawSudoku? {
-            guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
+            guard let header = try? HeaderPattern(sizes: Size.sudokuCases).regex.prefixMatch(in: input),
                   header.output.puzzleType == Self.puzzleType,
                   header.output.version == Self.version
             else { return nil }

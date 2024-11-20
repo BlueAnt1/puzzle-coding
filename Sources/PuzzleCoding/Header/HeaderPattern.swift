@@ -11,12 +11,14 @@ import Foundation
 struct HeaderPattern: CustomConsumingRegexComponent {
     typealias RegexOutput = (Substring, puzzleType: PuzzleType, size: Size, version: Character)
 
+    let sizes: any Collection<Size>
+
     func consuming(_ input: String,
                    startingAt index: String.Index,
                    in bounds: Range<String.Index>) -> (upperBound: String.Index, output: Self.RegexOutput)?
     {
         let puzzleTypes = CharacterClass.anyOf(PuzzleType.allCases.map(\.rawValue))
-        let sizes = CharacterClass.anyOf(Size.allCases.flatMap { String($0.rawValue, radix: FieldCoding.radix) })
+        let sizes = CharacterClass.anyOf(sizes.flatMap { String($0.rawValue, radix: FieldCoding.radix) })
         let versions = CharacterClass.generalCategory(.uppercaseLetter)
         let regex = Regex {
             Capture { puzzleTypes } transform: { PuzzleType(rawValue: $0.uppercased().first!)! }

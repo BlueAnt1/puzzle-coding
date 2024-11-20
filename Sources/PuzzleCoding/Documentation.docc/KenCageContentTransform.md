@@ -10,17 +10,25 @@ This is an <doc:OffsetTransform> that transforms KenKen or KenDoku cage content 
 
 Size      | Operator offset | Max value 
 :----:    | :-------------: | :-------: 
+**3×3**   | 6               | 10            
+**4×4**   | 24              | 28            
+**5×5**   | 120             | 124            
 **6×6**   | 720             | 724            
+**7×7**   | 1023            | 1027
 **8×8**   | 1023            | 1027              
 **9×9**   | 1023            | 1027              
 **16×16** | 1023            | 1027             
 **25×25** | 1023            | 1027            
 
+>Important: The multiplication operator forces us to deal with potentially very large values due to the factorial
+term (9 × 8 × 7 × …). In order to manage encoding space requirements and taking into account that puzzles are for 
+humans to solve, the maximum clue value is limited to 1023.
+
 ### Set up
 
 ```
 size = number of cells in a puzzle row or column
-operatorOffset = min(1023, size!)   // "!" is the factorial operator
+operatorOffset = min(size!, 1023)   // "!" is the factorial operator
 operators: 1 = add, 2 = subtract, 3 = multiply, 4 = divide
 maxValue = operatorOffset + 4
 ```

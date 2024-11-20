@@ -16,7 +16,7 @@ struct HeaderTests {
         let raw = coder.rawValue
         #expect(raw.count == 3)
 
-        let match = try #require(try HeaderPattern().regex.wholeMatch(in: raw))
+        let match = try #require(try HeaderPattern(sizes: Size.allCases).regex.wholeMatch(in: raw))
         #expect(String(match.output.0) == raw)
     }
 }

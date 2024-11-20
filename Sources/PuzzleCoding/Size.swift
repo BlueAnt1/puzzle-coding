@@ -37,3 +37,8 @@ extension Size {
 
     static var grid9x9: Size { .init(9) }
 }
+
+extension Size {
+    static var sudokuCases: [Size] { [Size(6), Size(8), Size(9), Size(16), Size(25)] }
+    static var kenCases: [Size] { allCases }
+}

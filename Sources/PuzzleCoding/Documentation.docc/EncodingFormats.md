@@ -43,7 +43,11 @@ A sample header: `S9B`
 
         Size  | Code
         :---  | :----:
+        3×3   |   3
+        4×4   |   4
+        5×5   |   5
         6×6   |   6
+        7×7   |   7
         8×8   |   8
         9×9   |   9
         16×16 |   G
@@ -121,6 +125,11 @@ Choose your puzzle type and encode each cell using the transforms.
             }
             @Column {
                 @TabNavigator {
+                    @Tab("3×3") {
+                        `111 2222 3333`
+                        
+                        11 bits in a 2 character field
+                    }
                     @Tab("6×6") {
                         `1112 2222 2222 2333 3333`
                         

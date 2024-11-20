@@ -33,7 +33,7 @@ extension KenKen {
         }
 
         static func decode(_ input: String, type: PuzzleType) -> KenKen? {
-            guard let header = try? HeaderPattern().regex.prefixMatch(in: input),
+            guard let header = try? HeaderPattern(sizes: Size.kenCases).regex.prefixMatch(in: input),
                   case type = header.output.puzzleType,
                   header.output.version == Self.version
             else { return nil }

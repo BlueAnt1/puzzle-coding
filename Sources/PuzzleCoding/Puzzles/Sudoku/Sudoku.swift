@@ -14,7 +14,8 @@ public struct Sudoku: Equatable {
 
     init(cells: some Collection<Cell>, version: Version, type: PuzzleType) throws {
         assert([.sudoku, .sudokuX, .windoku].contains(type))
-        guard let size = Size(gridCellCount: cells.count)
+        guard let size = Size(gridCellCount: cells.count),
+              Size.sudokuCases.contains(size)
         else { throw Error.invalidSize }
         guard cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true })
         else { throw Error.outOfRange }
