@@ -49,11 +49,11 @@ else if the cell contains an operator
 
 ```
 if input > maxValue
-    // error
+    error
 else if input > operatorOffset
     operator = input - operatorOffset
 else if input > 0
     clue = input
 else
-    // empty
+    empty
 ```

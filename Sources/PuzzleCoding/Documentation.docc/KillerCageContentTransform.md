@@ -38,9 +38,9 @@ else if the cell contains a clue
 
 ```
 if input > maxValue
-    // error
+    error
 else if input > 0
     clue = input
 else
-    // empty
+    empty
 ```

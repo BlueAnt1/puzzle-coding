@@ -24,14 +24,19 @@ the ranges of values permitted for each data type.
     @Tab("Transform") {
         ```
         ranges = [m...n, o...p, ...]
+        
         // shift toward zero by subtracting the range's lower bound from the upper bound
         maxValues = [n - m, p - o, ...]
+        
         // the number of bits to store each maxValue
         bitCounts = [maxValues[0].bitCount, maxValues[1].bitCount, ...]
-        // we're going to shift values into the output, but we don't shift the first value, so
-        // zero the first value's bit count
+        
+        // we're going to shift values into the output, but we don't shift the first value, 
+        // so zero the first value's bit count
         shifts = [0, bitCounts[1], bitCounts[2], ...]
-        // calculate the maximum value we'll produce in order to provide this to later transforms or codings
+        
+        // calculate the maximum value we'll produce in order to provide this to later
+        // transforms or codings
         maxValue = 0
         for index in shifts.indices
             maxValue = (maxValue << shifts[index]) + maxValues[index]
@@ -46,17 +51,23 @@ the ranges of values permitted for each data type.
 
         ```
         ranges = [1...12, 1...31, 0...23]
+        
         // shift toward zero by subtracting the range's lower bound from the upper bound
         maxValues = [11, 30, 23]
+        
         // the number of bits to store each maxValue
         bitCounts = [4, 5, 5]
-        // we're going to shift values into the output, but we don't shift the first value, so
-        // zero the first value's bit count
+        
+        // we're going to shift values into the output, but we don't shift the first value, 
+        // so zero the first value's bit count
         shifts = [0, 5, 5]
-        // calculate the maximum value we'll produce in order to provide this to later transforms or codings
+        
+        // calculate the maximum value we'll produce in order to provide this to later
+        // transforms or codings
         maxValue = 0
         for index in shifts.indices
             maxValue = (maxValue << shifts[index]) + maxValues[index]
+            
         // maxValue = 12247
         ```
         
