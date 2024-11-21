@@ -5,7 +5,7 @@ Transform cage content into an integer.
 ## Overview
 
 This is an <doc:OffsetTransform> that transforms KenKen or KenDoku cage content into an integer.
- 
+
 ## Details
 
 Size      | Operator offset | Max value 
@@ -20,9 +20,11 @@ Size      | Operator offset | Max value
 **16×16** | 1023            | 1027             
 **25×25** | 1023            | 1027            
 
->Important: The multiplication operator forces us to deal with potentially very large values.
+>Note: The multiplication operator forces us to deal with potentially very large values.
 In order to manage encoding space requirements and taking into account that puzzles are for 
 humans to solve, the maximum clue value is limited to 1023.
+
+Learn how to describe <doc:Cages>.
 
 ### Set up
 
