@@ -101,9 +101,9 @@ Choose your puzzle type and encode each cell using the transforms.
     @Tab("Jigsaw Sudoku") {
         @Row {
             @Column {
-                - <doc:ShiftTransform>                
-                    1. box number
-                    2. <doc:CellContentTransform>
+                <doc:ShiftTransform>                
+                1. box number ([shape](<doc:Shapes>))
+                2. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -119,10 +119,10 @@ Choose your puzzle type and encode each cell using the transforms.
     @Tab("KenKen+") {
         @Row {
             @Column {
-                - <doc:ShiftTransform>
-                    1. cage number
-                    2. cage content
-                    3. <doc:CellContentTransform>
+                <doc:ShiftTransform>
+                1. cage number ([shape](<doc:Shapes>))
+                2. cage content ([cage](<doc:Cages>))
+                3. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -145,18 +145,16 @@ Choose your puzzle type and encode each cell using the transforms.
             }
         }
         
-        Learn how to describe <doc:Cages>.
-        
         KenDoku uses the same encoding.
     }
     @Tab("Killer Jigsaw") {
         @Row {
             @Column {
-                - <doc:ShiftTransform>
-                    1. box number
-                    2. cage number
-                    3. cage content
-                    4. <doc:CellContentTransform>
+                <doc:ShiftTransform>
+                1. box number ([shape](<doc:Shapes>))
+                2. cage number ([shape](<doc:Shapes>))
+                3. cage content ([cage](<doc:Cages>))
+                4. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -168,15 +166,14 @@ Choose your puzzle type and encode each cell using the transforms.
                 }
             }
         }
-        Learn how to describe <doc:Cages>.
     }
     @Tab("Killer Sudoku") {
         @Row {
             @Column {
-                - <doc:ShiftTransform>
-                    1. cage number
-                    2. cage content
-                    3. <doc:CellContentTransform>
+                <doc:ShiftTransform>
+                1. cage number ([shape](<doc:Shapes>))
+                2. cage content ([cage](<doc:Cages>))
+                3. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -188,14 +185,13 @@ Choose your puzzle type and encode each cell using the transforms.
                 }
             }
         }
-        Learn how to describe <doc:Cages>.
     }
     @Tab("Str8ts") {
         @Row {
             @Column {
-                - <doc:ShiftTransform>
-                    1. box number
-                    2. <doc:CellContentTransform>
+                <doc:ShiftTransform>
+                1. box number ([shape](<doc:Shapes>))
+                2. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
