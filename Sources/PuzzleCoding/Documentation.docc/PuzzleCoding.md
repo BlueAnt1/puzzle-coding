@@ -95,8 +95,6 @@ if let puzzle = try? Sudoku(cells: cells) {
 - <doc:PackCandidates>
 - <doc:OffsetTransform>
 - <doc:CellContentTransform>
-- <doc:KenCageContentTransform>
-- <doc:KillerCageContentTransform>
 - <doc:ShiftTransform>
 - <doc:FieldCoding>
 - <doc:Shapes>

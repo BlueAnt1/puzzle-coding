@@ -7,20 +7,23 @@
 
 import RegexBuilder
 
+
+
 extension KenKen {
     struct VersionB: Coder {
         private static var version: Character { "B" }
 
         static func encode(_ puzzle: KenKen) -> String {
             let size = puzzle.size
+
+            let cageValues = KenCageTransform(size: size).encode(puzzle.map(\.cage!))
             let ranges = KenKen.ranges(for: size)
             let shiftTransform = ShiftTransform(ranges: ranges.cageShape, ranges.cageContent, ranges.cellContent)
 
-            let cageTransform = KenCageContentTransform(size: size)
             let cellTransform = CellContentTransform(size: size)
             let values = Zipper(
                 puzzle.map(\.cage!.cage),
-                puzzle.map(\.cage!.content).map(cageTransform.encode),
+                cageValues,
                 puzzle.map(\.content).map(cellTransform.encode)
             ).map(shiftTransform.encode)
 
@@ -48,11 +51,12 @@ extension KenKen {
             let values = match.output.values
 
             do {
-                let cageTransform = KenCageContentTransform(size: size)
+                let cages = try KenCageTransform(size: size).decode(shapes: values.map(\.[0]),
+                                                                    contents: values.map(\.[1]))
+
                 let cellTransform = CellContentTransform(size: size)
-                let cells = try values.map {
-                    try Cell(cage: CageInfo(cage: $0[0], content: cageTransform.decode($0[1])),
-                             content: cellTransform.decode($0[2]))
+                let cells = try zip(cages, values).map { cage, values in
+                    try Cell(cage: cage, content: cellTransform.decode(values[2]))
                 }
 
                 return try KenKen(cells: cells, version: .versionB, type: type)

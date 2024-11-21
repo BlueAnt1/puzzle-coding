@@ -14,8 +14,9 @@ extension KillerJigsaw {
 
         static func encode(_ puzzle: KillerJigsaw) -> String {
             let size = puzzle.size
+            let cageValues = KillerCageTransform(size: size).encode(puzzle.map(\.cage!))
+
             let ranges = KillerJigsaw.ranges(for: size)
-            let cageTransform = KillerCageContentTransform(size: size)
             let cellTransform = CellContentTransform(size: size)
             let shiftTransform = ShiftTransform(ranges: ranges.shape,
                                                 ranges.cageShape,
@@ -26,7 +27,7 @@ extension KillerJigsaw {
             let values = Zipper(
                 puzzle.map(\.group!),
                 puzzle.map(\.cage!.cage),
-                puzzle.map(\.cage!.content).map(cageTransform.encode),
+                cageValues,
                 puzzle.map(\.content).map(cellTransform.encode)
             ).map(shiftTransform.encode)
 
@@ -54,13 +55,12 @@ extension KillerJigsaw {
             guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...])
             else { return nil }
             let values = match.output.values
+
             do {
-                let cageTransform = KillerCageContentTransform(size: size)
+                let cages = try KillerCageTransform(size: size).decode(shapes: values.map(\.[1]), contents: values.map(\.[2]))
                 let cellTransform = CellContentTransform(size: size)
-                let cells = try values.map {
-                    try Cell(group: $0[0],
-                             cage: CageInfo(cage: $0[1], content: cageTransform.decode($0[2])),
-                             content: cellTransform.decode($0[3]))
+                let cells = try zip(cages, values).map { cage, values in
+                    try Cell(group: values[0], cage: cage, content: cellTransform.decode(values[3]))
                 }
 
                 return try KillerJigsaw(cells: cells)

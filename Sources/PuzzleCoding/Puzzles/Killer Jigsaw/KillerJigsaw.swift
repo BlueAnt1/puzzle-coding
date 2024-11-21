@@ -26,12 +26,11 @@ public struct KillerJigsaw: Equatable {
                   cell.content.map({ $0.isValid(in: size.valueRange) }) ?? true
             else { throw Error.outOfRange }
 
-            switch cage.content {
-            case .clue(let clue):
-                guard ranges.cageClue.contains(clue) else { throw Error.outOfRange }
-            case .operator(let op):
-                guard op == .add else { throw Error.outOfRange }
-            case nil: break
+            if case .add(let value) = cage.clue {
+                guard ranges.cageClue.contains(value) else { throw Error.outOfRange }
+            } else if cage.clue?.value != nil {
+                // some other operator
+                throw Error.outOfRange
             }
         }
 
@@ -46,7 +45,7 @@ public struct KillerJigsaw: Equatable {
                                            cageContent: ClosedRange<Int>,
                                            cageClue: ClosedRange<Int>,
                                            cellContent: ClosedRange<Int>) {
-        let cageTransform = KillerCageContentTransform(size: size)
+        let cageTransform = KillerCageTransform(size: size)
         return (size.valueRange,
                 1...5,
                 cageTransform.range,

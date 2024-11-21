@@ -12,41 +12,52 @@ public struct CageInfo: Equatable, Sendable {
     /// The cage containing the cell.
     public var cage: Int
     /// The cage content such as a clue or operator.
-    public var content: Content?
+    public var clue: Clue?
 
-    /// The content a cell stores relating to the cage.
-    public enum Content: Equatable, Sendable {
-        /// A clue.
-        case clue(Int)
-        /// An operator.
-        case `operator`(Operator)
+    public enum Clue: Equatable, Sendable {
+        case add(Int)
+        case subtract(Int)
+        case multiply(Int)
+        case divide(Int)
 
-        /// A cage operator
-        public enum Operator: Int, Sendable {
-            case add = 1, subtract, multiply, divide
+        var `operator`: Int {
+            switch self {
+            case .add: 1
+            case .subtract: 2
+            case .multiply: 3
+            case .divide: 4
+            }
+        }
 
-            static var maxValue: Int { Self.divide.rawValue }
+        var value: Int {
+            switch self {
+            case .add(let value), .subtract(let value), .multiply(let value), .divide(let value):
+                value
+            }
         }
     }
 }
 
-extension CageInfo.Content: CustomStringConvertible {
+extension CageInfo.Clue {
+    init?(operator: Int, value: Int) {
+        guard value > 0 else { return nil }
+        switch `operator` {
+        case 1: self = .add(value)
+        case 2: self = .subtract(value)
+        case 3: self = .multiply(value)
+        case 4: self = .divide(value)
+        default: return nil
+        }
+    }
+}
+
+extension CageInfo.Clue: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .clue(let clue): "\(clue)"
-        case .operator(let `operator`): "\(`operator`)"
+        case .add(let value): "\(value)+"
+        case .subtract(let value): "\(value)−"
+        case .multiply(let value): "\(value)×"
+        case .divide(let value): "\(value)÷"
         }
     }
 }
-
-extension CageInfo.Content.Operator: CustomStringConvertible {
-    public var description: String {
-        switch self {
-        case .add: "+"
-        case .subtract: "−"
-        case .multiply: "×"
-        case .divide: "÷"
-        }
-    }
-}
-

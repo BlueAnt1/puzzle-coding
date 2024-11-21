@@ -8,7 +8,7 @@ This transform allows us to store multiple types of data using the *same set of 
 
 >Note: Offset transform is not used directly, rather it is a transform type that is implemented by transforms tuned to the data requirements.
 
-The offset transform is implemented by <doc:CellContentTransform>, <doc:KenCageContentTransform> and <doc:KillerCageContentTransform>.
+The offset transform is implemented by <doc:CellContentTransform>.
 
 ## Details
 

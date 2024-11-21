@@ -86,7 +86,7 @@ that value to the encoding being constructed.
 Version B uses 3 types of transformations to produce encoded output.
 
 - term Pack: [Transform a set of *candidates*](<doc:PackCandidates>) into a single value.
-- term Offset: [Transform a set of *mutually exclusive* values](doc:OffsetTransform) into a single value. This is used for both cell and cage content. For example, a cell has multiple types of content: clue, solution or candidates that need to be described, but only one of these types of data is present at a time.
+- term Offset: [Transform a set of *mutually exclusive* values](doc:OffsetTransform) into a single value. This is used for cell content. For example, a cell has multiple types of content: clue, solution or candidates that need to be described, but only one of these types of data is present at a time.
 - term Shift: [Transform a group of values](<doc:ShiftTransform>) into a single value. This is the final transformation that combines all values into a single integer representation for the data describing a cell.
 
 Some types of data go through multiple transformations as shown in the table. For example *Cell Content Candidates* are first packed and then offset. If we're coding a Jigsaw Sudoku the *Shapes Group* values are shifted along with the offset candidates to produce a new value.
@@ -121,7 +121,7 @@ Choose your puzzle type and encode each cell using the transforms.
             @Column {
                 - <doc:ShiftTransform>
                     1. cage number
-                    2. <doc:KenCageContentTransform>
+                    2. cage content
                     3. <doc:CellContentTransform>
             }
             @Column {
@@ -137,13 +137,15 @@ Choose your puzzle type and encode each cell using the transforms.
                         17 bits in a 4 character field
                     }
                     @Tab("6×6") {
-                        `1 1122 2222 2222 2333 3333`
+                        `1112 2222 2222 2333 3333`
                         
-                        21 bits in a 4 character field
+                        20 bits in a 4 character field
                     }
                 }
             }
         }
+        
+        Learn how to describe <doc:Cages>.
         
         KenDoku uses the same encoding.
     }
@@ -153,7 +155,7 @@ Choose your puzzle type and encode each cell using the transforms.
                 - <doc:ShiftTransform>
                     1. box number
                     2. cage number
-                    3. <doc:KillerCageContentTransform>
+                    3. cage content
                     4. <doc:CellContentTransform>
             }
             @Column {
@@ -166,13 +168,14 @@ Choose your puzzle type and encode each cell using the transforms.
                 }
             }
         }
+        Learn how to describe <doc:Cages>.
     }
     @Tab("Killer Sudoku") {
         @Row {
             @Column {
                 - <doc:ShiftTransform>
                     1. cage number
-                    2. <doc:KillerCageContentTransform>
+                    2. cage content
                     3. <doc:CellContentTransform>
             }
             @Column {
@@ -185,6 +188,7 @@ Choose your puzzle type and encode each cell using the transforms.
                 }
             }
         }
+        Learn how to describe <doc:Cages>.
     }
     @Tab("Str8ts") {
         @Row {

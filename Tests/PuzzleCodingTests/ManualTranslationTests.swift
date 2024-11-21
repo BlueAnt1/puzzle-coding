@@ -40,7 +40,7 @@ struct ManualTranslationTests {
         let raw = KenKen.small4.rawValue
         print(raw)
         let decoded = try #require(KenKen(rawValue: raw))
-        let grid = Grid(decoded)
+//        let grid = Grid(decoded)
 //        print(grid.cellContent)
 //        print(grid.cage)
         let encoded = decoded.rawValue

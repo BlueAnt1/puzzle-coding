@@ -25,11 +25,8 @@ public struct KenKen: Equatable, Sendable {
                   cell.content.map({ $0.isValid(in: size.valueRange) }) ?? true
             else { throw Error.outOfRange }
 
-            switch cage.content {
-            case .clue(let clue):
-                guard ranges.cageClue.contains(clue) else { throw Error.outOfRange }
-            case .operator: break
-            case nil: break
+            if let clueValue = cage.clue?.value {
+                guard ranges.cageClue.contains(clueValue) else { throw Error.outOfRange }
             }
         }
 
@@ -44,7 +41,7 @@ public struct KenKen: Equatable, Sendable {
                                            cageContent: ClosedRange<Int>,
                                            cageClue: ClosedRange<Int>,
                                            cellContent: ClosedRange<Int>) {
-        let cageTransform = KenCageContentTransform(size: size)
+        let cageTransform = KenCageTransform(size: size)
         return (1...5,
                 cageTransform.range,
                 cageTransform.clueRange,
