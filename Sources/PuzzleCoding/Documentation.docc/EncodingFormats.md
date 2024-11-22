@@ -71,7 +71,7 @@ Green cells indicate the data that is required for the puzzle type and the range
 There are three general types of data to encode.
 
 - term Shapes: <doc:Shapes> describe groupings of cells. The cells of a Jigsaw piece or a cage are examples.
-- term Cage Content: <doc:Cages> contain clues about a group of cells such as the sum of their content.
+- term Cage Content: [Cages](<doc:CageContentTransform>) contain clues about a group of cells such as the sum of their content.
 - term Cell Content: Cell content is what we typically consider the data *in* a cell. It is the clue, solution or candidates (the *progress*) of the puzzle.
 
 > Important: The `∅` column under Cage Content and Cell Content indicates that *empty* is a valid value. Emptiness is denoted by the value `0`.
@@ -83,13 +83,14 @@ All puzzles are currently using Version B coding.
 This encoding transforms all of the information about each cell of a puzzle into an integer and appends
 that value to the encoding being constructed. 
 
-Version B uses 3 types of transformations to produce encoded output.
+Version B uses 4 types of transformations to produce encoded output.
 
-- term Pack: [Transform a set of *candidates*](<doc:PackCandidates>) into a single value.
-- term Offset: [Transform a set of *mutually exclusive* values](doc:OffsetTransform) into a single value. This is used for cell content. For example, a cell has multiple types of content: clue, solution or candidates that need to be described, but only one of these types of data is present at a time.
+- term Pack: [Transform a set of candidates](<doc:PackCandidates>) into a single value.
+- term Cell Content: [Transform cell content](<doc:CellContentTransform>) into a single value.
+- term Cage Content: [Transform cage content](<doc:CageContentTransform>) into a single value.
 - term Shift: [Transform a group of values](<doc:ShiftTransform>) into a single value. This is the final transformation that combines all values into a single integer representation for the data describing a cell.
 
-Some types of data go through multiple transformations as shown in the table. For example *Cell Content Candidates* are first packed and then offset. If we're coding a Jigsaw Sudoku the *Shapes Group* values are shifted along with the offset candidates to produce a new value.
+Some types of data go through multiple transformations as shown in the table. For example *Cell Content Candidates* are first packed and then transformed with the cell content transform. If we're coding a Jigsaw Sudoku the *Shapes Group* values are shifted along with the transformed candidates to produce a new value.
 
 Once all of the data for a cell has been transformed into a single value use <doc:FieldCoding> to output the value.
 
@@ -121,7 +122,7 @@ Choose your puzzle type and encode each cell using the transforms.
             @Column {
                 <doc:ShiftTransform>
                 1. cage number ([shape](<doc:Shapes>))
-                2. cage content ([cage](<doc:Cages>))
+                2. <doc:CageContentTransform>
                 3. <doc:CellContentTransform>
             }
             @Column {
@@ -153,7 +154,7 @@ Choose your puzzle type and encode each cell using the transforms.
                 <doc:ShiftTransform>
                 1. box number ([shape](<doc:Shapes>))
                 2. cage number ([shape](<doc:Shapes>))
-                3. cage content ([cage](<doc:Cages>))
+                3. <doc:CageContentTransform>
                 4. <doc:CellContentTransform>
             }
             @Column {
@@ -172,7 +173,7 @@ Choose your puzzle type and encode each cell using the transforms.
             @Column {
                 <doc:ShiftTransform>
                 1. cage number ([shape](<doc:Shapes>))
-                2. cage content ([cage](<doc:Cages>))
+                2. <doc:CageContentTransform>
                 3. <doc:CellContentTransform>
             }
             @Column {

@@ -12,7 +12,7 @@ struct ManualTranslationTests {
     @Test
     func kenKen() throws {
         let raw = KenKen.veryEasy1.rawValue
-        print(raw)
+//        print(raw)
         let decoded = try #require(KenKen(rawValue: raw))
         //        let grid = Grid(decoded.puzzle)
         //        print(grid.cellContent)
@@ -25,7 +25,7 @@ struct ManualTranslationTests {
     @Test
     func kenKenSmall3() throws {
         let raw = KenKen.small3.rawValue
-        print(raw)
+//        print(raw)
         let decoded = try #require(KenKen(rawValue: raw))
 //        let grid = Grid(decoded)
 //        print(grid.cellContent)
@@ -38,7 +38,7 @@ struct ManualTranslationTests {
     @Test
     func kenKenSmall4() throws {
         let raw = KenKen.small4.rawValue
-        print(raw)
+//        print(raw)
         let decoded = try #require(KenKen(rawValue: raw))
 //        let grid = Grid(decoded)
 //        print(grid.cellContent)
@@ -73,9 +73,9 @@ struct ManualTranslationTests {
         let raw = Str8ts.easy1.rawValue
         let decoded = try #require(Str8ts(rawValue: raw))
         let grid = Grid(decoded)
-        print(raw)
-        print(grid.group)
-        print(grid.cellContent)
+//        print(raw)
+//        print(grid.group)
+//        print(grid.cellContent)
         let encoded = decoded.rawValue
         #expect(raw == encoded)
         #expect(decoded == Str8ts.easy1)

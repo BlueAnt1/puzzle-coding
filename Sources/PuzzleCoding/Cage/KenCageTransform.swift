@@ -8,74 +8,49 @@
 struct KenCageTransform {
     let size: Size
 
-    var empty: Int { 0 }
+    private var empty: Int { 0 }
     private var maximumClue: Int { size.rawValue * size.rawValue * size.rawValue * (size.rawValue - 1) * (size.rawValue - 2) }
     var clueRange: ClosedRange<Int> { 1...min(1023, maximumClue) }
     var range: ClosedRange<Int> { empty...clueRange.upperBound }
 
-    private func left(_ index: Int) -> Int? {
-        guard index > 0 else { return nil }
-        let left = index - 1
-        // same row
-        guard index / size.rawValue == left / size.rawValue else { return nil }
-        return left
-    }
-
-    private func above(_ index: Int) -> Int? {
-        guard index >= size.rawValue else { return nil }
-        let above = index - size.rawValue
-        return above
-    }
-
-    private func isSingleCell(_ index: Int, in shapes: [Int]) -> Bool {
-        let left = left(index)
-        let above = above(index)
-        let right = (index + 1).isMultiple(of: size.rawValue) ? nil : index + 1
-        let below = (index + size.rawValue) > size.gridCellCount ? nil : index + size.rawValue
-        return (left == nil || shapes[left!] != shapes[index])
-        && (above == nil || shapes[above!] != shapes[index])
-        && (right == nil || shapes[right!] != shapes[index])
-        && (below == nil || shapes[below!] != shapes[index])
-    }
-
     func encode(_ cells: [CageInfo]) -> [Int] {
-        zip(cells.indices, cells).map { (index, info) in
-            if let clue = info.clue {
-                clue.value
-            } else if let left = left(index),
-                      cells[left].cage == info.cage,
-                      let op = cells[left].clue?.operator
-            {
-                op
-            } else if let above = above(index),
-                      cells[above].cage == info.cage,
-                      let op = cells[above].clue?.operator
-            {
-                op
-            } else {
-                empty
+        var values = Array(repeating: empty, count: size.gridCellCount)
+        for (index, info) in zip(cells.indices, cells) {
+            guard let clue = info.clue else { continue }
+            values[index] = clue.value
+            if let operatorCell = operatorCell(for: index, in: cells) {
+                values[operatorCell] = clue.operatorValue
             }
         }
+        return values
+    }
+
+    private func operatorCell(for index: Int, in cells: [CageInfo]) -> Int? {
+        var next = index + 1
+        guard !next.isMultiple(of: size.rawValue) else { return nil }
+        if cells[index].cage == cells[next].cage { return next }
+
+        next = index + size.rawValue
+        guard next < cells.endIndex, cells[index].cage == cells[next].cage else { return nil }
+        return next
     }
 
     func decode(shapes: [Int], contents: [Int]) throws -> [CageInfo] {
         var cages = shapes.map { CageInfo(cage: $0) }
+        var contents = contents
 
-        for (index, content) in zip(contents.indices, contents) where content != empty {
-            if let left = left(index),
-               cages[left] == cages[index],
-               let clue = CageInfo.Clue(operator: content, value: contents[left])
-            {
-                cages[left].clue = clue
-            } else if let above = above(index),
-                      cages[above] == cages[index],
-                      let clue = CageInfo.Clue(operator: content, value: contents[above])
-            {
-                cages[above].clue = clue
-            } else if isSingleCell(index, in: shapes) {
-                cages[index].clue = .add(content)
+        for index in contents.indices where contents[index] != empty {
+            let clueValue = contents[index]
+            if let operatorCell = operatorCell(for: index, in: cages) {
+                let operatorValue = contents[operatorCell]
+                guard let clue = CageInfo.Clue(operator: operatorValue, value: clueValue) else { throw Error.outOfRange }
+                cages[index].clue = clue
+                contents[operatorCell] = empty
+            } else {
+                cages[index].clue = CageInfo.Clue.add(clueValue)
             }
         }
+
         guard cages.allSatisfy({ $0.clue.map { clueRange.contains($0.value) } ?? true }) else { throw Error.outOfRange }
         return cages
     }

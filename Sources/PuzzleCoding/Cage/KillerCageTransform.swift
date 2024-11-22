@@ -9,8 +9,8 @@ struct KillerCageTransform {
     let size: Size
 
     var empty: Int { 0 }
-    var clueRange: ClosedRange<Int> { empty...size.valueRange.reduce(0, +) }
-    var range: ClosedRange<Int> { clueRange }
+    var clueRange: ClosedRange<Int> { 1...size.valueRange.reduce(0, +) }
+    var range: ClosedRange<Int> { empty...clueRange.upperBound }
 
     func encode(_ cells: [CageInfo]) -> [Int] {
         cells.map { $0.clue?.value ?? empty }

@@ -11,11 +11,15 @@ import Testing
 struct SudokuWikiCompatibilityTests {
     @Test
     func kenKen() throws {
+//        let cells = KenKen.veryEasy1
         let raw = "K6B04sr00nf5qa3030r5vt701mz5op7bakr5mx700nf5mx700975mx7b8srb8ln00235mbvbeiz5mbvgw23gvgrguvfb8lnb96z02ff00975pvv5mx75mbv01fv0023bmtnb96zb8ln00230097"
+//        let attempt = KenKen(rawValue: raw)
+//        print(attempt)
+
         let myRaw = try KenKen(cells: KenKen.veryEasy1, version: .versionB).rawValue
         #expect(raw == myRaw)
         let decoded = try #require(KenKen(rawValue: raw))
-        print(Grid(decoded))
+//        print(Grid(decoded))
         let encoded = decoded.rawValue
         #expect(raw == encoded)
 
@@ -26,7 +30,7 @@ struct SudokuWikiCompatibilityTests {
     func killerJigsaw() throws {
         let raw = ""
         let decoded = try #require(KillerJigsaw(rawValue: raw))
-        print(Grid(decoded))
+//        print(Grid(decoded))
         let encoded = decoded.rawValue
         #expect(raw == encoded)
     }

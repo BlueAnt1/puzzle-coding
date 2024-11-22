@@ -7,7 +7,7 @@
 
 /// Cage related information about a cell.
 ///
-/// >Important: Be sure you understand how to store information for <doc:Cages> and <doc:Shapes>.
+/// >Important: Be sure you understand how to store information for [Cages](<doc:CageContentTransform>) and <doc:Shapes>.
 public struct CageInfo: Equatable, Sendable {
     /// The cage containing the cell.
     public var cage: Int
@@ -20,7 +20,7 @@ public struct CageInfo: Equatable, Sendable {
         case multiply(Int)
         case divide(Int)
 
-        var `operator`: Int {
+        var operatorValue: Int {
             switch self {
             case .add: 1
             case .subtract: 2

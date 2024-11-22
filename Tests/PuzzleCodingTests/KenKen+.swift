@@ -28,8 +28,8 @@ extension KenKen {
         ]
 
         let cells = zip(cageShapes, clues).map { cage, clue in
-            Cell(cage: CageInfo(cage: cage, clue: clue),
-                 content: .candidates(Set(1...6)))
+//            Cell(cage: CageInfo(cage: cage, clue: clue))
+            Cell(cage: CageInfo(cage: cage, clue: clue), content: .candidates(Set(1...6)))
         }
 
         return try! KenKen(cells: cells)

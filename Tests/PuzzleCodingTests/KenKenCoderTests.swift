@@ -47,14 +47,14 @@ struct KenKenCoderTests {
         }
     }
 
-    @Test
-    func sizes() {
-        for size in Size.allCases {
-            let ranges = KenKen.ranges(for: size)
-            let shiftTransform = ShiftTransform(ranges: ranges.cageShape, ranges.cageContent, ranges.cellContent)
-            let fieldCoding = FieldCoding(range: shiftTransform.range)
-        }
-    }
+//    @Test
+//    func sizes() {
+//        for size in Size.allCases {
+//            let ranges = KenKen.ranges(for: size)
+//            let shiftTransform = ShiftTransform(ranges: ranges.cageShape, ranges.cageContent, ranges.cellContent)
+//            let fieldCoding = FieldCoding(range: shiftTransform.range)
+//        }
+//    }
 //    @Test
 //    func maximums() {
 //        for size in Size.allCases {

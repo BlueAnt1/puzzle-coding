@@ -4,7 +4,7 @@ Transform cell content into an integer.
 
 ## Overview
 
-This is an <doc:OffsetTransform> that transforms cell content into an integer.
+A cell can contain nothing, a clue, solution or set of candidates, but only one of those at a time; the values are mutually exclusive. This allows us to reuse the same set of bits for the different value types. To distinguish the different value types we force each into its own range of values.
 
 ## Details
 

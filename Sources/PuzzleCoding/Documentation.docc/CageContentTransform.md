@@ -1,6 +1,6 @@
-# Cages
+# Cage Content Transform
 
-A cage is a group of cells for which the puzzle provides a clue.
+Transform cage content into an integer.
 
 ## Overview
 
@@ -12,8 +12,8 @@ The cages in the image are outlined and colored.
 
 To describe cages we need to describe the <doc:Shapes> of the cages as well as the clues & operators.
 
-In order to more efficiently utilize space we separate the clue from the operator. 
-A cage clue, for example the 24 in A1 always appears in the first cell of the cage. 
+Notice that there are a lot more empty cells than cells with clues. In order to more efficiently utilize space we separate
+the clue from the operator. A cage clue, for example the 24 in A1 always appears in the first cell of the cage. 
 
 For KenDoku and KenKen the second cell of a cage (when there is more than one cell in the cage) contains the
 operator. The second cell is the cell to the right of the clue if there is a cell to the right, else the cell below the clue.
