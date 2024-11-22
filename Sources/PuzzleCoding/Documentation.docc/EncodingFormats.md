@@ -76,21 +76,21 @@ There are three general types of data to encode.
 
 > Important: The `∅` column under Cage Content and Cell Content indicates that *empty* is a valid value. Emptiness is denoted by the value `0`.
 
-## Version B coding
+## Version B encoding
 
-All puzzles are currently using Version B coding. 
+All puzzles are currently using Version B encoding. 
 
 This encoding transforms all of the information about each cell of a puzzle into an integer and appends
 that value to the encoding being constructed. 
 
-Version B uses 4 types of transformations to produce encoded output.
+Version B uses 4 transformations to produce encoded output.
 
 - term Pack: [Transform a set of candidates](<doc:PackCandidates>) into a single value.
 - term Cell Content: [Transform cell content](<doc:CellContentTransform>) into a single value.
 - term Cage Content: [Transform cage content](<doc:CageContentTransform>) into a single value.
 - term Shift: [Transform a group of values](<doc:ShiftTransform>) into a single value. This is the final transformation that combines all values into a single integer representation for the data describing a cell.
 
-Some types of data go through multiple transformations as shown in the table. For example *Cell Content Candidates* are first packed and then transformed with the cell content transform. If we're coding a Jigsaw Sudoku the *Shapes Group* values are shifted along with the transformed candidates to produce a new value.
+Some types of data go through multiple transformations as shown in the table. For example *Cell Content Candidates* are first packed and then transformed with the cell content transform. If we're encoding a Jigsaw Sudoku the *Shapes Group* values are shifted along with the transformed candidates to produce a new value.
 
 Once all of the data for a cell has been transformed into a single value use <doc:FieldCoding> to output the value.
 
@@ -102,9 +102,9 @@ Choose your puzzle type and encode each cell using the transforms.
     @Tab("Jigsaw Sudoku") {
         @Row {
             @Column {
-                <doc:ShiftTransform>                
-                1. box number ([shape](<doc:Shapes>))
-                2. <doc:CellContentTransform>
+                - <doc:ShiftTransform>                
+                    1. box number ([shape](<doc:Shapes>))
+                    2. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -120,10 +120,10 @@ Choose your puzzle type and encode each cell using the transforms.
     @Tab("KenKen+") {
         @Row {
             @Column {
-                <doc:ShiftTransform>
-                1. cage number ([shape](<doc:Shapes>))
-                2. <doc:CageContentTransform>
-                3. <doc:CellContentTransform>
+                - <doc:ShiftTransform>
+                    1. cage number ([shape](<doc:Shapes>))
+                    2. <doc:CageContentTransform>
+                    3. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -151,11 +151,11 @@ Choose your puzzle type and encode each cell using the transforms.
     @Tab("Killer Jigsaw") {
         @Row {
             @Column {
-                <doc:ShiftTransform>
-                1. box number ([shape](<doc:Shapes>))
-                2. cage number ([shape](<doc:Shapes>))
-                3. <doc:CageContentTransform>
-                4. <doc:CellContentTransform>
+                - <doc:ShiftTransform>
+                    1. box number ([shape](<doc:Shapes>))
+                    2. cage number ([shape](<doc:Shapes>))
+                    3. <doc:CageContentTransform>
+                    4. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -171,10 +171,10 @@ Choose your puzzle type and encode each cell using the transforms.
     @Tab("Killer Sudoku") {
         @Row {
             @Column {
-                <doc:ShiftTransform>
-                1. cage number ([shape](<doc:Shapes>))
-                2. <doc:CageContentTransform>
-                3. <doc:CellContentTransform>
+                - <doc:ShiftTransform>
+                    1. cage number ([shape](<doc:Shapes>))
+                    2. <doc:CageContentTransform>
+                    3. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
@@ -190,9 +190,9 @@ Choose your puzzle type and encode each cell using the transforms.
     @Tab("Str8ts") {
         @Row {
             @Column {
-                <doc:ShiftTransform>
-                1. box number ([shape](<doc:Shapes>))
-                2. <doc:CellContentTransform>
+                - <doc:ShiftTransform>
+                    1. box number ([shape](<doc:Shapes>))
+                    2. <doc:CellContentTransform>
             }
             @Column {
                 @TabNavigator {
