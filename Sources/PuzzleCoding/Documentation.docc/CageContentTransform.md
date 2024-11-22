@@ -26,7 +26,7 @@ A cage clue, for example the 24 in A1 always appears in the first cell of the ca
 For KenDoku and KenKen the second cell of a cage (when there is more than one cell in the cage) contains the
 operator. The second cell is the cell to the right of the clue if there is a cell to the right, else the cell below the clue.
 
-Finally we convert the operators to numbers.
+Finally we convert the operators and empty cells to numbers.
 
 @Row {
     @Column {
