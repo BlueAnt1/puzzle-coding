@@ -19,7 +19,7 @@ As new requirements for the transferred data evolve the version will change.
 A sample header: `S9B`
 - The first character is the puzzle type.
 - The second character is the puzzle size (base 36).
-- The third character is the encoding version, a letter A...Z.
+- The third character is the encoding version, a letter A…Z.
 
 @Row {
     @Column {
@@ -71,7 +71,7 @@ Green cells indicate the data that is required for the puzzle type and the range
 There are three general types of data to encode.
 
 - term Shapes: <doc:Shapes> describe groupings of cells. The cells of a Jigsaw piece or a cage are examples.
-- term Cage Content: [Cages](<doc:CageContentTransform>) contain clues about a group of cells such as the sum of their content.
+- term Cage Content: Cages contain clues about a group of cells such as the sum of their content.
 - term Cell Content: Cell content is what we typically consider the data *in* a cell. It is the clue, solution or candidates (the *progress*) of the puzzle.
 
 > Important: The `∅` column under Cage Content and Cell Content indicates that *empty* is a valid value. Emptiness is denoted by the value `0`.

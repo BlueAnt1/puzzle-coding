@@ -47,7 +47,7 @@ struct KenCageTransform {
                 cages[index].clue = clue
                 contents[operatorCell] = empty
             } else {
-                cages[index].clue = CageInfo.Clue.add(clueValue)
+                cages[index].clue = .add(clueValue)
             }
         }
 
