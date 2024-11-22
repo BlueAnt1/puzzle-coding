@@ -6,11 +6,12 @@
 //
 
 struct KenCageTransform {
+    private static var clueLimit: Int { 2047 }
     let size: Size
 
     private var empty: Int { 0 }
     private var maximumClue: Int { size.rawValue * size.rawValue * size.rawValue * (size.rawValue - 1) * (size.rawValue - 2) }
-    var clueRange: ClosedRange<Int> { 1...min(1023, maximumClue) }
+    var clueRange: ClosedRange<Int> { 1...min(Self.clueLimit, maximumClue) }
     var range: ClosedRange<Int> { empty...clueRange.upperBound }
 
     func encode(_ cells: [CageInfo]) -> [Int] {
@@ -27,8 +28,11 @@ struct KenCageTransform {
 
     private func operatorCell(for index: Int, in cells: [CageInfo]) -> Int? {
         var next = index + 1
-        guard !next.isMultiple(of: size.rawValue) else { return nil }
-        if cells[index].cage == cells[next].cage { return next }
+        if !next.isMultiple(of: size.rawValue)
+            && cells[index].cage == cells[next].cage
+        {
+            return next
+        }
 
         next = index + size.rawValue
         guard next < cells.endIndex, cells[index].cage == cells[next].cage else { return nil }

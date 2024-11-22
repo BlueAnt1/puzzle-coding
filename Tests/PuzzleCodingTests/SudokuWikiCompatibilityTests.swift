@@ -12,7 +12,7 @@ struct SudokuWikiCompatibilityTests {
     @Test
     func kenKen() throws {
 //        let cells = KenKen.veryEasy1
-        let raw = "K6B04sr00nf5qa3030r5vt701mz5op7bakr5mx700nf5mx700975mx7b8srb8ln00235mbvbeiz5mbvgw23gvgrguvfb8lnb96z02ff00975pvv5mx75mbv01fv0023bmtnb96zb8ln00230097"
+        let raw = "K6B02ff00cr5oaz01jf5r2j00uj5nijb9l75mmj00cr5mmj005n5mmjb8p7b8ln00235mbvbbkb5mbvgvgrgv63guvfb8lnb8wb018r005n5o3v5mmj5mbv00qz0023bfpnb8wbb8ln0023005n"
 //        let attempt = KenKen(rawValue: raw)
 //        print(attempt)
 

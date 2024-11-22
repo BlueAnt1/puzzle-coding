@@ -60,7 +60,7 @@ A sample header: `S9B`
 Every puzzle type has its own data requirements.
 
 ![Puzzle requirements table](PuzzleRequirements)
-*maxClue = min(size³ × (size−1) × (size−2), 1023)*
+*maxClue = min(size³ × (size−1) × (size−2), 2047)*
 
 To read the table, find the row with the puzzle type in which you're interested. Then read across.
 
@@ -138,9 +138,9 @@ Choose your puzzle type and encode each cell using the transforms.
                         17 bits in a 4 character field
                     }
                     @Tab("6×6") {
-                        `1112 2222 2222 2333 3333`
+                        `1 1122 2222 2222 2333 3333`
                         
-                        20 bits in a 4 character field
+                        21 bits in a 4 character field
                     }
                 }
             }
