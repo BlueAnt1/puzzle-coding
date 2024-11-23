@@ -51,8 +51,8 @@ extension KillerSudoku {
 
             do {
                 let cages = try KillerCageTransform(size: size).decode(shapes: values.map(\.[0]), contents: values.map(\.[1]))
-
                 let cellTransform = CellContentTransform(size: size)
+
                 let cells = try zip(cages, values).map { cage, values in
                     try Cell(cage: cage, content: cellTransform.decode(values[2]))
                 }
