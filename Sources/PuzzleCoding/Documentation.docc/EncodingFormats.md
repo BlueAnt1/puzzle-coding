@@ -78,7 +78,7 @@ There are three general types of data to encode.
 
 ## Base encoding
 
-All current puzzle encodings build on this base encoding.
+All current puzzle encoding versions build on this base encoding.
 
 This encoding transforms all of the information about each cell of a puzzle into an integer and appends
 that value to the encoding being constructed. 
@@ -100,55 +100,49 @@ Choose your puzzle type and encode each cell using the transforms.
 
 @TabNavigator {
     @Tab("Jigsaw Sudoku") {
-        @TabNavigator {
-            @Tab("Version B") {
-                @Row {
-                    @Column {
-                        - <doc:ShiftTransform>                
-                            1. box number ([shape](<doc:Shapes>))
-                            2. <doc:CellContentTransform>
-                    }
-                    @Column {
-                        @TabNavigator {
-                            @Tab("9×9") {
-                                `11 1122 2222 2222`
-                                
-                                14 bits in a 3 character field
-                            }
-                        }
+        #### Version B
+        @Row {
+            @Column {
+                - <doc:ShiftTransform>                
+                    1. box number ([shape](<doc:Shapes>))
+                    2. <doc:CellContentTransform>
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("9×9") {
+                        `11 1122 2222 2222`
+                        
+                        14 bits in a 3 character field
                     }
                 }
             }
         }
     }
     @Tab("KenKen+") {
-        @TabNavigator {
-            @Tab("Version C") {
-                @Row {
-                    @Column {
-                        - <doc:ShiftTransform>
-                            1. cage number ([shape](<doc:Shapes>))
-                            2. <doc:CageContentTransform>
-                            3. <doc:CellContentTransform>
+        #### Version C
+        @Row {
+            @Column {
+                - <doc:ShiftTransform>
+                    1. cage number ([shape](<doc:Shapes>))
+                    2. <doc:CageContentTransform>
+                    3. <doc:CellContentTransform>
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("3×3") {
+                        `1 1122 2222 3333`
+                        
+                        13 bits in a 3 character field
                     }
-                    @Column {
-                        @TabNavigator {
-                            @Tab("3×3") {
-                                `1 1122 2222 3333`
-                                
-                                13 bits in a 3 character field
-                            }
-                            @Tab("4×4") {
-                                `1 1122 2222 2223 3333`
-                                
-                                17 bits in a 4 character field
-                            }
-                            @Tab("6×6") {
-                                `1 1122 2222 2222 2333 3333`
-                                
-                                21 bits in a 4 character field
-                            }
-                        }
+                    @Tab("4×4") {
+                        `1 1122 2222 2223 3333`
+                        
+                        17 bits in a 4 character field
+                    }
+                    @Tab("6×6") {
+                        `1 1122 2222 2222 2333 3333`
+                        
+                        21 bits in a 4 character field
                     }
                 }
             }
@@ -157,89 +151,77 @@ Choose your puzzle type and encode each cell using the transforms.
         KenDoku uses the same encoding.
     }
     @Tab("Killer Jigsaw") {
-        @TabNavigator {
-            @Tab("Version B") {
-                @Row {
-                    @Column {
-                        - <doc:ShiftTransform>
-                            1. box number ([shape](<doc:Shapes>))
-                            2. cage number ([shape](<doc:Shapes>))
-                            3. <doc:CageContentTransform>
-                            4. <doc:CellContentTransform>
-                    }
-                    @Column {
-                        @TabNavigator {
-                            @Tab("9×9") {
-                                `111 1222 3333 3344 4444 4444`
-                                
-                                23 bits in a 5 character field
-                            }
-                        }
+        #### Version B
+        @Row {
+            @Column {
+                - <doc:ShiftTransform>
+                    1. box number ([shape](<doc:Shapes>))
+                    2. cage number ([shape](<doc:Shapes>))
+                    3. <doc:CageContentTransform>
+                    4. <doc:CellContentTransform>
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("9×9") {
+                        `111 1222 3333 3344 4444 4444`
+                        
+                        23 bits in a 5 character field
                     }
                 }
             }
         }
     }
     @Tab("Killer Sudoku") {
-        @TabNavigator {
-            @Tab("Version B") {
-                @Row {
-                    @Column {
-                        - <doc:ShiftTransform>
-                            1. cage number ([shape](<doc:Shapes>))
-                            2. <doc:CageContentTransform>
-                            3. <doc:CellContentTransform>
-                    }
-                    @Column {
-                        @TabNavigator {
-                            @Tab("9×9") {
-                                `111 2222 2233 3333 3333`
-                                
-                                19 bits in a 4 character field
-                            }
-                        }
+        #### Version B
+        @Row {
+            @Column {
+                - <doc:ShiftTransform>
+                    1. cage number ([shape](<doc:Shapes>))
+                    2. <doc:CageContentTransform>
+                    3. <doc:CellContentTransform>
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("9×9") {
+                        `111 2222 2233 3333 3333`
+                        
+                        19 bits in a 4 character field
                     }
                 }
             }
         }
     }
     @Tab("Str8ts") {
-        @TabNavigator {
-            @Tab("Version B") {
-                @Row {
-                    @Column {
-                        - <doc:ShiftTransform>
-                            1. box number ([shape](<doc:Shapes>))
-                            2. <doc:CellContentTransform>
-                    }
-                    @Column {
-                        @TabNavigator {
-                            @Tab("9×9") {
-                                `122 2222 2222`
-                                
-                                11 bits in a 3 character field
-                            }
-                        }
+        #### Version B
+        @Row {
+            @Column {
+                - <doc:ShiftTransform>
+                    1. box number ([shape](<doc:Shapes>))
+                    2. <doc:CellContentTransform>
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("9×9") {
+                        `122 2222 2222`
+                        
+                        11 bits in a 3 character field
                     }
                 }
             }
         }
     }
     @Tab("Sudoku+") {
-        @TabNavigator {
-            @Tab("Version B") {
-                @Row {
-                    @Column {
-                        1. <doc:CellContentTransform>
-                    }
-                    @Column {
-                        @TabNavigator {
-                            @Tab("9×9") {
-                                `11 1111 1111`
-                                
-                                10 bits in a 2 character field
-                            }
-                        }
+        #### Version B
+        @Row {
+            @Column {
+                1. <doc:CellContentTransform>
+            }
+            @Column {
+                @TabNavigator {
+                    @Tab("9×9") {
+                        `11 1111 1111`
+                        
+                        10 bits in a 2 character field
                     }
                 }
             }
