@@ -15,23 +15,24 @@ extension JigsawSudoku {
                     114452333
                     144455633
                     444555666
-                    774556668
-                    777956688
-                    779999888
-                    779999888
+                    774556669
+                    777856699
+                    778888999
+                    778888999
                     """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-        let content: [Cell.Content?] = """
-                400709020
-                000020000
-                090008000
-                104000300
-                700401002
-                002000103
-                000600010
-                000040000
-                010207045
-                """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-            .map { $0 == 0 ? .candidates(Set(1...9)) : .clue($0) }
+
+        let content = parse("""
+                4[3568][3568]7[1356]9[56]2[168]
+                [3568][35678][35678][135]2[3456][456][356789][146789]
+                [2356]9[1356][135][3567]8[4567][3567][1467]
+                1[568]4[589][56789][256]3[56789][6789]
+                7[3568][35689]4[35689]1[5689][5689]2
+                [5689][45678]2[589][56789][456]1[56789]3
+                [23589][234578][35789]6[35789][45][45789]1[789]
+                [235689][235678][13589][13589]4[35][26789][6789][6789]
+                [3689]1[389]2[389]7[689]45
+                """)
+
 
         let cells = shapes.indices.map {
             Cell(group: shapes[$0],
@@ -40,4 +41,32 @@ extension JigsawSudoku {
 
         return try! JigsawSudoku(cells: cells)
     }
+
+    private static func parse(_ input: String) -> [Cell.Content?] {
+        var output: [Cell.Content?] = []
+        var input = input[...]
+        var candidates = Set<Int>()
+        var isCandidates = false
+
+        while !input.isEmpty {
+            let character = input.removeFirst()
+            guard !character.isWhitespace else { continue }
+            switch character {
+            case "[" where !isCandidates:
+                isCandidates = true
+            case "1"..."9" where isCandidates:
+                candidates.insert(character.wholeNumberValue!)
+            case "]" where isCandidates:
+                isCandidates = false
+                output.append(.candidates(candidates))
+                candidates = []
+            case "1"..."9":
+                output.append(.clue(character.wholeNumberValue!))
+            default:
+                return []
+            }
+        }
+        return output
+    }
+
 }
