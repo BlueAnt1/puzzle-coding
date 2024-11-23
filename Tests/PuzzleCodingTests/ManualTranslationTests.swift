@@ -72,7 +72,7 @@ struct ManualTranslationTests {
     func str8ts() throws {
         let raw = Str8ts.easy1.rawValue
         let decoded = try #require(Str8ts(rawValue: raw))
-        let grid = Grid(decoded)
+//        let grid = Grid(decoded)
 //        print(raw)
 //        print(grid.group)
 //        print(grid.cellContent)

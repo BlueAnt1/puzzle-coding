@@ -30,8 +30,9 @@ Finally, convert the operators and empty cells to numbers.
 
 @Row {
     @Column {
-        Operator | Value
+        Content  | Value
         :------: | :---:
+        *empty*  | 0
         \+       | 1
         −        | 2
         ×        | 3
@@ -42,3 +43,20 @@ Finally, convert the operators and empty cells to numbers.
     }
 }
 
+## Limitations
+
+The multiplication operator forces us to deal with potentially very large clues. The largest clue value for a puzzle
+of a particular size is: size³ × (size−1) × (size−2). In order to manage space in the encoding, the maximum clue
+we represent is capped at 2047.
+
+Size | Max Clue
+:--: | :------:
+3    | 54
+4    | 384
+5    | 1500
+6    | 2047
+7    | 2047
+8    | 2047
+9    | 2047
+16   | 2047
+25   | 2047
