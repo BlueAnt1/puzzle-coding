@@ -1,5 +1,5 @@
 //
-//  KenKenVersionB.swift
+//  KenKenVersionC.swift
 //  PuzzleCoding
 //
 //  Created by Quintin May on 11/15/24.
@@ -10,8 +10,8 @@ import RegexBuilder
 
 
 extension KenKen {
-    struct VersionB: Coder {
-        private static var version: Character { "B" }
+    struct VersionC: Coder {
+        private static var version: Character { "C" }
 
         static func encode(_ puzzle: KenKen) -> String {
             let size = puzzle.size
@@ -59,7 +59,7 @@ extension KenKen {
                     try Cell(cage: cage, content: cellTransform.decode(values[2]))
                 }
 
-                return try KenKen(cells: cells, version: .versionB, type: type)
+                return try KenKen(cells: cells, version: .versionC, type: type)
             } catch {
                 return nil
             }

@@ -55,13 +55,13 @@ extension KenKen: Puzzle {
     }
 
     public enum Version: CaseIterable, Sendable {
-        case versionB
+        case versionC
 
-        public static var current: Version { .versionB }
+        public static var current: Version { .versionC }
 
         fileprivate var coder: any Coder.Type {
             switch self {
-            case .versionB: VersionB.self
+            case .versionC: VersionC.self
             }
         }
     }
