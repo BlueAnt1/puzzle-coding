@@ -15,12 +15,12 @@ There are two aspects to describing cages. We have to describe both the <doc:Sha
     @Column {
         Notice that there are more empty cells than cells with clues. We take advantage of the empty
         cells to more efficiently utilize space by separating the clue from the operator. 
+
+        A cage clue, for example the 24 in A1 always appears in the first cell of the cage. 
     }
 }
 @Row {
     @Column {
-        A cage clue, for example the 24 in A1 always appears in the first cell of the cage. 
-        
         For KenDoku and KenKen the second cell of a cage (when there is more than one cell in the cage) contains the
         operator. 
         

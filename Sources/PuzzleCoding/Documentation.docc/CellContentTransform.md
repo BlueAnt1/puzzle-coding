@@ -49,7 +49,7 @@ else
 
 ```
 if input > maxValue
-    // error
+    error
 else if input > candidatesOffset
     candidates = unpack(input - candidatesOffset)
 else if input > solutionOffset
@@ -57,5 +57,5 @@ else if input > solutionOffset
 else if input > 0
     clue = input
 else
-    // empty
+    empty
 ```

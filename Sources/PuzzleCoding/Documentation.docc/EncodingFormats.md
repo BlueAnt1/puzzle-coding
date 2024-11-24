@@ -60,7 +60,7 @@ A sample header: `S9B`
 Every puzzle type has its own data requirements.
 
 ![Puzzle requirements table](PuzzleRequirements)
-*maxClue = min(size³ × (size−1) × (size−2), 2047)*
+*† [maxClue](<doc:CageContentTransform#Limitations>)*
 
 To read the table, find the row with the puzzle type in which you're interested. Then read across.
 
