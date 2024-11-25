@@ -8,7 +8,7 @@
 /// Generic shift transform.
 struct ShiftTransform {
     private let ranges: [ClosedRange<Int>]
-    private let shifts: [Int]
+    private let bitCounts: [Int]
     let range: ClosedRange<Int>
 
     init(ranges first: ClosedRange<Int>, _ rest: ClosedRange<Int>...) {
@@ -20,11 +20,9 @@ struct ShiftTransform {
         self.ranges = ranges
 
         let maxValues = ranges.map { $0.upperBound - $0.lowerBound }
-        let bitCounts = maxValues.map { String($0, radix: 2).count }
-        let shifts = [0] + bitCounts.dropFirst()
-        self.shifts = shifts
-        let maxValue = zip(shifts, maxValues).reduce(0) { maxValue, offsetMax in
-            (maxValue << offsetMax.0) + offsetMax.1
+        self.bitCounts = maxValues.map { String($0, radix: 2).count }
+        let maxValue = zip(bitCounts, maxValues).reduce(0) { maxValue, bitCountMax in
+            (maxValue << bitCountMax.0) + bitCountMax.1
         }
         self.range = 0...maxValue
     }
@@ -37,7 +35,7 @@ struct ShiftTransform {
     func encode(_ values: [Int]) -> Int {
         assert(isEncodable(values))
         return values.indices.reduce(0) { encoded, index in
-            (encoded << shifts[index]) + values[index] - ranges[index].lowerBound
+            (encoded << bitCounts[index]) + values[index] - ranges[index].lowerBound
         }
     }
 
@@ -45,14 +43,10 @@ struct ShiftTransform {
         guard range.contains(value) else { throw Error.outOfRange }
         var value = value
         var values = [Int]()
-        for (offset, range) in zip(shifts.reversed(), ranges.reversed()) {
-            if offset > 0 {
-                let mask = (1 << offset) - 1    // a contiguous bunch of 1 bits
-                values.append((value & mask) + range.lowerBound)
-                value &>>= offset
-            } else {
-                values.append(value + range.lowerBound)
-            }
+        for (bitCount, range) in zip(bitCounts.reversed(), ranges.reversed()) {
+            let mask = (1 << bitCount) - 1    // a contiguous bunch of 1 bits
+            values.append((value & mask) + range.lowerBound)
+            value &>>= bitCount
         }
         values = values.reversed()
         guard zip(ranges, values).allSatisfy({ $0.contains($1) }) else { throw Error.outOfRange }

@@ -31,15 +31,11 @@ the ranges of values permitted for each data type.
         // the number of bits to store each maxValue
         bitCounts = [maxValues[0].bitCount, maxValues[1].bitCount, ...]
         
-        // we're going to shift values into the output, but we don't shift the first value, 
-        // so zero the first value's bit count
-        shifts = [0, bitCounts[1], bitCounts[2], ...]
-        
         // calculate the maximum value we'll produce in order to provide this to later
         // transforms or codings
         maxValue = 0
         for index in shifts.indices
-            maxValue = (maxValue << shifts[index]) + maxValues[index]
+            maxValue = (maxValue << bitCounts[index]) + maxValues[index]
         ```
     }
     @Tab("Example") {
@@ -58,15 +54,11 @@ the ranges of values permitted for each data type.
         // the number of bits to store each maxValue
         bitCounts = [4, 5, 5]
         
-        // we're going to shift values into the output, but we don't shift the first value, 
-        // so zero the first value's bit count
-        shifts = [0, 5, 5]
-        
         // calculate the maximum value we'll produce in order to provide this to later
         // transforms or codings
         maxValue = 0
-        for index in shifts.indices
-            maxValue = (maxValue << shifts[index]) + maxValues[index]
+        for index in bitCounts.indices
+            maxValue = (maxValue << bitCounts[index]) + maxValues[index]
             
         // maxValue = 12247
         ```
@@ -84,7 +76,7 @@ When encoding we need a set of values, one for each data type.
         ```
         output = 0
         for index in input.indices
-            output = (output << shifts[index]) + input[index] - ranges[index].lowerBound
+            output = (output << bitCounts[index]) + input[index] - ranges[index].lowerBound
         ```
     }
     @Tab("Example") {
@@ -95,7 +87,7 @@ When encoding we need a set of values, one for each data type.
         input = [month, day, hour]
 
         index: 0
-            output = (0 << 0) + 5 - 1 = 4
+            output = (0 << 4) + 5 - 1 = 4
         index: 1
             output = (4 << 5) + 1 - 1 = 128
         index: 2
@@ -113,14 +105,11 @@ Decoding produces one value for each data type. We do this in reverse to take th
         ```
         output = []
         // shift values out of the end of the input
-        for index in reverse(shifts.indices)
-            if shifts[index] == 0
-                value = input + ranges[index].lowerBound
-            else
-                mask = (1 << shifts[index]) - 1  // a contiguous bunch of 1 bits
-                value = (input & mask) + ranges[index].lowerBound
+        for index in reverse(bitCounts.indices)
+            mask = (1 << bitCounts[index]) - 1  // a contiguous bunch of 1 bits
+            value = (input & mask) + ranges[index].lowerBound
             insert value at the start of output
-            input = input >> shifts[index]
+            input = input >> bitCounts[index]
         ```
     }
     @Tab("Example") {
@@ -137,7 +126,8 @@ Decoding produces one value for each data type. We do this in reverse to take th
             output = [1, 15]
             input = 128 >> 5 = 4
         index: 0
-            value = 4 + 1 = 5
+            mask = (1 << 4) - 1 = 16 - 1 = 15
+            value = (4 & 15) + 1 = 4 + 1 = 5
             output = [5, 1, 15]
         ```
     }
