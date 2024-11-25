@@ -49,7 +49,7 @@ There are two aspects to describing cages. We have to describe both the <doc:Sha
     }
 }
 
-## Limitations
+## Maximum Clue
 
 The multiplication operator forces us to deal with potentially very large clues. The largest clue value for a puzzle
 is: size³ × (size−1) × (size−2). In order to manage space in the encoding, the maximum clue
