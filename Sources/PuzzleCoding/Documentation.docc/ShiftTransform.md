@@ -34,7 +34,7 @@ the ranges of values permitted for each data type.
         // calculate the maximum value we'll produce in order to provide this to later
         // transforms or codings
         maxValue = 0
-        for index in shifts.indices
+        for index in bitCounts.indices
             maxValue = (maxValue << bitCounts[index]) + maxValues[index]
         ```
     }
