@@ -6,7 +6,7 @@ Transform cage content into an integer.
 
 There are two aspects to describing cages. We have to describe both the <doc:Shapes> of the cages and the clues & operators.
 
-## How to describe cage clues & operators
+## Cage Clues & Operators
 
 @Row {
     @Column {
