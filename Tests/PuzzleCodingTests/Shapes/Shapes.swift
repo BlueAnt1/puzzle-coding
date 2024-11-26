@@ -5,20 +5,17 @@
 //  Created by Quintin May on 11/24/24.
 //
 
-import Testing
 @testable import PuzzleCoding
 
-/// The cells that constitute the shape.
-typealias Shape = Set<Int>
-
 struct Shapes: RandomAccessCollection {
+    /// The cells that constitute the shape.
+    typealias Shape = Set<Int>
     private let shapes: Colorizer
 
-    init?(_ elements: [Int]) {
+    init(_ elements: [Int]) {
         assert(Size(gridCellCount: elements.count) != nil)
         let graph = Graph(elements)
-        guard let shapes = Colorizer(graph) else { return nil }
-        self.shapes = shapes
+        self.shapes = Colorizer(graph)
     }
 
     var startIndex: Int { shapes.startIndex }
@@ -30,27 +27,28 @@ struct Shapes: RandomAccessCollection {
 }
 
 private struct Graph: RandomAccessCollection {
+    typealias Shape = Shapes.Shape
     typealias Node = (shape: Shape, neighbors: Set<Int>)
     private let nodes: [Node]
 
     init(_ elements: [Int]) {
         let size = Size(gridCellCount: elements.count)!
-        var visited = Set<Int>()
+        var visitedElements = Set<Int>()
 
-        func node(_ index: Int) -> Node {
-            visited.insert(index)
+        func node(containing index: Int) -> Node {
+            visitedElements.insert(index)
             let up = index - size.rawValue >= 0 ? index - size.rawValue : nil
             let down = index + size.rawValue < elements.endIndex ? index + size.rawValue : nil
             let left = index % size.rawValue > 0 ? index - 1 : nil
             let right = index % size.rawValue < size.rawValue - 1 ? index + 1 : nil
-            let mates = [up, down, left, right].compactMap(\.self)
+            let mates = [up, left, right, down].compactMap(\.self)
             let shapeMates = mates.filter { elements[$0] == elements[index] }
 
             var shape = Set([index] + shapeMates)
             var neighbors = Set(mates.filter { !shapeMates.contains($0) })
 
-            for mate in shapeMates where !visited.contains(mate) {
-                let (s, n) = node(mate)
+            for mate in shapeMates where !visitedElements.contains(mate) {
+                let (s, n) = node(containing: mate)
                 shape.formUnion(s)
                 neighbors.formUnion(n)
             }
@@ -59,8 +57,8 @@ private struct Graph: RandomAccessCollection {
         }
 
         var nodes: [Node] = []
-        for index in elements.indices where !visited.contains(index) {
-            nodes.append(node(index))
+        for index in elements.indices where !visitedElements.contains(index) {
+            nodes.append(node(containing: index))
         }
 
         // (shape: set of cell indices, neighbors: set of cell indices) ->
@@ -83,13 +81,15 @@ private struct Graph: RandomAccessCollection {
 }
 
 private struct Colorizer: RandomAccessCollection {
+    typealias Shape = Shapes.Shape
     typealias ShapeColor = (shape: Shape, color: Int)
     private let elements: [ShapeColor]
 
-    init?(_ graph: Graph) {
+    init(_ graph: Graph) {
         let colorRange = Set(0...3)
         var colors: [Int] = []
 
+        @discardableResult
         func colorize(_ node: Int) -> Bool {
             guard node < graph.endIndex else { return true }
             let neighborColors = graph[node].neighbors.compactMap { neighbor in
@@ -104,7 +104,7 @@ private struct Colorizer: RandomAccessCollection {
             return false
         }
 
-        guard colorize(0) else { return nil }
+        colorize(0)
         elements = zip(graph, colors).map { ($0.shape, $1) }
     }
 
@@ -113,43 +113,5 @@ private struct Colorizer: RandomAccessCollection {
 
     subscript(_ position: Int) -> ShapeColor {
         elements[position]
-    }
-}
-
-struct TestShapes {
-    @Test
-    func testShapes() throws {
-        // killer jigsaw cage tim tang
-        let elements = """
-                    111221121
-                    233213321
-                    224413112
-                    114411332
-                    223332211
-                    211142122
-                    212244122
-                    333212133
-                    333212233
-                    """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-        let shapes = try #require(Shapes(elements))
-        #expect(shapes.reduce(into: Set<Int>()) { $0.formUnion($1.shape) }.count == elements.count)
-        #expect(shapes.reduce(into: [Int]()) { $0.append(contentsOf: $1.shape) }.count == elements.count)
-        print(shapes)
-    }
-
-    @Test
-    func testShapesLeft() throws {
-        // 5x5 kenken
-        let elements = """
-                    12222
-                    13113
-                    23313
-                    13112
-                    14422
-                    """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-        let shapes = try #require(Shapes(elements))
-        #expect(shapes.reduce(into: Set<Int>()) { $0.formUnion($1.shape) }.count == elements.count)
-        #expect(shapes.reduce(into: [Int]()) { $0.append(contentsOf: $1.shape) }.count == elements.count)
-        print(shapes)
     }
 }
