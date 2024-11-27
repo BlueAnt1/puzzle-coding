@@ -40,5 +40,20 @@ struct JigsawSudokuCoderTests {
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)
     }
+
+    @Test
+    func doubleMirror() throws {
+        let raw = "J9B0ep0ep0ep0ep3kh1751751751750ep0060ep3kh3kh3kh1750sn1750ep55d36135t3kh35x35u5xt1750ep4qv55d6q96q96q95xt5xt0sk4qr55d4qw6q96q96q95j95xt5ja2dh55d55d6q96bn6q95xt5j61zl2s155d3yb3yf4cx3yc3ye5xt1zl2s12de2s14cx4cx4cx1zl1kz1zl2s12s12s12s14cx1ky1zl1zl1zl"
+        let puzzle = try #require(JigsawSudoku(rawValue: raw))
+        let myPuzzle = JigsawSudoku.doubleMirror
+        #expect (puzzle.map { $0.content } == myPuzzle.map { $0.content })   // group, content
+        let shapes = Shapes(puzzle.map(\.group!))
+        let myShapes = Shapes(myPuzzle.map(\.group!))
+        for (shape1, shape2) in zip(shapes, myShapes) {
+            #expect(shape1.shape == shape2.shape)
+            #expect(shape1.color == shape2.color)
+        }
+        print(myPuzzle.rawValue)
+    }
 }
 

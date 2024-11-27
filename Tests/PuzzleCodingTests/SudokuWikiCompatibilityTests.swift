@@ -26,12 +26,19 @@ struct SudokuWikiCompatibilityTests {
         #expect(decoded == KenKen.veryEasy1)
     }
 
-    @Test(.disabled("Not implemented at SudokuWiki yet"))
+    @Test
     func killerJigsaw() throws {
-        let raw = ""
+        // this has the last cell solution set to 1
+        let raw = "M9B00h01000ep0b8y90cw7l0cnip0behd0b8y90o1ld0mqz501sep031g10e2350z4lt0xzip10zrl0e2350nw290mhht01ez501ez50fvo111xqp0xq1d10j690bhn50mhht0o74h007ip000ep1oett11xqp0xq1d0xq1d29ogh0pamp0nw291ammp01ez51nehd1n09d1y8sx28ff5282s10mntd2hwr51ad5d19c0h1k74h1vfo1204r51wu8h270up2jqc12jbbl1ad5d18ykx1m0pd1llox1zndd2avwx26o7l2jbbl2jbbl1cikx1brpt1n09d1wu8h1vnkh1x5ap26o7l2l5ox2kpw11brpt1brpt1n09d1llox1vfo1282s1282s12kpw12kphm"
         let decoded = try #require(KillerJigsaw(rawValue: raw))
-//        print(Grid(decoded))
-        let encoded = decoded.rawValue
+
+        var puzzle = KillerJigsaw.timTang
+        var cells = Array(puzzle)
+        cells[cells.count - 1].content = .solution(1)
+        puzzle = try #require(try KillerJigsaw(cells: cells))
+
+        #expect(decoded == puzzle)
+        let encoded = puzzle.rawValue
         #expect(raw == encoded)
     }
 

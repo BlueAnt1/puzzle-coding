@@ -69,4 +69,47 @@ extension JigsawSudoku {
         return output
     }
 
+    static var doubleMirror: JigsawSudoku {
+//        let shapes = """
+//                    111123333
+//                    111222333
+//                    142222253
+//                    144666553
+//                    444666555
+//                    744666558
+//                    749999958
+//                    777999888
+//                    777798888
+//                    """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
+        let shapes = """
+                    111123333
+                    111222333
+                    132222213
+                    133444113
+                    333444111
+                    133444112
+                    135555512
+                    111555222
+                    111152222
+                    """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
+        let content:[Cell.Content?] = """
+                    000000000
+                    060000070
+                    009105200
+                    070000004
+                    308000506
+                    500030020
+                    003704600
+                    020000030
+                    000002000
+                    """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
+            .map { $0 == 0 ? .candidates(Set(1...9)) : .clue($0) }
+
+        let cells = shapes.indices.map {
+            Cell(group: shapes[$0],
+                 content: content[$0])
+        }
+
+        return try! JigsawSudoku(cells: cells)
+    }
 }
