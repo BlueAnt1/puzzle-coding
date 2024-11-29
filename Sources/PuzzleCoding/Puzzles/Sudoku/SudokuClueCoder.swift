@@ -17,6 +17,7 @@ extension Sudoku {
                     cells.append(".")
                 case .solution(let value), .clue(let value):
                     cells.append(String(value))
+                case .blackEmpty, .blackClue: fatalError()
                 }
             }
         }

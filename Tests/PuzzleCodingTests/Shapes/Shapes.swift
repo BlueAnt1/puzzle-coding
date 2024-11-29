@@ -37,20 +37,19 @@ private struct Graph: RandomAccessCollection {
 
         func node(containing index: Int) -> Node {
             visitedElements.insert(index)
-            let up = index - size.rawValue >= 0 ? index - size.rawValue : nil
-            let down = index + size.rawValue < elements.endIndex ? index + size.rawValue : nil
             let left = index % size.rawValue > 0 ? index - 1 : nil
             let right = index % size.rawValue < size.rawValue - 1 ? index + 1 : nil
-            let mates = [up, left, right, down].compactMap(\.self)
+            let down = index + size.rawValue < elements.endIndex ? index + size.rawValue : nil
+            let mates = [left, right, down].compactMap(\.self)
             let shapeMates = mates.filter { elements[$0] == elements[index] }
 
             var shape = Set([index] + shapeMates)
             var neighbors = Set(mates.filter { !shapeMates.contains($0) })
 
             for mate in shapeMates where !visitedElements.contains(mate) {
-                let (s, n) = node(containing: mate)
-                shape.formUnion(s)
-                neighbors.formUnion(n)
+                let node = node(containing: mate)
+                shape.formUnion(node.shape)
+                neighbors.formUnion(node.neighbors)
             }
 
             return (shape, neighbors)
@@ -82,8 +81,8 @@ private struct Graph: RandomAccessCollection {
 
 private struct Colorizer: RandomAccessCollection {
     typealias Shape = Shapes.Shape
-    typealias ShapeColor = (shape: Shape, color: Int)
-    private let elements: [ShapeColor]
+    typealias ColoredShape = (shape: Shape, color: Int)
+    private let elements: [ColoredShape]
 
     init(_ graph: Graph) {
         let colorRange = Set(0...3)
@@ -92,9 +91,7 @@ private struct Colorizer: RandomAccessCollection {
         @discardableResult
         func colorize(_ node: Int) -> Bool {
             guard node < graph.endIndex else { return true }
-            let neighborColors = graph[node].neighbors.compactMap { neighbor in
-                colors.indices.contains(neighbor) ? colors[neighbor] : nil
-            }
+            let neighborColors = graph[node].neighbors.filter(colors.indices.contains).map { colors[$0] }
             let colorOptions = colorRange.subtracting(neighborColors)
             for option in colorOptions.sorted() {
                 colors.append(option)
@@ -111,7 +108,7 @@ private struct Colorizer: RandomAccessCollection {
     var startIndex: Int { elements.startIndex }
     var endIndex: Int { elements.endIndex }
 
-    subscript(_ position: Int) -> ShapeColor {
+    subscript(_ position: Int) -> ColoredShape {
         elements[position]
     }
 }

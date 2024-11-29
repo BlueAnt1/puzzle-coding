@@ -8,6 +8,9 @@
 enum PuzzleType: Character, CaseIterable {
     case jigsawSudoku = "J"
     case str8ts = "T"
+    case str8tsB = "B"  // FIXME: real value
+    case str8tsBX = "C"  // FIXME: real value
+    case str8tsX = "E"  // FIXME: real value
     case kenken = "K"
     case kendoku = "D"
     case killerSudoku = "L"
@@ -22,6 +25,9 @@ extension PuzzleType: CustomStringConvertible {
         switch self {
         case .jigsawSudoku: String(localized: "Jigsaw Sudoku")
         case .str8ts: String(localized: "Str8ts")
+        case .str8tsB: String(localized: "Str8tsB")
+        case .str8tsBX: String(localized: "Str8tsBX")
+        case .str8tsX: String(localized: "Str8tsX")
         case .kenken: String(localized: "Kenken")
         case .kendoku: String(localized: "Kendoku")
         case .killerSudoku: String(localized: "Killer Sudoku")

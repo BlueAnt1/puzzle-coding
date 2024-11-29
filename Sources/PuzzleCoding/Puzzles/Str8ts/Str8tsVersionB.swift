@@ -14,16 +14,10 @@ extension Str8ts {
 
         static func encode(_ puzzle: Str8ts) -> String {
             let size = puzzle.size
-            let ranges = Str8ts.ranges(for: size)
-            let shiftTransform = ShiftTransform(ranges: ranges.color, ranges.cellContent)
 
-            let cellTransform = CellContentTransform(size: size)
-            let values = Zipper(
-                puzzle.map(\.group!),
-                puzzle.map(\.content).map(cellTransform.encode)
-            ).map(shiftTransform.encode)
-
-            let fieldCoding = FieldCoding(range: shiftTransform.range)
+            let cellTransform = Str8tsCellContentTransform(size: size)
+            let values = puzzle.map(\.content).map(cellTransform.encode)
+            let fieldCoding = FieldCoding(range: cellTransform.range)
 
             return """
                 \(Header(puzzleType: Self.puzzleType, size: size, version: Self.version).rawValue)\
@@ -31,32 +25,22 @@ extension Str8ts {
                 """
         }
 
-        static func decode(_ input: String) -> Str8ts? {
+        static func decode(_ input: String, type: PuzzleType) -> Str8ts? {
             guard let header = try? HeaderPattern(sizes: Size.sudokuCases).regex.prefixMatch(in: input),
                   header.output.puzzleType == Self.puzzleType,
                   header.output.version == Self.version
             else { return nil }
             let size = header.output.size
 
-            let ranges = Str8ts.ranges(for: size)
-            let shiftTransform = ShiftTransform(ranges: ranges.color, ranges.cellContent)
-            let pattern = ShiftPattern(size: size, transform: shiftTransform)
+            let cellTransform = Str8tsCellContentTransform(size: size)
+            let fieldCoding = FieldCoding(range: cellTransform.range)
+            let pattern = ArrayPattern(repeating: fieldCoding.pattern, count: size.gridCellCount)
 
-            guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...])
+            guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...]),
+                  let content = try? match.output.elements.map(cellTransform.decode),
+                  let puzzle = try? Str8ts(cells: content.map { Cell(content: $0) }, version: .versionB, type: type)
             else { return nil }
-            let values = match.output.values
-
-            do {
-                let cellTransform = CellContentTransform(size: size)
-                let cells = try values.map {
-                    try Cell(group: $0[0],
-                             content: cellTransform.decode($0[1]))
-                }
-
-                return try Str8ts(cells: cells)
-            } catch {
-                return nil
-            }
+            return puzzle
         }
     }
 }

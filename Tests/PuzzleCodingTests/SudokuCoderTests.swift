@@ -38,6 +38,7 @@ struct SudokuCoderTests {
             case nil, .clue: cell
             case .solution(let value): Cell(content: .clue(value))
             case .candidates: Cell()
+            case .blackEmpty, .blackClue: fatalError()
             }
         }
         #expect(Array(puzzleFromRaw) == cleanCells)

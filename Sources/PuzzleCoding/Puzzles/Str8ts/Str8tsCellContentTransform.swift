@@ -5,14 +5,18 @@
 //  Created by Quintin May on 10/25/24.
 //
 
-struct CellContentTransform {
+struct Str8tsCellContentTransform {
     let size: Size
-
-    private var solutionOffset: Int { size.valueRange.upperBound }
-    private var candidatesOffset: Int { 2 * size.valueRange.upperBound }
 
     private var empty: Int { 0 }
     private var clueRange: ClosedRange<Int> { size.valueRange }
+
+    private var blackEmpty: Int { clueRange.upperBound + 1 }
+    private var blackClueOffset: Int { blackEmpty }
+    private var solutionOffset: Int { blackClueOffset + size.valueRange.upperBound }
+    private var candidatesOffset: Int { blackClueOffset + 2 * size.valueRange.upperBound }
+
+    private var blackClueRange: ClosedRange<Int> { blackClueOffset + 1 ... blackClueOffset + clueRange.upperBound }
     private var solutionRange: ClosedRange<Int> { solutionOffset + 1 ... candidatesOffset }
     private var candidatesRange: ClosedRange<Int> { candidatesOffset + 1 ... candidatesOffset + clueRange.bitValue }
     var range: ClosedRange<Int> { empty ... candidatesRange.upperBound }
@@ -21,7 +25,8 @@ struct CellContentTransform {
         switch content {
         case nil: empty
         case .clue(let clue): clue
-        case .blackEmpty, .blackClue: fatalError()
+        case .blackEmpty: blackEmpty
+        case .blackClue(let clue): clue + blackClueOffset
         case .solution(let solution): solution + solutionOffset
         case .candidates(let candidates): candidates.bitValue + candidatesOffset
         }
@@ -31,6 +36,8 @@ struct CellContentTransform {
         switch value {
         case empty: nil
         case clueRange: .clue(value)
+        case blackEmpty: .blackEmpty
+        case blackClueRange: .blackClue(value - blackClueOffset)
         case solutionRange: .solution(value - solutionOffset)
         case candidatesRange: .candidates((value - candidatesOffset).oneBits)
         default: throw Error.outOfRange

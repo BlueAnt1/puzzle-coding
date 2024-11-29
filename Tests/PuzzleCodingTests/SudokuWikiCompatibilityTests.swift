@@ -114,4 +114,12 @@ struct SudokuWikiCompatibilityTests {
         let encoded = decoded.rawValue
         #expect(raw == encoded)
     }
+
+    @Test
+    func str8ts() throws {
+        let raw = "T9B0fey030i0ieyey0i0i0401ey030iey08ey06eyey0ieyey0ieyeyeyeyeyey0beyeyey070i0i0ieyey06eyey0i0i0ieyeyeyey0ieyeyeyeyey080i04ey0i06eyeyey09ey0a02eyeyey0i0i05060i0d02ey0i"
+        let decoded = try #require(Str8ts(rawValue: raw))
+        let encoded = decoded.rawValue
+        #expect(raw == encoded)
+    }
 }

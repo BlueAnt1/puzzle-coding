@@ -38,4 +38,13 @@ struct Str8tsCoderTests {
             puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
             """)
     }
+
+//    @Test
+//    func sizes() {
+//        for size in Size.allCases {
+//            let transform = Str8tsCellContentTransform(size: size)
+//            let _ = transform.encode(nil)
+//        }
+//    }
 }
+

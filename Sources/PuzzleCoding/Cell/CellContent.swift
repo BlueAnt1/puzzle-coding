@@ -10,6 +10,10 @@ extension Cell {
     public enum Content: Equatable, Sendable {
         /// A puzzle clue.
         case clue(Int)
+        /// A empty black cell.
+        case blackEmpty
+        /// A black puzzle clue (Str8ts).
+        case blackClue(Int)
         /// A solved value.
         case solution(Int)
         /// A set of candidates.
@@ -17,10 +21,11 @@ extension Cell {
 
         func isValid(in range: ClosedRange<Int>) -> Bool {
             switch self {
-            case .solution(let value), .clue(let value):
+            case .solution(let value), .clue(let value), .blackClue(let value):
                 range.contains(value)
             case .candidates(let candidates):
                 candidates.isSubset(of: range)
+            case .blackEmpty: true
             }
         }
     }

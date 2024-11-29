@@ -48,6 +48,8 @@ struct Grid: CustomStringConvertible {
                 .map { index, cell in
                     switch cell.content {
                     case .clue(let clue): "=\(clue)"
+                    case .blackEmpty: "⩦"
+                    case .blackClue(let clue): "≠\(clue)"
                     case .solution(let solution): "\(solution)"
                     case .candidates(let candidates): "[\(candidates.sorted().map(String.init).joined())]"
                     case nil: "."

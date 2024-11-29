@@ -33,6 +33,9 @@ A sample header: `S9B`
         Killer Jigsaw |   M
         Killer Sudoku |   L
         Str8ts        |   T
+        Str8tsB       |   
+        Str8tsBX      |   
+        Str8tsX       |   
         Sudoku        |   S
         SudokuX       |   X
         Windoku       |   W       
@@ -62,7 +65,9 @@ Every puzzle type has its own data requirements.
 ![Puzzle requirements table](PuzzleRequirements)
 *<sup>†</sup> [maxClue](<doc:CageContentTransform#Maximum-Clue>)*
 
-To read the table, find the row with the puzzle type in which you're interested. Then read across.
+![Str8ts requirements table](Str8tsRequirements)
+
+To read the tables, find the row with the puzzle type in which you're interested. Then read across.
 
 Green cells indicate the data that is required for the puzzle type and the range of permitted values. Many of the ranges are described as *1…size*. This means that the range is based on the size of the puzzle. For a 9×9 Sudoku the range is 1…9. For a 6×6 KenKen the range is 1…6.
 
@@ -74,7 +79,7 @@ There are three general types of data to encode.
 - term Cage Content: Cages contain clues about a group of cells such as the sum of their content.
 - term Cell Content: Cell content is what we typically consider the data *in* a cell. It is the clue, solution or candidates (the *progress*) of the puzzle.
 
-> Important: The `∅` column under Cage Content and Cell Content indicates that *empty* is a valid value. Emptiness is denoted by the value `0`.
+> Important: The `∅` columns under Cage Content and Cell Content indicate that *empty* is a valid value. Emptiness is denoted by the value `0`.
 
 ## Base encoding
 
@@ -195,16 +200,14 @@ Choose your puzzle type and encode each cell using the transforms.
         #### Version B
         @Row {
             @Column {
-                - <doc:ShiftTransform>
-                    1. box number ([shape](<doc:Shapes>))
-                    2. <doc:CellContentTransform>
+                1. <doc:Str8tsCellContentTransform>
             }
             @Column {
                 @TabNavigator {
                     @Tab("9×9") {
-                        `122 2222 2222`
+                        `11 1111 1111`
                         
-                        11 bits in a 3 character field
+                        10 bits in a 2 character field
                     }
                 }
             }

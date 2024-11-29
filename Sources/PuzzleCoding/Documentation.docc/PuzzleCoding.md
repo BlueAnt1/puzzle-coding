@@ -85,6 +85,9 @@ if let puzzle = try? Sudoku(cells: cells) {
 - ``KillerJigsaw``
 - ``KillerSudoku``
 - ``Str8ts``
+- ``Str8tsB``
+- ``Str8tsBX``
+- ``Str8tsX``
 - ``Sudoku``
 - ``SudokuX``
 - ``Windoku``
@@ -94,6 +97,7 @@ if let puzzle = try? Sudoku(cells: cells) {
 - <doc:EncodingFormats>
 - <doc:PackCandidates>
 - <doc:CellContentTransform>
+- <doc:Str8tsCellContentTransform>
 - <doc:CageContentTransform>
 - <doc:ShiftTransform>
 - <doc:FieldCoding>

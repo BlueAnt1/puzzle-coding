@@ -28,6 +28,7 @@ extension Sudoku {
                 case .candidates(let candidates):
                     let encoded = candidates.bitValue << 1
                     encode(encoded)
+                case .blackEmpty, .blackClue: fatalError()
                 }
             }
             return result
