@@ -196,7 +196,7 @@ Choose your puzzle type and encode each cell using the transforms.
             }
         }
     }
-    @Tab("Str8ts") {
+    @Tab("Str8ts+") {
         #### Version B
         @Row {
             @Column {
@@ -212,6 +212,8 @@ Choose your puzzle type and encode each cell using the transforms.
                 }
             }
         }
+        
+        Str8tsB, Str8tsBX and Str8tsX use the same encoding.
     }
     @Tab("Sudoku+") {
         #### Version B
