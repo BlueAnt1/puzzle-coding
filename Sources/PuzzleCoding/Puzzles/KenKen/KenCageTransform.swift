@@ -35,8 +35,7 @@ struct KenCageTransform {
         }
 
         next = index + size.rawValue
-        guard next < cells.endIndex, cells[index].cage == cells[next].cage else { return nil }
-        return next
+        return next < cells.endIndex && cells[index].cage == cells[next].cage ? next : nil
     }
 
     func decode(shapes: [Int], contents: [Int]) throws -> [CageInfo] {

@@ -81,27 +81,17 @@ There are three general types of data to encode.
 
 > Important: The `∅` columns under Cage Content and Cell Content indicate that *empty* is a valid value. Emptiness is denoted by the value `0`.
 
-## Base encoding
+## Encoding framework
 
-All current puzzle encoding versions build on this base encoding.
+The framework uses *transforms* to convert all information about a cell into a single value. A transform takes some input and converts it to an integer.
 
-This encoding transforms all of the information about each cell of a puzzle into an integer and appends
-that value to the encoding being constructed. 
+Certain types of data go through multiple transformations as shown in the table. For example *Cell Content Candidates* are first packed and then transformed with the cell content transform. If the puzzle is a Jigsaw Sudoku the *Shapes Group* values are shifted along with the transformed candidates to produce a new value.
 
-The base encoding uses 4 transformations to produce encoded output.
-
-- term Pack: [Transform a set of candidates](<doc:PackCandidates>) into a single value.
-- term Cell Content: [Transform cell content](<doc:CellContentTransform>) into a single value.
-- term Cage Content: [Transform cage content](<doc:CageContentTransform>) into a single value.
-- term Shift: [Transform a group of values](<doc:ShiftTransform>) into a single value. This is the final transformation that combines all values into a single integer representation for the data describing a cell.
-
-Some types of data go through multiple transformations as shown in the table. For example *Cell Content Candidates* are first packed and then transformed with the cell content transform. If we're encoding a Jigsaw Sudoku the *Shapes Group* values are shifted along with the transformed candidates to produce a new value.
-
-Once all of the data for a cell has been transformed into a single value use <doc:FieldCoding> to output the value.
+Once all of the data for a cell has been transformed into a single value it is output using <doc:FieldCoding>.
 
 ## Puzzles
 
-Choose your puzzle type and encode each cell using the transforms.
+Choose the puzzle type and encode each cell using the transforms.
 
 @TabNavigator {
     @Tab("Jigsaw Sudoku") {
