@@ -13,7 +13,7 @@ Share puzzles with others by converting them to text & back.
 The encodings are:
 - web friendly so they can appear in a URL.
 - relatively easy to decode without this library.
-- compatible with [SudokuWiki](https://sudokuwiki.org).
+- compatible with [SudokuWiki.org](https://sudokuwiki.org) & [Str8ts.com](https://str8ts.com).
 
 You can learn about the <doc:EncodingFormats> or keep reading for an overview of the library.
 
