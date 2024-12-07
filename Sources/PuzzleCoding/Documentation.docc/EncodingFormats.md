@@ -33,9 +33,9 @@ A sample header: `S9B`
         Killer Jigsaw |   M
         Killer Sudoku |   L
         Str8ts        |   T
-        Str8tsB       |   
-        Str8tsBX      |   
-        Str8tsX       |   
+        Str8tsB       |   B
+        Str8tsBX      |   U
+        Str8tsX       |   V
         Sudoku        |   S
         SudokuX       |   X
         Windoku       |   W       

@@ -8,9 +8,9 @@
 enum PuzzleType: Character, CaseIterable {
     case jigsawSudoku = "J"
     case str8ts = "T"
-    case str8tsB = "B"  // FIXME: real value
-    case str8tsBX = "C"  // FIXME: real value
-    case str8tsX = "E"  // FIXME: real value
+    case str8tsB = "B"
+    case str8tsBX = "V"
+    case str8tsX = "U"
     case kenken = "K"
     case kendoku = "D"
     case killerSudoku = "L"
