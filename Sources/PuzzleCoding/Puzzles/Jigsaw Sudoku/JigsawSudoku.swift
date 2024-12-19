@@ -13,7 +13,7 @@ public struct JigsawSudoku: Equatable {
     public init(cells: some Collection<Cell>, version: Version = .current) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
-        guard cells.allSatisfy({ $0.group != nil }),
+        guard cells.allSatisfy({ $0.region != nil }),
               cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true })
         else { throw Error.outOfRange }
 

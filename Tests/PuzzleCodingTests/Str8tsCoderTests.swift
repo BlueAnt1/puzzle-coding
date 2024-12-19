@@ -20,7 +20,7 @@ struct Str8tsCoderTests {
             : .clue(number)
         }
         let cells = colors.indices.map {
-            Cell(group: colors[$0],
+            Cell(region: colors[$0],
                  content: content[$0])
         }
 

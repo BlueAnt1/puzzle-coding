@@ -45,7 +45,7 @@ extension KillerJigsaw {
         ].map { $0 == 0 ? nil : CageInfo.Clue.add($0) }
 
         let cells = shapes.indices.map {
-            Cell(group: shapes[$0],
+            Cell(region: shapes[$0],
                  cage: CageInfo(cage: cageShapes[$0], clue: clues[$0]),
                  content: Cell.Content.candidates(Set(1...9)))
         }

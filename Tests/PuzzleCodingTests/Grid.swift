@@ -19,7 +19,7 @@ struct Grid: CustomStringConvertible {
 
     var group: String {
         func describe(_ cells: some Collection<Cell>) -> [String] {
-            cells.map { if let group = $0.group { "\(group)" } else { " " }}
+            cells.map { if let region = $0.region { "\(region)" } else { " " }}
         }
         return format(describe(cells))
     }

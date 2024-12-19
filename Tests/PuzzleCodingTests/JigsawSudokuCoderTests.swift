@@ -25,7 +25,7 @@ struct JigsawSudokuCoderTests {
                     }
                 }
             }
-        let cells = shapes.indices.map { Cell(group: shapes[$0], content: content[$0]) }
+        let cells = shapes.indices.map { Cell(region: shapes[$0], content: content[$0]) }
         let puzzle = try JigsawSudoku(cells: cells, version: version)
         let rawPuzzle = puzzle.rawValue
 
@@ -47,8 +47,8 @@ struct JigsawSudokuCoderTests {
         let puzzle = try #require(JigsawSudoku(rawValue: raw))
         let myPuzzle = JigsawSudoku.doubleMirror
         #expect (puzzle.map { $0.content } == myPuzzle.map { $0.content })   // group, content
-        let shapes = Shapes(puzzle.map(\.group!))
-        let myShapes = Shapes(myPuzzle.map(\.group!))
+        let shapes = Shapes(puzzle.map(\.region!))
+        let myShapes = Shapes(myPuzzle.map(\.region!))
         for (shape1, shape2) in zip(shapes, myShapes) {
             #expect(shape1.shape == shape2.shape)
             #expect(shape1.color == shape2.color)

@@ -17,7 +17,7 @@ public struct KillerJigsaw: Equatable {
         let ranges = KillerJigsaw.ranges(for: size)
 
         for cell in cells {
-            guard let group = cell.group,
+            guard let group = cell.region,
                   let cage = cell.cage
             else { throw Error.missingData }
 
