@@ -15,7 +15,7 @@ extension Sudoku {
                 switch cell.content {
                 case nil, .candidates:
                     cells.append(".")
-                case .solution(let value), .clue(let value):
+                case .guess(let value), .clue(let value):
                     cells.append(String(value))
                 case .blackEmpty, .blackClue: fatalError()
                 }

@@ -15,13 +15,13 @@ extension Cell {
         /// A black puzzle clue (Str8ts).
         case blackClue(Int)
         /// A solved value.
-        case solution(Int)
+        case guess(Int)
         /// A set of candidates.
         case candidates(Set<Int>)
 
         func isValid(in range: ClosedRange<Int>) -> Bool {
             switch self {
-            case .solution(let value), .clue(let value), .blackClue(let value):
+            case .guess(let value), .clue(let value), .blackClue(let value):
                 range.contains(value)
             case .candidates(let candidates):
                 candidates.isSubset(of: range)

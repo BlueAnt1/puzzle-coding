@@ -32,7 +32,7 @@ extension KillerSudoku {
         // SudokuWiki sends a single cage clue as a solved cell
         let content = "000000200000000000080000000000000000000000000060000000000000000000000000000000000"
             .map(\.wholeNumberValue!)
-            .map { $0 == 0 ? Cell.Content.candidates(Set(1...9)) : Cell.Content.solution($0) }
+            .map { $0 == 0 ? Cell.Content.candidates(Set(1...9)) : Cell.Content.guess($0) }
 
         let cells = cageShapes.indices.map { index in
             Cell(cage: CageInfo(cage: cageShapes[index], clue: clues[index]), content: content[index])

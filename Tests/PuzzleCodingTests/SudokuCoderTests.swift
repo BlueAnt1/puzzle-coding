@@ -12,7 +12,7 @@ struct SudokuCoderTests {
             let number = $0.wholeNumberValue!
             return if number == 0 {
                 switch (0...2).randomElement()! {
-                case 0: .solution((1...9).randomElement()!)
+                case 0: .guess((1...9).randomElement()!)
                 case 1: .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
                 default: nil
                 }
@@ -36,7 +36,7 @@ struct SudokuCoderTests {
         let cleanCells: [Cell] = cells.map { cell in
             switch cell.content {
             case nil, .clue: cell
-            case .solution(let value): Cell(content: .clue(value))
+            case .guess(let value): Cell(content: .clue(value))
             case .candidates: Cell()
             case .blackEmpty, .blackClue: fatalError()
             }
@@ -118,14 +118,14 @@ struct SudokuCoderTests {
         let rawEncoded = "0m4e4cog1121k084g41k544403o0ggs409208121g1400409020g10g4o4a4110hg6082240h4hc28g4g2400h2281410g03200980g411g409k04ggg201184840321868k8k410m10g109g6o61108o2g621410g"
         let content: [Cell.Content?] = [
             .candidates(Set([1, 2, 4])), .candidates(Set([1, 2, 3, 7])), .candidates(Set([2, 3, 7])), .candidates(Set([4, 8, 9])), .clue(5), .clue(6), .candidates(Set([7, 9])), .candidates(Set([2, 8])), .candidates(Set([2, 9])),
-            .candidates(Set([2, 4, 5])), .candidates(Set([2, 5, 7])), .candidates(Set([2, 7])), .clue(1), .candidates(Set([8, 9])), .candidates(Set([4, 9])), .candidates(Set([2, 7, 8, 9])), .clue(3), .solution(6),
-            .clue(8), .clue(6), .clue(9), .solution(7), .solution(2), .clue(3), .solution(1), .solution(4), .solution(5),
-            .candidates(Set([2, 9])), .candidates(Set([2, 8, 9])), .candidates(Set([2, 6, 8])), .clue(5), .clue(4), .candidates(Set([1, 2, 9])), .solution(3), .candidates(Set([1, 6])), .solution(7),
-            .candidates(Set([2, 5, 9])), .candidates(Set([2, 3, 5, 9])), .candidates(Set([3, 6])), .candidates(Set([2, 9])), .candidates(Set([1, 9])), .solution(7), .clue(4), .candidates(Set([1, 6])), .clue(8),
-            .clue(7), .solution(4), .clue(1), .solution(6), .clue(3), .solution(8), .candidates(Set([2, 9])), .clue(5), .candidates(Set([2, 9])),
-            .clue(3), .candidates(Set([7, 9])), .candidates(Set([4, 7])), .candidates(Set([4, 9])), .solution(6), .clue(5), .candidates(Set([2, 8])), .candidates(Set([2, 8])), .clue(1),
-            .clue(6), .candidates(Set([1, 2, 8])), .candidates(Set([2, 4, 8])), .candidates(Set([2, 4, 8])), .clue(7), .candidates(Set([1, 2, 4])), .solution(5), .clue(9), .clue(3),
-            .candidates(Set([1, 2, 9])), .candidates(Set([1, 2, 8, 9])), .clue(5), .solution(3), .candidates(Set([1, 8, 9])), .candidates(Set([1, 2, 9])), .clue(6), .clue(7), .solution(4)
+            .candidates(Set([2, 4, 5])), .candidates(Set([2, 5, 7])), .candidates(Set([2, 7])), .clue(1), .candidates(Set([8, 9])), .candidates(Set([4, 9])), .candidates(Set([2, 7, 8, 9])), .clue(3), .guess(6),
+            .clue(8), .clue(6), .clue(9), .guess(7), .guess(2), .clue(3), .guess(1), .guess(4), .guess(5),
+            .candidates(Set([2, 9])), .candidates(Set([2, 8, 9])), .candidates(Set([2, 6, 8])), .clue(5), .clue(4), .candidates(Set([1, 2, 9])), .guess(3), .candidates(Set([1, 6])), .guess(7),
+            .candidates(Set([2, 5, 9])), .candidates(Set([2, 3, 5, 9])), .candidates(Set([3, 6])), .candidates(Set([2, 9])), .candidates(Set([1, 9])), .guess(7), .clue(4), .candidates(Set([1, 6])), .clue(8),
+            .clue(7), .guess(4), .clue(1), .guess(6), .clue(3), .guess(8), .candidates(Set([2, 9])), .clue(5), .candidates(Set([2, 9])),
+            .clue(3), .candidates(Set([7, 9])), .candidates(Set([4, 7])), .candidates(Set([4, 9])), .guess(6), .clue(5), .candidates(Set([2, 8])), .candidates(Set([2, 8])), .clue(1),
+            .clue(6), .candidates(Set([1, 2, 8])), .candidates(Set([2, 4, 8])), .candidates(Set([2, 4, 8])), .clue(7), .candidates(Set([1, 2, 4])), .guess(5), .clue(9), .clue(3),
+            .candidates(Set([1, 2, 9])), .candidates(Set([1, 2, 8, 9])), .clue(5), .guess(3), .candidates(Set([1, 8, 9])), .candidates(Set([1, 2, 9])), .clue(6), .clue(7), .guess(4)
         ]
 
         let expectedCells = content.map { Cell(content: $0) }

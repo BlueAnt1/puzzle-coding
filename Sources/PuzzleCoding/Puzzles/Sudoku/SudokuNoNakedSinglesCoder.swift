@@ -21,8 +21,8 @@ extension Sudoku {
                     let bits = 1 << (clue - 1)
                     let encoded = bits << 1 | 1
                     encode(encoded)
-                case .solution(let solution):
-                    let bits = 1 << (solution - 1)
+                case .guess(let guess):
+                    let bits = 1 << (guess - 1)
                     let encoded = bits << 1
                     encode(encoded)
                 case .candidates(let candidates):
@@ -76,7 +76,7 @@ private struct NoNakedSinglesPattern: CustomConsumingRegexComponent {
             if value.nonzeroBitCount == 1 {
                 // clue & solution
                 let value = value.trailingZeroBitCount + 1
-                content[cell] = isClue ? .clue(value) : .solution(value)
+                content[cell] = isClue ? .clue(value) : .guess(value)
             } else {
                 // candidates
                 content[cell] = .candidates(value.oneBits)

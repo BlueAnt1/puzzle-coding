@@ -50,7 +50,7 @@ struct Grid: CustomStringConvertible {
                     case .clue(let clue): "=\(clue)"
                     case .blackEmpty: "⩦"
                     case .blackClue(let clue): "≠\(clue)"
-                    case .solution(let solution): "\(solution)"
+                    case .guess(let guess): "\(guess)"
                     case .candidates(let candidates): "[\(candidates.sorted().map(String.init).joined())]"
                     case nil: "."
                     }

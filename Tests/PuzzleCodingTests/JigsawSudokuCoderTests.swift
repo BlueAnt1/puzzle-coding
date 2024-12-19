@@ -19,7 +19,7 @@ struct JigsawSudokuCoderTests {
                 case let value?: .clue(value)
                 case nil:
                     switch (0...2).randomElement()! {
-                    case 0: .solution((1...9).randomElement()!)
+                    case 0: .guess((1...9).randomElement()!)
                     case 1: .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
                     default: nil
                     }

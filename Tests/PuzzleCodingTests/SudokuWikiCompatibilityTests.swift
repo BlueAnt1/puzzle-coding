@@ -34,7 +34,7 @@ struct SudokuWikiCompatibilityTests {
 
         var puzzle = KillerJigsaw.timTang
         var cells = Array(puzzle)
-        cells[cells.count - 1].content = .solution(1)
+        cells[cells.count - 1].content = .guess(1)
         puzzle = try #require(try KillerJigsaw(cells: cells))
 
         #expect(decoded == puzzle)

@@ -16,7 +16,7 @@ struct Str8tsCoderTests {
         let content: [Cell.Content?] = "006700400000004005090001000015042009000028060000300000001050003670000000000007050".map {
             let number = $0.wholeNumberValue ?? 0
             return number == 0
-            ? Bool.random() ? .solution((1...9).randomElement()!) : .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
+            ? Bool.random() ? .guess((1...9).randomElement()!) : .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
             : .clue(number)
         }
         let cells = colors.indices.map {

@@ -14,6 +14,11 @@ public struct CageInfo: Equatable, Sendable {
     /// The cage content such as a clue or operator.
     public var clue: Clue?
 
+    public init(cage: Int, clue: Clue? = nil) {
+        self.cage = cage
+        self.clue = clue
+    }
+    
     public enum Clue: Equatable, Sendable {
         case add(Int)
         case subtract(Int)

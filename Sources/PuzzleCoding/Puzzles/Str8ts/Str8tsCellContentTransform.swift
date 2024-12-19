@@ -13,11 +13,11 @@ struct Str8tsCellContentTransform {
 
     private var blackEmpty: Int { clueRange.upperBound + 1 }
     private var blackClueOffset: Int { blackEmpty }
-    private var solutionOffset: Int { blackClueOffset + size.valueRange.upperBound }
+    private var guessOffset: Int { blackClueOffset + size.valueRange.upperBound }
     private var candidatesOffset: Int { blackClueOffset + 2 * size.valueRange.upperBound }
 
     private var blackClueRange: ClosedRange<Int> { blackClueOffset + 1 ... blackClueOffset + clueRange.upperBound }
-    private var solutionRange: ClosedRange<Int> { solutionOffset + 1 ... candidatesOffset }
+    private var guessRange: ClosedRange<Int> { guessOffset + 1 ... candidatesOffset }
     private var candidatesRange: ClosedRange<Int> { candidatesOffset + 1 ... candidatesOffset + clueRange.bitValue }
     var range: ClosedRange<Int> { empty ... candidatesRange.upperBound }
 
@@ -27,7 +27,7 @@ struct Str8tsCellContentTransform {
         case .clue(let clue): clue
         case .blackEmpty: blackEmpty
         case .blackClue(let clue): clue + blackClueOffset
-        case .solution(let solution): solution + solutionOffset
+        case .guess(let guess): guess + guessOffset
         case .candidates(let candidates): candidates.bitValue + candidatesOffset
         }
     }
@@ -38,7 +38,7 @@ struct Str8tsCellContentTransform {
         case clueRange: .clue(value)
         case blackEmpty: .blackEmpty
         case blackClueRange: .blackClue(value - blackClueOffset)
-        case solutionRange: .solution(value - solutionOffset)
+        case guessRange: .guess(value - guessOffset)
         case candidatesRange: .candidates((value - candidatesOffset).oneBits)
         default: throw Error.outOfRange
         }
