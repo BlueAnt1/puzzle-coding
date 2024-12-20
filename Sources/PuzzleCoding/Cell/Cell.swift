@@ -7,7 +7,7 @@
 
 /// A puzzle cell.
 ///
-/// Cell includes everything there is to know about a puzzle cell including its content and region & cage membership.
+/// Cell includes everything there is to know about a puzzle cell including its region & cage membership and player progress.
 public struct Cell: Equatable, Sendable {
     /// The region of which the cell is a member.
     public var region: Int?

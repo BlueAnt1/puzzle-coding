@@ -74,9 +74,9 @@ if let puzzle = try? Sudoku(cells: cells) {
 ### Essentials
 
 - ``Cell``
-- ``Puzzle``
 - ``Clue``
 - ``Progress``
+- ``Puzzle``
 
 ### Puzzles
 
