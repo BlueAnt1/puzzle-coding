@@ -56,7 +56,7 @@ extension KenKen {
 
                 let cellTransform = CellContentTransform(size: size)
                 let cells = try zip(cages, values).map { cage, values in
-                    try Cell(clue: cage, content: cellTransform.decode(values[2]).content)
+                    try Cell(clue: cage, progress: cellTransform.decode(values[2]).progress)
                 }
 
                 return try KenKen(cells: cells, version: .versionC, type: type)

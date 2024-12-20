@@ -37,7 +37,7 @@ extension JigsawSudoku {
         let cells = shapes.indices.map {
             Cell(region: shapes[$0],
                  clue: rawCells[$0].clue,
-                 content: rawCells[$0].content)
+                 progress: rawCells[$0].progress)
         }
 
         return try! JigsawSudoku(cells: cells)
@@ -59,7 +59,7 @@ extension JigsawSudoku {
                 candidates.insert(character.wholeNumberValue!)
             case "]" where isCandidates:
                 isCandidates = false
-                output.append(Cell(content: .candidates(candidates)))
+                output.append(Cell(progress: .candidates(candidates)))
                 candidates = []
             case "1"..."9":
                 output.append(Cell(clue: .solution(character.wholeNumberValue!)))
@@ -105,13 +105,13 @@ extension JigsawSudoku {
                     000002000
                     """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
             .map { $0 == 0 ? nil : .solution($0) }
-        let content: [Cell.Content?] = clues
+        let progress: [Progress?] = clues
             .map { $0 == nil ? .candidates(Set(1...9)) : nil }
 
         let cells = shapes.indices.map {
             Cell(region: shapes[$0],
                  clue: clues[$0],
-                 content: content[$0])
+                 progress: progress[$0])
         }
 
         return try! JigsawSudoku(cells: cells)

@@ -26,11 +26,11 @@ struct Str8tsCellContentTransform {
             solution
         } else if case .blackEmpty = cell.clue {
             blackEmpty
-        } else if case .blackClue(let clue) = cell.clue {
+        } else if case .black(let clue) = cell.clue {
             clue + blackClueOffset
-        } else if case .guess(let guess) = cell.content {
+        } else if case .guess(let guess) = cell.progress {
             guess + guessOffset
-        } else if case .candidates(let candidates) = cell.content {
+        } else if case .candidates(let candidates) = cell.progress {
             candidates.bitValue + candidatesOffset
         } else {
             empty
@@ -43,9 +43,9 @@ struct Str8tsCellContentTransform {
         case empty: nil
         case clueRange: Cell(clue: .solution(value))
         case blackEmpty: Cell(clue: .blackEmpty)
-        case blackClueRange: Cell(clue: .blackClue(value - blackClueOffset))
-        case guessRange: Cell(content: .guess(value - guessOffset))
-        case candidatesRange: Cell(content: .candidates((value - candidatesOffset).oneBits))
+        case blackClueRange: Cell(clue: .black(value - blackClueOffset))
+        case guessRange: Cell(progress: .guess(value - guessOffset))
+        case candidatesRange: Cell(progress: .candidates((value - candidatesOffset).oneBits))
         default: throw Error.outOfRange
         }
     }

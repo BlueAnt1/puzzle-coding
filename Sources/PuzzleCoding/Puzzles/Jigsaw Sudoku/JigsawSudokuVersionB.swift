@@ -52,7 +52,7 @@ extension JigsawSudoku {
                     let decoded = try cellTransform.decode($0[1])
                     return Cell(region: $0[0],
                                 clue: decoded.clue,
-                                content: decoded.content)
+                                progress: decoded.progress)
                 }
 
                 return try JigsawSudoku(cells: cells)

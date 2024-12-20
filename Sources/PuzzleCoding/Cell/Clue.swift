@@ -7,13 +7,16 @@
 
 public typealias CageID = Int
 
+/// A cell clue.
 public enum Clue: Hashable, Sendable {
+    /// The solved value of the cell.
     case solution(Int)
+    /// The cage of the cell.
     case cage(id: CageID, operator: Operator?)
-    /// A empty black cell.
+    /// A empty black cell (Str8ts).
     case blackEmpty
     /// A black puzzle clue (Str8ts).
-    case blackClue(Int)
+    case black(Int)
 
     public enum Operator: Hashable, Codable, CustomStringConvertible, Sendable {
         case add(Int)
@@ -39,7 +42,7 @@ public enum Clue: Hashable, Sendable {
             }
         }
 
-        public var operand: Int {
+        var operand: Int {
             switch self {
             case .add(let operand), .subtract(let operand),
                     .multiply(let operand), .divide(let operand): operand

@@ -60,7 +60,7 @@ extension KillerJigsaw {
                 let cages = try KillerCageTransform(size: size).decode(shapes: values.map(\.[1]), contents: values.map(\.[2]))
                 let cellTransform = CellContentTransform(size: size)
                 let cells = try zip(cages, values).map { cage, values in
-                    try Cell(region: values[0], clue: cage, content: cellTransform.decode(values[3]).content)
+                    try Cell(region: values[0], clue: cage, progress: cellTransform.decode(values[3]).progress)
                 }
 
                 return try KillerJigsaw(cells: cells)

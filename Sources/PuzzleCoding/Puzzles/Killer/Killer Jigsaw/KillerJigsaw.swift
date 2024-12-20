@@ -23,7 +23,7 @@ public struct KillerJigsaw: Equatable {
 
             guard ranges.shape.contains(region),
                   ranges.cageShape.contains(cageID),
-                  cell.content.map({ $0.isValid(in: size.valueRange) }) ?? true
+                  cell.progress.map({ $0.isValid(in: size.valueRange) }) ?? true
             else { throw Error.outOfRange }
 
             if case .add(let value) = op {

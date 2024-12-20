@@ -52,11 +52,11 @@ struct Grid: CustomStringConvertible {
                         "=\(clue)"
                     } else if case .blackEmpty = cell.clue {
                         "⩦"
-                    } else if case .blackClue(let clue) = cell.clue {
+                    } else if case .black(let clue) = cell.clue {
                         "≠\(clue)"
-                    } else if case .guess(let guess) = cell.content {
+                    } else if case .guess(let guess) = cell.progress {
                         "\(guess)"
-                    } else if case .candidates(let candidates) = cell.content {
+                    } else if case .candidates(let candidates) = cell.progress {
                         "[\(candidates.sorted().map(String.init).joined())]"
                     } else {
                         "."

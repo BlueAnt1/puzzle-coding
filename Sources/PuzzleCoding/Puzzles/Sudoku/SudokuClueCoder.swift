@@ -14,7 +14,7 @@ extension Sudoku {
             return puzzle.reduce(into: "") { cells, cell in
                 if case .solution(let clue) = cell.clue {
                     cells.append(String(clue))
-                } else if case .guess(let guess) = cell.content {
+                } else if case .guess(let guess) = cell.progress {
                     cells.append(String(guess))
                 } else {
                     cells.append(".")

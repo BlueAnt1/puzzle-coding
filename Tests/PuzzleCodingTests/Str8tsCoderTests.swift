@@ -20,7 +20,7 @@ struct Str8tsCoderTests {
         let cells = colors.indices.map {
             if clues[$0] == nil {
                 Cell(region: colors[$0],
-                     content: Bool.random() ? .guess((1...9).randomElement()!) : .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!))))
+                     progress: Bool.random() ? .guess((1...9).randomElement()!) : .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!))))
             } else {
                 Cell(region: colors[$0],
                      clue: clues[$0])

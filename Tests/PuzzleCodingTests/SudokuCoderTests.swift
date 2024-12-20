@@ -2,6 +2,8 @@ import Testing
 @testable import PuzzleCoding
 import Foundation
 
+private typealias Progress = PuzzleCoding.Progress
+
 struct SudokuCoderTests {
     typealias Version = Sudoku.Version
     private static var legacyVersions: [Version] { [.clue] }
@@ -11,12 +13,12 @@ struct SudokuCoderTests {
         let clues: [Clue?] = "000105000140000670080002400063070010900000003010090520007200080026000035000409000".map(\.wholeNumberValue!).map { $0 == 0 ? nil : .solution($0) }
         return clues.map { clue in
             guard clue == nil else { return Cell(clue: clue) }
-            let content: Cell.Content? = switch (0...2).randomElement()! {
+            let progress: Progress? = switch (0...2).randomElement()! {
             case 0: .guess((1...9).randomElement()!)
             case 1: .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
             default: nil
             }
-            return Cell(content: content)
+            return Cell(progress: progress)
         }
     }
 
@@ -30,7 +32,7 @@ struct SudokuCoderTests {
 
         #expect(puzzleFromRaw.version == version)
         let cleanCells: [Cell] = cells.map { cell in
-            guard let content = cell.content else { return cell }
+            guard let content = cell.progress else { return cell }
             return switch content {
             case .guess(let value): Cell(clue: .solution(value))
             case .candidates: Cell()
@@ -94,7 +96,7 @@ extension ClosedRange<Int> {
     }
 }
 
-private extension Cell.Content {
+private extension Progress {
     var candidates: Set<Int>? {
         if case .candidates(let candidates) = self { candidates } else { nil }
     }

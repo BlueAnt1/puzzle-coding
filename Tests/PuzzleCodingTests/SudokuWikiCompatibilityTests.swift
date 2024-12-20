@@ -34,7 +34,7 @@ struct SudokuWikiCompatibilityTests {
 
         var puzzle = KillerJigsaw.timTang
         var cells = Array(puzzle)
-        cells[cells.count - 1].content = .guess(1)
+        cells[cells.count - 1].progress = .guess(1)
         puzzle = try #require(try KillerJigsaw(cells: cells))
 
         #expect(decoded == puzzle)
@@ -84,7 +84,7 @@ struct SudokuWikiCompatibilityTests {
                     905000207
                     800621004
                     """.filter { !$0.isWhitespace }.map { $0.wholeNumberValue! }
-                .map { $0 == 0 ? Cell(content: .candidates(Set(1...9))) : Cell(clue: .solution($0)) }
+                .map { $0 == 0 ? Cell(progress: .candidates(Set(1...9))) : Cell(clue: .solution($0)) }
             return try! Sudoku(cells: cells)
         }
 

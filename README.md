@@ -14,15 +14,14 @@ else { return }
 
 // copy the decoded data into your model
 for (index, cell) in zip(model.indices, puzzle) {
-    switch cell.content {
-    case nil:
-        model[index].empty = true
-    case .clue(let clue):
+    if case .solution(let clue) = cell.clue {
         model[index].clue = clue
-    case .solution(let solution):
-        model[index].solution = solution
-    case .candidates(let candidates):
-        model[index].candidates = candidates
+    } else switch cell.progress {
+        case .guess(let guess):
+            model[index].guess = guess
+        case .candidates(let candidates):
+            model[index].candidates = candidates
+        }
     }
 }
 ```

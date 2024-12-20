@@ -28,7 +28,7 @@ extension KenKen {
         ]
 
         let cells = zip(cageShapes, operators).map { cage, op in
-            Cell(clue: .cage(id: cage, operator: op), content: .candidates(Set(1...6)))
+            Cell(clue: .cage(id: cage, operator: op), progress: .candidates(Set(1...6)))
         }
 
         return try! KenKen(cells: cells)
@@ -48,7 +48,7 @@ extension KenKen {
 
         let cells = zip(cageShapes, operators).map { cage, op in
             Cell(clue: .cage(id: cage, operator: op),
-                 content: .candidates(Set(1...3)))
+                 progress: .candidates(Set(1...3)))
         }
 
         return try! KenKen(cells: cells)
@@ -70,7 +70,7 @@ extension KenKen {
 
         let cells = zip(cageShapes, operators).map { cage, op in
             Cell(clue: .cage(id: cage, operator: op),
-                 content: .candidates(Set(1...4)))
+                 progress: .candidates(Set(1...4)))
         }
 
         return try! KenKen(cells: cells)

@@ -14,7 +14,7 @@ public struct Str8ts: Equatable {
     init(cells: some Collection<Cell>, version: Version = .current, type: PuzzleType) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
-        guard cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true })
+        guard cells.allSatisfy({ $0.progress.map { $0.isValid(in: size.valueRange) } ?? true })
         else { throw Error.outOfRange }
 
         self.cells = cells as? Array ?? Array(cells)

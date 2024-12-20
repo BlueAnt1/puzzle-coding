@@ -14,7 +14,7 @@ public struct JigsawSudoku: Equatable {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
         guard cells.allSatisfy({ $0.region != nil }),
-              cells.allSatisfy({ $0.content.map { $0.isValid(in: size.valueRange) } ?? true })
+              cells.allSatisfy({ $0.progress.map { $0.isValid(in: size.valueRange) } ?? true })
         else { throw Error.outOfRange }
 
         self.cells = cells as? Array ?? Array(cells)
