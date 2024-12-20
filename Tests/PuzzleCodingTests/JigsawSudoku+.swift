@@ -21,7 +21,7 @@ extension JigsawSudoku {
                     778888999
                     """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
 
-        let content = parse("""
+        let rawCells = parse("""
                 4[3568][3568]7[1356]9[56]2[168]
                 [3568][35678][35678][135]2[3456][456][356789][146789]
                 [2356]9[1356][135][3567]8[4567][3567][1467]
@@ -36,14 +36,15 @@ extension JigsawSudoku {
 
         let cells = shapes.indices.map {
             Cell(region: shapes[$0],
-                 content: content[$0])
+                 clue: rawCells[$0].clue,
+                 content: rawCells[$0].content)
         }
 
         return try! JigsawSudoku(cells: cells)
     }
 
-    private static func parse(_ input: String) -> [Cell.Content?] {
-        var output: [Cell.Content?] = []
+    private static func parse(_ input: String) -> [Cell] {
+        var output: [Cell] = []
         var input = input[...]
         var candidates = Set<Int>()
         var isCandidates = false
@@ -58,10 +59,10 @@ extension JigsawSudoku {
                 candidates.insert(character.wholeNumberValue!)
             case "]" where isCandidates:
                 isCandidates = false
-                output.append(.candidates(candidates))
+                output.append(Cell(content: .candidates(candidates)))
                 candidates = []
             case "1"..."9":
-                output.append(.clue(character.wholeNumberValue!))
+                output.append(Cell(clue: .solution(character.wholeNumberValue!)))
             default:
                 return []
             }
@@ -92,7 +93,7 @@ extension JigsawSudoku {
                     111555222
                     111152222
                     """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-        let content:[Cell.Content?] = """
+        let clues: [Clue?] = """
                     000000000
                     060000070
                     009105200
@@ -103,10 +104,13 @@ extension JigsawSudoku {
                     020000030
                     000002000
                     """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-            .map { $0 == 0 ? .candidates(Set(1...9)) : .clue($0) }
+            .map { $0 == 0 ? nil : .solution($0) }
+        let content: [Cell.Content?] = clues
+            .map { $0 == nil ? .candidates(Set(1...9)) : nil }
 
         let cells = shapes.indices.map {
             Cell(region: shapes[$0],
+                 clue: clues[$0],
                  content: content[$0])
         }
 

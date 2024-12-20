@@ -35,8 +35,6 @@ extension Sudoku: Puzzle {
     public enum Version: CaseIterable, Sendable {
         /// Converts solutions to clues & removes candidates.
         case clue
-        /// Includes puzzle progress. This encoding solves _naked singles_.
-        case noNakedSingles
         /// Includes puzzle progress.
         case versionB
 
@@ -45,7 +43,6 @@ extension Sudoku: Puzzle {
         fileprivate var coder: any Coder.Type {
             switch self {
             case .clue: Clue.self
-            case .noNakedSingles: NoNakedSingles.self
             case .versionB: VersionB.self
             }
         }

@@ -18,15 +18,15 @@ public struct KenKen: Equatable, Sendable {
         let ranges = KenKen.ranges(for: size)
 
         for cell in cells {
-            guard let cage = cell.cage
+            guard case .cage(id: let cageID, operator: let op) = cell.clue
             else { throw Error.missingData }
 
-            guard ranges.cageShape.contains(cage.cage),
+            guard ranges.cageShape.contains(cageID),
                   cell.content.map({ $0.isValid(in: size.valueRange) }) ?? true
             else { throw Error.outOfRange }
 
-            if let clueValue = cage.clue?.value {
-                guard ranges.cageClue.contains(clueValue) else { throw Error.outOfRange }
+            if let operand = op?.operand {
+                guard ranges.cageClue.contains(operand) else { throw Error.outOfRange }
             }
         }
 

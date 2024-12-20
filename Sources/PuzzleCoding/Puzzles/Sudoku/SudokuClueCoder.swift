@@ -12,12 +12,12 @@ extension Sudoku {
         static func encode(_ puzzle: Sudoku) -> String {
             precondition(puzzle.size == .grid9x9)
             return puzzle.reduce(into: "") { cells, cell in
-                switch cell.content {
-                case nil, .candidates:
+                if case .solution(let clue) = cell.clue {
+                    cells.append(String(clue))
+                } else if case .guess(let guess) = cell.content {
+                    cells.append(String(guess))
+                } else {
                     cells.append(".")
-                case .guess(let value), .clue(let value):
-                    cells.append(String(value))
-                case .blackEmpty, .blackClue: fatalError()
                 }
             }
         }
@@ -34,7 +34,7 @@ extension Sudoku {
 
                 switch character {
                     case "1"..."9":
-                    cells[index].content = .clue(character.wholeNumberValue!)
+                    cells[index].clue = .solution(character.wholeNumberValue!)
                 case _ where emptyCharacter == nil:
                     emptyCharacter = character
                     break

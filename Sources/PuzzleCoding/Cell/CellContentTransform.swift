@@ -17,22 +17,25 @@ struct CellContentTransform {
     private var candidatesRange: ClosedRange<Int> { candidatesOffset + 1 ... candidatesOffset + clueRange.bitValue }
     var range: ClosedRange<Int> { empty ... candidatesRange.upperBound }
 
-    func encode(_ content: Cell.Content?) -> Int {
-        switch content {
-        case nil: empty
-        case .clue(let clue): clue
-        case .blackEmpty, .blackClue: fatalError()
-        case .guess(let guess): guess + guessOffset
-        case .candidates(let candidates): candidates.bitValue + candidatesOffset
+    func encode(_ cell: Cell) -> Int {
+        if case .solution(let clue) = cell.clue {
+            clue
+        } else if case .guess(let guess) = cell.content {
+            guess + guessOffset
+        } else if case .candidates(let candidates) = cell.content {
+            candidates.bitValue + candidatesOffset
+        } else {
+            empty
         }
     }
 
-    func decode(_ value: Int) throws -> Cell.Content? {
+    // partial cell
+    func decode(_ value: Int) throws -> Cell {
         switch value {
-        case empty: nil
-        case clueRange: .clue(value)
-        case guessRange: .guess(value - guessOffset)
-        case candidatesRange: .candidates((value - candidatesOffset).oneBits)
+        case empty: Cell()
+        case clueRange: Cell(clue: .solution(value))
+        case guessRange: Cell(content: .guess(value - guessOffset))
+        case candidatesRange: Cell(content: .candidates((value - candidatesOffset).oneBits))
         default: throw Error.outOfRange
         }
     }

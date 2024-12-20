@@ -14,16 +14,16 @@ extension KillerSudoku {
 
         static func encode(_ puzzle: KillerSudoku) -> String {
             let size = puzzle.size
-            let cageValues = KillerCageTransform(size: size).encode(puzzle.map(\.cage!))
+            let cageValues = KillerCageTransform(size: size).encode(puzzle)
 
             let ranges = KillerSudoku.ranges(for: size)
             let shiftTransform = ShiftTransform(ranges: ranges.cageShape, ranges.cageContent, ranges.cellContent)
 
             let cellTransform = CellContentTransform(size: size)
             let values = Zipper(
-                puzzle.map(\.cage!.cage),
+                puzzle.map { $0.clue!.cageID! },
                 cageValues,
-                puzzle.map(\.content).map(cellTransform.encode)
+                puzzle.map(cellTransform.encode)
             ).map(shiftTransform.encode)
 
             let fieldCoding = FieldCoding(range: shiftTransform.range)
@@ -54,7 +54,7 @@ extension KillerSudoku {
                 let cellTransform = CellContentTransform(size: size)
 
                 let cells = try zip(cages, values).map { cage, values in
-                    try Cell(cage: cage, content: cellTransform.decode(values[2]))
+                    try Cell(clue: cage, content: cellTransform.decode(values[2]).content)
                 }
 
                 return try KillerSudoku(cells: cells)

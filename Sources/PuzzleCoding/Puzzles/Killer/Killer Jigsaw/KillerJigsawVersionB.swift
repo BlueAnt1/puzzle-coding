@@ -14,7 +14,7 @@ extension KillerJigsaw {
 
         static func encode(_ puzzle: KillerJigsaw) -> String {
             let size = puzzle.size
-            let cageValues = KillerCageTransform(size: size).encode(puzzle.map(\.cage!))
+            let cageValues = KillerCageTransform(size: size).encode(puzzle)
 
             let ranges = KillerJigsaw.ranges(for: size)
             let cellTransform = CellContentTransform(size: size)
@@ -26,9 +26,9 @@ extension KillerJigsaw {
 
             let values = Zipper(
                 puzzle.map(\.region!),
-                puzzle.map(\.cage!.cage),
+                puzzle.map { $0.clue!.cageID! },
                 cageValues,
-                puzzle.map(\.content).map(cellTransform.encode)
+                puzzle.map(cellTransform.encode)
             ).map(shiftTransform.encode)
 
             let fieldCoding = FieldCoding(range: shiftTransform.range)
@@ -60,7 +60,7 @@ extension KillerJigsaw {
                 let cages = try KillerCageTransform(size: size).decode(shapes: values.map(\.[1]), contents: values.map(\.[2]))
                 let cellTransform = CellContentTransform(size: size)
                 let cells = try zip(cages, values).map { cage, values in
-                    try Cell(region: values[0], cage: cage, content: cellTransform.decode(values[3]))
+                    try Cell(region: values[0], clue: cage, content: cellTransform.decode(values[3]).content)
                 }
 
                 return try KillerJigsaw(cells: cells)

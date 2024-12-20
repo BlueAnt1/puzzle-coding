@@ -12,15 +12,26 @@ struct KillerCageTransform {
     var clueRange: ClosedRange<Int> { 1...size.valueRange.reduce(0, +) }
     var range: ClosedRange<Int> { empty...clueRange.upperBound }
 
-    func encode(_ cells: [CageInfo]) -> [Int] {
-        cells.map { $0.clue?.value ?? empty }
+    func encode(_ cells: some Collection<Cell>) -> [Int] {
+        cells.map { cell in
+            if case .cage(id: _, operator: let op?) = cell.clue {
+                op.operand
+            } else {
+                empty
+            }
+        }
     }
 
-    func decode(shapes: [Int], contents: [Int]) throws -> [CageInfo] {
-        let cages = zip(shapes, contents).map { cage, content in
-            content == empty ? CageInfo(cage: cage) : CageInfo(cage: cage, clue: .add(content))
+    // partial cell
+    func decode(shapes: [Int], contents: [Int]) throws -> [Clue] {
+        try zip(shapes, contents).map { cage, content in
+            if content == empty {
+                .cage(id: cage, operator: nil)
+            } else if clueRange.contains(content) {
+                .cage(id: cage, operator: .add(content))
+            } else {
+                throw Error.outOfRange
+            }
         }
-        guard cages.allSatisfy({ $0.clue.map { clueRange.contains($0.value) } ?? true }) else { throw Error.outOfRange }
-        return cages
     }
 }

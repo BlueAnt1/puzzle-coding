@@ -16,15 +16,15 @@ extension KenKen {
         static func encode(_ puzzle: KenKen) -> String {
             let size = puzzle.size
 
-            let cageContent = KenCageTransform(size: size).encode(puzzle.map(\.cage!))
+            let cageContent = KenCageTransform(size: size).encode(Array(puzzle))
             let ranges = KenKen.ranges(for: size)
             let shiftTransform = ShiftTransform(ranges: ranges.cageShape, ranges.cageContent, ranges.cellContent)
 
             let cellTransform = CellContentTransform(size: size)
             let values = Zipper(
-                puzzle.map(\.cage!.cage),
+                puzzle.map(\.clue!.cageID!),
                 cageContent,
-                puzzle.map(\.content).map(cellTransform.encode)
+                puzzle.map(cellTransform.encode)
             ).map(shiftTransform.encode)
 
             let fieldCoding = FieldCoding(range: shiftTransform.range)
@@ -56,7 +56,7 @@ extension KenKen {
 
                 let cellTransform = CellContentTransform(size: size)
                 let cells = try zip(cages, values).map { cage, values in
-                    try Cell(cage: cage, content: cellTransform.decode(values[2]))
+                    try Cell(clue: cage, content: cellTransform.decode(values[2]).content)
                 }
 
                 return try KenKen(cells: cells, version: .versionC, type: type)

@@ -17,16 +17,16 @@ public struct KillerSudoku: Equatable, Sendable {
         let ranges = KillerSudoku.ranges(for: size)
 
         for cell in cells {
-            guard let cage = cell.cage
+            guard case .cage(id: let cageID, operator: let op) = cell.clue
             else { throw Error.missingData }
 
-            guard ranges.cageShape.contains(cage.cage),
+            guard ranges.cageShape.contains(cageID),
                   cell.content.map({ $0.isValid(in: size.valueRange) }) ?? true
             else { throw Error.outOfRange }
 
-            if case .add(let value) = cage.clue {
+            if case .add(let value) = op {
                 guard ranges.cageClue.contains(value) else { throw Error.outOfRange }
-            } else if cage.clue?.value != nil {
+            } else if op != nil {
                 // some other operator
                 throw Error.outOfRange
             }

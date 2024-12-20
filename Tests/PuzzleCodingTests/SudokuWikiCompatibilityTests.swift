@@ -74,17 +74,17 @@ struct SudokuWikiCompatibilityTests {
         // Easiest Sudoku
         var puzzle: Sudoku {
             let cells: [Cell] = """
-                    3..967..1
-                    .4.3.2.8.
-                    .2.....7.
-                    .7.....9.
-                    ...873...
-                    5...1...3
-                    ..47.51..
-                    9.5...2.7
-                    8..621..4
-                    """.filter { !$0.isWhitespace }.map { $0.wholeNumberValue ?? 0 }
-            .map { Cell(content: $0 == 0 ? .candidates(Set(1...9)) : .clue($0)) }
+                    300967001
+                    040302080
+                    020000070
+                    070000090
+                    000873000
+                    500010003
+                    004705100
+                    905000207
+                    800621004
+                    """.filter { !$0.isWhitespace }.map { $0.wholeNumberValue! }
+                .map { $0 == 0 ? Cell(content: .candidates(Set(1...9))) : Cell(clue: .solution($0)) }
             return try! Sudoku(cells: cells)
         }
 

@@ -28,10 +28,12 @@ struct Grid: CustomStringConvertible {
         func describe(_ cells: some Collection<Cell>) -> [String] {
             return Array(zip(cells.indices, cells)
                 .map { index, cell in
-                    if let cage = cell.cage {
-                        switch cage.clue {
-                        case nil: "\(cage.cage).__"
-                        case let clue?: "\(cage.cage).\(clue)"
+                    if case .cage(id: let cageID, operator: let op) = cell.clue {
+                        switch op {
+                        case nil: "\(cageID).__"
+                        case .add(let operand), .subtract(let operand),
+                                .multiply(let operand), .divide(let operand):
+                            "\(cageID).\(operand)"
                         }
                     } else {
                         ""
@@ -46,13 +48,18 @@ struct Grid: CustomStringConvertible {
         func describe(_ cells: some Collection<Cell>) -> [String] {
             Array(zip(cells.indices, cells)
                 .map { index, cell in
-                    switch cell.content {
-                    case .clue(let clue): "=\(clue)"
-                    case .blackEmpty: "⩦"
-                    case .blackClue(let clue): "≠\(clue)"
-                    case .guess(let guess): "\(guess)"
-                    case .candidates(let candidates): "[\(candidates.sorted().map(String.init).joined())]"
-                    case nil: "."
+                    if case .solution(let clue) = cell.clue {
+                        "=\(clue)"
+                    } else if case .blackEmpty = cell.clue {
+                        "⩦"
+                    } else if case .blackClue(let clue) = cell.clue {
+                        "≠\(clue)"
+                    } else if case .guess(let guess) = cell.content {
+                        "\(guess)"
+                    } else if case .candidates(let candidates) = cell.content {
+                        "[\(candidates.sorted().map(String.init).joined())]"
+                    } else {
+                        "."
                     }
                 })
         }

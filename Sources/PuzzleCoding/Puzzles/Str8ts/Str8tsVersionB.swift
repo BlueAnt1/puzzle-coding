@@ -16,7 +16,7 @@ extension Str8ts {
             let size = puzzle.size
 
             let cellTransform = Str8tsCellContentTransform(size: size)
-            let values = puzzle.map(\.content).map(cellTransform.encode)
+            let values = puzzle.map(cellTransform.encode)
             let fieldCoding = FieldCoding(range: cellTransform.range)
 
             return """
@@ -38,7 +38,7 @@ extension Str8ts {
 
             guard let match = try? pattern.regex.wholeMatch(in: input[header.range.upperBound...]),
                   let content = try? match.output.elements.map(cellTransform.decode),
-                  let puzzle = try? Str8ts(cells: content.map { Cell(content: $0) }, version: .versionB, type: type)
+                  let puzzle = try? Str8ts(cells: content.compactMap(\.self), version: .versionB, type: type)
             else { return nil }
             return puzzle
         }

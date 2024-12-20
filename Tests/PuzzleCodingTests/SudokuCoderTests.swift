@@ -4,25 +4,21 @@ import Foundation
 
 struct SudokuCoderTests {
     typealias Version = Sudoku.Version
-    private static var legacyVersions: [Version] { [.clue, .noNakedSingles] }
+    private static var legacyVersions: [Version] { [.clue] }
     private static var modernVersions: [Version] { Version.allCases.filter { !legacyVersions.contains($0) }}
 
-    private var sampleContent: [Cell.Content?] {
-        "000105000140000670080002400063070010900000003010090520007200080026000035000409000".map {
-            let number = $0.wholeNumberValue!
-            return if number == 0 {
-                switch (0...2).randomElement()! {
-                case 0: .guess((1...9).randomElement()!)
-                case 1: .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
-                default: nil
-                }
-            } else {
-                .clue(number)
+    private var sampleCells: [Cell] {
+        let clues: [Clue?] = "000105000140000670080002400063070010900000003010090520007200080026000035000409000".map(\.wholeNumberValue!).map { $0 == 0 ? nil : .solution($0) }
+        return clues.map { clue in
+            guard clue == nil else { return Cell(clue: clue) }
+            let content: Cell.Content? = switch (0...2).randomElement()! {
+            case 0: .guess((1...9).randomElement()!)
+            case 1: .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
+            default: nil
             }
+            return Cell(content: content)
         }
     }
-
-    private var sampleCells: [Cell] { sampleContent.map { Cell(content: $0) }}
 
     @Test
     func clueRoundtrips() throws {
@@ -34,38 +30,16 @@ struct SudokuCoderTests {
 
         #expect(puzzleFromRaw.version == version)
         let cleanCells: [Cell] = cells.map { cell in
-            switch cell.content {
-            case nil, .clue: cell
-            case .guess(let value): Cell(content: .clue(value))
+            guard let content = cell.content else { return cell }
+            return switch content {
+            case .guess(let value): Cell(clue: .solution(value))
             case .candidates: Cell()
-            case .blackEmpty, .blackClue: fatalError()
             }
         }
         #expect(Array(puzzleFromRaw) == cleanCells)
 
         let puzzleCount = Double(rawPuzzle.count)
 
-        print("""
-            \(puzzle)
-            \(rawPuzzle)
-            puzzleCoding.count = \(puzzleCount.formatted(.number.precision(.fractionLength(0))))
-            """)
-    }
-
-    @Test
-    func shiftRoundtrips() throws {
-        let cells = sampleCells
-        let version = Sudoku.Version.noNakedSingles
-        let puzzle = try #require(try Sudoku(cells: cells, version: version))
-        let rawPuzzle = puzzle.rawValue
-        let puzzleFromRaw = try #require(Sudoku(rawValue: rawPuzzle))
-
-        #expect(puzzleFromRaw.version == version)
-        if !cells.contains(where: { $0.content?.candidates?.count == 1 }) {
-            // known bug with this algorithm where a naked single comes back as a solved cell
-            #expect(Array(puzzleFromRaw) == cells)
-        }
-        let puzzleCount = Double(rawPuzzle.count)
         print("""
             \(puzzle)
             \(rawPuzzle)
@@ -111,30 +85,6 @@ struct SudokuCoderTests {
             #expect(decoded == puzzle)
         default: fatalError()
         }
-    }
-
-    @Test
-    func knownShiftCodingDecodes() throws {
-        let rawEncoded = "0m4e4cog1121k084g41k544403o0ggs409208121g1400409020g10g4o4a4110hg6082240h4hc28g4g2400h2281410g03200980g411g409k04ggg201184840321868k8k410m10g109g6o61108o2g621410g"
-        let content: [Cell.Content?] = [
-            .candidates(Set([1, 2, 4])), .candidates(Set([1, 2, 3, 7])), .candidates(Set([2, 3, 7])), .candidates(Set([4, 8, 9])), .clue(5), .clue(6), .candidates(Set([7, 9])), .candidates(Set([2, 8])), .candidates(Set([2, 9])),
-            .candidates(Set([2, 4, 5])), .candidates(Set([2, 5, 7])), .candidates(Set([2, 7])), .clue(1), .candidates(Set([8, 9])), .candidates(Set([4, 9])), .candidates(Set([2, 7, 8, 9])), .clue(3), .guess(6),
-            .clue(8), .clue(6), .clue(9), .guess(7), .guess(2), .clue(3), .guess(1), .guess(4), .guess(5),
-            .candidates(Set([2, 9])), .candidates(Set([2, 8, 9])), .candidates(Set([2, 6, 8])), .clue(5), .clue(4), .candidates(Set([1, 2, 9])), .guess(3), .candidates(Set([1, 6])), .guess(7),
-            .candidates(Set([2, 5, 9])), .candidates(Set([2, 3, 5, 9])), .candidates(Set([3, 6])), .candidates(Set([2, 9])), .candidates(Set([1, 9])), .guess(7), .clue(4), .candidates(Set([1, 6])), .clue(8),
-            .clue(7), .guess(4), .clue(1), .guess(6), .clue(3), .guess(8), .candidates(Set([2, 9])), .clue(5), .candidates(Set([2, 9])),
-            .clue(3), .candidates(Set([7, 9])), .candidates(Set([4, 7])), .candidates(Set([4, 9])), .guess(6), .clue(5), .candidates(Set([2, 8])), .candidates(Set([2, 8])), .clue(1),
-            .clue(6), .candidates(Set([1, 2, 8])), .candidates(Set([2, 4, 8])), .candidates(Set([2, 4, 8])), .clue(7), .candidates(Set([1, 2, 4])), .guess(5), .clue(9), .clue(3),
-            .candidates(Set([1, 2, 9])), .candidates(Set([1, 2, 8, 9])), .clue(5), .guess(3), .candidates(Set([1, 8, 9])), .candidates(Set([1, 2, 9])), .clue(6), .clue(7), .guess(4)
-        ]
-
-        let expectedCells = content.map { Cell(content: $0) }
-
-        let decoded = try #require(Sudoku(rawValue: rawEncoded))
-        #expect(Array(decoded) == expectedCells)
-
-        let encoded = try #require(try Sudoku(cells: expectedCells, version: .noNakedSingles)).rawValue
-        #expect(encoded == rawEncoded)
     }
 }
 

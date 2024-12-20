@@ -17,18 +17,18 @@ public struct KillerJigsaw: Equatable {
         let ranges = KillerJigsaw.ranges(for: size)
 
         for cell in cells {
-            guard let group = cell.region,
-                  let cage = cell.cage
+            guard let region = cell.region,
+                  case .cage(let cageID, let op) = cell.clue
             else { throw Error.missingData }
 
-            guard ranges.shape.contains(group),
-                  ranges.cageShape.contains(cage.cage),
+            guard ranges.shape.contains(region),
+                  ranges.cageShape.contains(cageID),
                   cell.content.map({ $0.isValid(in: size.valueRange) }) ?? true
             else { throw Error.outOfRange }
 
-            if case .add(let value) = cage.clue {
+            if case .add(let value) = op {
                 guard ranges.cageClue.contains(value) else { throw Error.outOfRange }
-            } else if cage.clue?.value != nil {
+            } else if op != nil {
                 // some other operator
                 throw Error.outOfRange
             }

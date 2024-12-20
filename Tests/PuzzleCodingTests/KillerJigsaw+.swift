@@ -32,7 +32,7 @@ extension KillerJigsaw {
                     333212133
                     333212233
                     """.filter { !$0.isWhitespace }.map(\.wholeNumberValue!)
-        let clues = [
+        let operators = [
             21,  0,  0, 11,  0,  7,  0,  7, 12,
             17, 10,  0,  0, 12, 21,  0,  0,  0,
             0,  0, 19,  0,  0,  0, 11,  0, 14,
@@ -42,11 +42,11 @@ extension KillerJigsaw {
             0,  0, 19,  0,  0,  0,  0,  0,  0,
             34,  0,  0,  0, 10, 14,  0, 20,  0,
             0,  0,  0,  0,  0,  0,  0,  0,  0
-        ].map { $0 == 0 ? nil : CageInfo.Clue.add($0) }
+        ].map { $0 == 0 ? nil : Clue.Operator.add($0) }
 
         let cells = shapes.indices.map {
             Cell(region: shapes[$0],
-                 cage: CageInfo(cage: cageShapes[$0], clue: clues[$0]),
+                 clue: .cage(id: cageShapes[$0], operator: operators[$0]),
                  content: Cell.Content.candidates(Set(1...9)))
         }
         return try! KillerJigsaw(cells: cells)

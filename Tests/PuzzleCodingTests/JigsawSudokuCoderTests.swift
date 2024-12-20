@@ -13,18 +13,18 @@ struct JigsawSudokuCoderTests {
     @Test(arguments: JigsawSudoku.Version.allCases)
     func coderRoundtrips(version: JigsawSudoku.Version) throws {
         let shapes = "111112222113345522133444552134444452637777752633777559638878859668888899666699999".map(\.wholeNumberValue!)
-        let content: [Cell.Content?] = "9..21.....6......1.8......95...34..7..31.29..2..78...47......4.8......1.....96..2"
-            .map { character in
-                switch character.wholeNumberValue {
-                case let value?: .clue(value)
-                case nil:
-                    switch (0...2).randomElement()! {
-                    case 0: .guess((1...9).randomElement()!)
-                    case 1: .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
-                    default: nil
-                    }
+        let clues = "900210000060000001080000009500034007003102900200780004700000040800000010000096002".map(\.wholeNumberValue!).map { $0 == 0 ? nil : Clue.solution($0) }
+        let content: [Cell.Content?] = clues.map { clue in
+            if clue == nil {
+                switch (0...2).randomElement()! {
+                case 0: .guess((1...9).randomElement()!)
+                case 1: .candidates(Set((1...9).randomSample(count: (1...9).randomElement()!)))
+                default: nil
                 }
+            } else {
+                nil
             }
+        }
         let cells = shapes.indices.map { Cell(region: shapes[$0], content: content[$0]) }
         let puzzle = try JigsawSudoku(cells: cells, version: version)
         let rawPuzzle = puzzle.rawValue

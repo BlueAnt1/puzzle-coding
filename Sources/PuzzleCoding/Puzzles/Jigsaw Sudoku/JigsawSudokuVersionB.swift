@@ -20,7 +20,7 @@ extension JigsawSudoku {
 
             let values = Zipper(
                 puzzle.map(\.region!),
-                puzzle.map(\.content).map(cellTransform.encode)
+                puzzle.map(cellTransform.encode)
             ).map(shiftTransform.encode)
 
             let fieldCoding = FieldCoding(range: shiftTransform.range)
@@ -49,8 +49,10 @@ extension JigsawSudoku {
             let values = match.output.values
             do {
                 let cells = try values.map {
-                    try Cell(region: $0[0],
-                             content: cellTransform.decode($0[1]))
+                    let decoded = try cellTransform.decode($0[1])
+                    return Cell(region: $0[0],
+                                clue: decoded.clue,
+                                content: decoded.content)
                 }
 
                 return try JigsawSudoku(cells: cells)

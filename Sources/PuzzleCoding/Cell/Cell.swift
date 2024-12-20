@@ -12,21 +12,20 @@ public struct Cell: Equatable, Sendable {
     /// The region of which the cell is a member.
     public var region: Int?
     /// The cage in which the cell is located and its clue information.
-    public var cage: CageInfo?
+    public var clue: Clue?
     /// The clue, solution or candidates (progress).
     public var content: Content? {
         didSet {
-            if case .candidates(let candidates) = content, candidates.isEmpty
-            {
-                content = nil
+            if let normalized = content?.normalized, content != normalized {
+                content = normalized
             }
         }
     }
 
     /// Creates an instance.
-    public init(region: Int? = nil, cage: CageInfo? = nil, content: Content? = nil) {
+    public init(region: Int? = nil, clue: Clue? = nil, content: Content? = nil) {
         self.region = region
-        self.cage = cage
-        self.content = content
+        self.clue = clue
+        self.content = content?.normalized
     }
 }
