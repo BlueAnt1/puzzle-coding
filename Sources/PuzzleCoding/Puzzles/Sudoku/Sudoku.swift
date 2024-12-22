@@ -10,7 +10,7 @@ public struct Sudoku: Equatable {
     /// The puzzle content.
     private let cells: [Cell]
     public var version: Version
-    let type: PuzzleType
+    public let type: PuzzleType
 
     init(cells: some Collection<Cell>, version: Version, type: PuzzleType) throws {
         assert([.sudoku, .sudokuX, .windoku].contains(type))
@@ -28,7 +28,9 @@ public struct Sudoku: Equatable {
 }
 
 extension Sudoku: Puzzle {
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public static var currentVersion: Version { .versionB }
+
+    public init(cells: some Collection<Cell>, version: Version) throws {
         try self.init(cells: cells, version: version, type: .sudoku)
     }
 
@@ -37,8 +39,6 @@ extension Sudoku: Puzzle {
         case clue
         /// Includes puzzle progress.
         case versionB
-
-        public static var current: Version { .versionB }
 
         fileprivate var coder: any Coder.Type {
             switch self {
@@ -94,13 +94,16 @@ public struct Windoku: Equatable {
 }
 
 extension Windoku: Puzzle {
+    public var type: PuzzleType { Self.type }
+    public static var currentVersion: Sudoku.Version { Sudoku.currentVersion }
+
     public typealias Version = Sudoku.Version
     public var version: Version {
         get { sudoku.version }
         set { sudoku.version = newValue }
     }
 
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public init(cells: some Collection<Cell>, version: Version) throws {
         self.sudoku = try Sudoku(cells: cells, version: version, type: Self.type)
     }
 }
@@ -151,13 +154,16 @@ extension SudokuX: RandomAccessCollection {
 }
 
 extension SudokuX: Puzzle {
+    public var type: PuzzleType { Self.type }
+    public static var currentVersion: Sudoku.Version { Sudoku.currentVersion }
+
     public typealias Version = Sudoku.Version
     public var version: Version {
         get { sudoku.version }
         set { sudoku.version = newValue }
     }
 
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public init(cells: some Collection<Cell>, version: Version) throws {
         self.sudoku = try Sudoku(cells: cells, version: version, type: Self.type)
     }
 }

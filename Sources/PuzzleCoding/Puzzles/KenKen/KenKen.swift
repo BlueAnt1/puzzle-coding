@@ -9,7 +9,7 @@
 public struct KenKen: Equatable, Sendable {
     private let cells: [Cell]
     public var version: Version
-    let type: PuzzleType
+    public let type: PuzzleType
 
     init(cells: some Collection<Cell>, version: Version, type: PuzzleType) throws {
         guard let size = Size(gridCellCount: cells.count)
@@ -50,14 +50,14 @@ public struct KenKen: Equatable, Sendable {
 }
 
 extension KenKen: Puzzle {
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public static var currentVersion: Version { .versionC }
+
+    public init(cells: some Collection<Cell>, version: Version) throws {
         try self.init(cells: cells, version: version, type: .kenken)
     }
 
     public enum Version: CaseIterable, Sendable {
         case versionC
-
-        public static var current: Version { .versionC }
 
         fileprivate var coder: any Coder.Type {
             switch self {
@@ -112,13 +112,17 @@ public struct KenDoku: Equatable {
 }
 
 extension KenDoku: Puzzle {
+    public var type: PuzzleType { .kendoku }
+    public static var currentVersion: Version { KenKen.currentVersion }
+
     public typealias Version = KenKen.Version
+
     public var version: Version {
         get { kenKen.version }
         set { kenKen.version = newValue }
     }
 
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public init(cells: some Collection<Cell>, version: Version) throws {
         self.kenKen = try KenKen(cells: cells, version: version, type: Self.type)
     }
 }

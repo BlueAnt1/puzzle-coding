@@ -10,7 +10,7 @@ public struct JigsawSudoku: Equatable {
     private let cells: [Cell]
     public var version: Version
 
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public init(cells: some Collection<Cell>, version: Version) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
         guard cells.allSatisfy({ $0.region != nil }),
@@ -31,10 +31,11 @@ public struct JigsawSudoku: Equatable {
 }
 
 extension JigsawSudoku: Puzzle {
+    public var type: PuzzleType { .jigsawSudoku }
+    public static var currentVersion: Version { .versionB }
+
     public enum Version: CaseIterable, Sendable {
         case versionB
-
-        public static var current: Version { .versionB }
 
         fileprivate var coder: any Coder.Type {
             switch self {

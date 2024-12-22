@@ -5,7 +5,7 @@
 //  Created by Quintin May on 10/30/24.
 //
 
-enum PuzzleType: Character, CaseIterable {
+public enum PuzzleType: Character, CaseIterable, Sendable {
     case jigsawSudoku = "J"
     case str8ts = "T"
     case str8tsB = "B"
@@ -21,7 +21,7 @@ enum PuzzleType: Character, CaseIterable {
 }
 
 extension PuzzleType: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         switch self {
         case .jigsawSudoku: String(localized: "Jigsaw Sudoku")
         case .str8ts: String(localized: "Str8ts")

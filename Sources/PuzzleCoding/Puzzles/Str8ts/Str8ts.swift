@@ -9,9 +9,9 @@
 public struct Str8ts: Equatable {
     private let cells: [Cell]
     public var version: Version
-    let type: PuzzleType
+    public let type: PuzzleType
 
-    init(cells: some Collection<Cell>, version: Version = .current, type: PuzzleType) throws {
+    init(cells: some Collection<Cell>, version: Version, type: PuzzleType) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
         guard cells.allSatisfy({ $0.progress.map { $0.isValid(in: size.valueRange) } ?? true })
@@ -26,14 +26,14 @@ public struct Str8ts: Equatable {
 }
 
 extension Str8ts: Puzzle {
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public static var currentVersion: Version { .versionB }
+
+    public init(cells: some Collection<Cell>, version: Version) throws {
         try self.init(cells: cells, version: version, type: .str8ts)
     }
 
     public enum Version: CaseIterable, Sendable {
         case versionB
-
-        public static var current: Version { .versionB }
 
         fileprivate var coder: any Coder.Type {
             switch self {
@@ -88,13 +88,16 @@ public struct Str8tsB: Equatable {
 }
 
 extension Str8tsB: Puzzle {
+    public var type: PuzzleType { Self.type }
+    public static var currentVersion: Str8ts.Version { Str8ts.currentVersion }
+
     public typealias Version = Str8ts.Version
     public var version: Version {
         get { str8ts.version }
         set { str8ts.version = newValue }
     }
 
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public init(cells: some Collection<Cell>, version: Version) throws {
         self.str8ts = try Str8ts(cells: cells, version: version, type: Self.type)
     }
 }
@@ -139,13 +142,16 @@ public struct Str8tsBX: Equatable {
 }
 
 extension Str8tsBX: Puzzle {
+    public var type: PuzzleType { Self.type }
+    public static var currentVersion: Str8ts.Version { Str8ts.currentVersion }
+
     public typealias Version = Str8ts.Version
     public var version: Version {
         get { str8ts.version }
         set { str8ts.version = newValue }
     }
 
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public init(cells: some Collection<Cell>, version: Version) throws {
         self.str8ts = try Str8ts(cells: cells, version: version, type: Self.type)
     }
 }
@@ -190,13 +196,16 @@ public struct Str8tsX: Equatable {
 }
 
 extension Str8tsX: Puzzle {
+    public var type: PuzzleType { Self.type }
+    public static var currentVersion: Str8ts.Version { Str8ts.currentVersion }
+
     public typealias Version = Str8ts.Version
     public var version: Version {
         get { str8ts.version }
         set { str8ts.version = newValue }
     }
 
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public init(cells: some Collection<Cell>, version: Version) throws {
         self.str8ts = try Str8ts(cells: cells, version: version, type: Self.type)
     }
 }

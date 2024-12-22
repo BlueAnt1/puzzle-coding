@@ -10,7 +10,7 @@ public struct KillerSudoku: Equatable, Sendable {
     private let cells: [Cell]
     public var version: Version
 
-    public init(cells: some Collection<Cell>, version: Version = .current) throws {
+    public init(cells: some Collection<Cell>, version: Version) throws {
         guard let size = Size(gridCellCount: cells.count)
         else { throw Error.invalidSize }
 
@@ -51,10 +51,11 @@ public struct KillerSudoku: Equatable, Sendable {
 }
 
 extension KillerSudoku: Puzzle {
+    public var type: PuzzleType { .killerSudoku }
+    public static var currentVersion: Version { .versionB }
+
     public enum Version: CaseIterable, Sendable {
         case versionB
-
-        public static var current: Version { .versionB }
 
         fileprivate var coder: any Coder.Type {
             switch self {
