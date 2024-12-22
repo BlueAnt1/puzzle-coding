@@ -32,6 +32,12 @@ public struct KillerSudoku: Equatable, Sendable {
             }
         }
 
+        guard let regions = RectangularRegions(size: size) else { throw Error.invalidSize }
+        var cells = Array(cells)
+        for index in cells.indices {
+            cells[index].region = regions[index]
+        }
+
         self.cells = cells as? Array ?? Array(cells)
         self.version = version
     }

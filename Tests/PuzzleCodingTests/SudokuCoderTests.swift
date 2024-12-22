@@ -38,7 +38,7 @@ struct SudokuCoderTests {
             case .candidates: Cell()
             }
         }
-        #expect(Array(puzzleFromRaw) == cleanCells)
+        #expect(puzzleFromRaw.map(\.clue) == cleanCells.map(\.clue))
 
         let puzzleCount = Double(rawPuzzle.count)
 

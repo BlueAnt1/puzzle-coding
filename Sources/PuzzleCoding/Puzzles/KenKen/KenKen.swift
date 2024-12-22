@@ -103,9 +103,16 @@ public struct KenDoku: Equatable {
     private static var type: PuzzleType { .kendoku }
     private var kenKen: KenKen
 
-    init(kenKen: KenKen) {
+    init(kenKen: KenKen) throws {
         assert(kenKen.type == Self.type)
-        self.kenKen = kenKen
+
+        guard let regions = RectangularRegions(size: kenKen.size) else { throw Error.invalidSize }
+        var cells = Array(kenKen)
+        for index in cells.indices {
+            cells[index].region = regions[index]
+        }
+
+        self.kenKen = try KenKen(cells: cells, version: kenKen.version, type: Self.type)
     }
 
     var size: Size { kenKen.size }
@@ -123,7 +130,7 @@ extension KenDoku: Puzzle {
     }
 
     public init(cells: some Collection<Cell>, version: Version) throws {
-        self.kenKen = try KenKen(cells: cells, version: version, type: Self.type)
+        try self.init(kenKen: KenKen(cells: cells, version: version, type: Self.type))
     }
 }
 
@@ -137,12 +144,14 @@ extension KenDoku: RawRepresentable {
     public var rawValue: String { kenKen.rawValue }
 
     public init?(rawValue: String) {
-        for version in Version.allCases {
-            if let puzzle = version.coder.decode(rawValue, type: Self.type) {
-                self.kenKen = puzzle
-                return
+        do {
+            for version in Version.allCases {
+                if let puzzle = version.coder.decode(rawValue, type: Self.type) {
+                    try self.init(kenKen: puzzle)
+                    return
+                }
             }
-        }
+        } catch {}
         return nil
     }
 }

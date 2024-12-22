@@ -12,6 +12,8 @@ public struct Sudoku: Equatable {
     public var version: Version
     public let type: PuzzleType
 
+    // FIXME: have to add regions to cells
+
     init(cells: some Collection<Cell>, version: Version, type: PuzzleType) throws {
         assert([.sudoku, .sudokuX, .windoku].contains(type))
         guard let size = Size(gridCellCount: cells.count),
@@ -19,7 +21,14 @@ public struct Sudoku: Equatable {
         else { throw Error.invalidSize }
         guard cells.allSatisfy({ $0.progress.map { $0.isValid(in: size.valueRange) } ?? true })
         else { throw Error.outOfRange }
-        self.cells = cells as? Array ?? Array(cells)
+
+        guard let regions = RectangularRegions(size: size) else { throw Error.invalidSize }
+        var cells = Array(cells)
+        for index in cells.indices {
+            cells[index].region = regions[index]
+        }
+
+        self.cells = cells
         self.version = version
         self.type = type
     }
